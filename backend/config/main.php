@@ -17,9 +17,10 @@ return [
             'csrfParam' => '_csrf-backend',
         ],
         'user' => [
-            'identityClass' => 'common\models\User',
+            'identityClass' => 'modules\admin\models\User',
             'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
+            'loginUrl' => ['admin/account/login'],
         ],
         'session' => [
             // this is the name of the session cookie used for login on the backend
@@ -37,14 +38,21 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        /*
+        
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
+            'suffix' => '.html',
             'rules' => [
             ],
         ],
-        */
+        'assetManager' => [
+            'appendTimestamp' => !YII_DEBUG,
+        ],
+        'view' => [
+            'class' => 'cando\web\View',
+            'theme' => require __DIR__ . '/main/theme.php',
+        ],
     ],
     'params' => $params,
 ];

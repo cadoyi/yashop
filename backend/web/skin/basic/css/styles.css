@@ -1,0 +1,21 @@
+
+
+
+/**
+ * grid buttons
+ */
+.glyphicon-eye-open::after {
+    content: "查看";
+}
+.glyphicon-pencil::after {
+    content: "编辑";
+}
+.glyphicon-trash::after {
+    content: "删除";
+}
+
+.pedit .tab-content-bar {
+    width: 250px;
+    padding: 1rem;
+    border-left: 1px solid #ddd;
+}

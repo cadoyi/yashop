@@ -19,7 +19,18 @@ return [
         'fixture' => [
             'class' => 'yii\console\controllers\FixtureController',
             'namespace' => 'common\fixtures',
-          ],
+        ],
+        'migrate' => [
+            'class' => 'cando\console\controllers\MigrateController',
+            'migrationPath' => [
+                '@app/migrations',
+                '@yii/rbac/migrations',
+            ],
+        ],
+        'rbac' => [
+            'class' => 'cando\rbac\controllers\RbacController',
+            'resourceName' => 'rbac',
+        ],
     ],
     'components' => [
         'log' => [

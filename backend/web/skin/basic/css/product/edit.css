@@ -1,0 +1,107 @@
+/**
+ * 产品编辑页面
+ * 
+ */
+.option-name > input {
+    width: 120px;
+    border-radius: 0;
+}
+
+.option-value-tags {
+
+}
+.option-value-tag {
+    display: inline-block;
+    border: 1px solid #ddd;
+    margin: 5px;
+    padding-left: 5px;
+}
+.option-value-tag > a {
+    display: inline-block;
+    padding: 0 5px;
+}
+
+.option-sort-order {
+    border-left: 1px solid #ddd;
+    padding: 1rem;
+}
+.option-remove {
+    border-left: 1px solid #ddd;
+    background-color: #fd5151;
+}
+.option-remove a {
+    display: inline-block;
+    padding: .5rem;
+    color: #fff;
+}
+
+
+.sku-table input[type="text"] {
+    width: 80px;
+}
+.sku-table td {
+    padding: .25rem;
+}
+
+.gallery .drop-zone {
+    border: 1px solid #ddd;
+    min-height: 300px;
+    margin: 1rem;
+    margin-top: 0;
+    cursor: pointer;
+    padding: 1rem;
+
+}
+.gallery input[type="file"] {
+    display: none;
+}
+.gallery .preview-label {
+    margin: 0 1rem;
+}
+.gallery label[for="gallery_files"] {
+    color: #007bff;
+    cursor: pointer;
+}
+.gallery .preview-area {
+    display: -ms-flex;
+    display: flex;
+    -ms-flex-wrap:wrap;
+    flex-wrap: wrap;
+}
+.gallery .preview {
+    position: relative;
+    width: 100px;
+    height: auto;
+    margin: 5px;
+}
+.gallery .preview > .remove {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 1.5rem;
+    height: 1.5rem;
+    line-height: 1rem;
+    text-align: center;
+    background-color: #999;
+    color: #fff;
+    border-bottom-left-radius: 1.75rem;
+}
+.gallery .preview > img {
+    max-width: 100%;
+}
+.gallery .preview > .preview-buttons {
+    background-color: #999;
+    color: #fff;
+    display: -ms-flex;
+    display: flex;
+}
+.gallery .preview > .preview-buttons > a {
+    color: #fff;
+    display: inline-block;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    text-align: center;
+}
+.gallery .preview > .progress {
+    height: 5px;
+}

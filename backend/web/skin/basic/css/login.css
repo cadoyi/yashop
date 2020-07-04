@@ -1,0 +1,58 @@
+
+.login-title {
+    background: #fff;
+    padding: 1rem;
+    padding-left: 4rem;
+    box-shadow: 0 0 3px #000;
+    border-bottom: 1px solid #fff;
+}
+.login-container {
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    min-height: calc(100vh - 136px);
+}
+
+.input-wrapper {
+    width: 330px;
+    margin: 5rem 5rem 0 auto;
+    padding: 2rem 1.5rem 1rem;
+    background: #fff;
+    border-radius: 0;
+    box-shadow: 0 1px 7px 0px #000;
+}
+.input-wrapper .invalid-feedback {
+    display: none;
+}
+.input-wrapper .form-group {
+    margin-bottom: 0;
+}
+.no-label label {
+    display: none;
+}
+.input-wrapper input {
+    border-radius: 0;
+}
+.input-group-captcha input {
+    border-right: 0;
+}
+.input-group-captcha input:focus {
+    outline: none;
+    outline-offset: 0;
+    box-shadow: none !important;
+}
+
+.was-validated .form-control:invalid:focus, 
+.form-control.is-invalid:focus {
+    box-shadow: none !important;  
+}
+.input-group-captcha img {
+    border: 1px solid #ced4da;
+    border-left: 0;
+}
+.input-group-captcha input[aria-invalid="true"] + img {
+    border: 1px solid #dc3545;
+    border-left: 0;
+}
+.input-group-captcha .form-control:focus + img {
+    border-color: #80bdff;
+}

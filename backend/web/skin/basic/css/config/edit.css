@@ -1,0 +1,91 @@
+.alert-area {
+    min-height: 0 !important;
+}
+.config-edit {
+    margin-left: -1rem;
+    margin-right: -1rem;
+}
+.config-menu {
+    width: 150px;
+    border-right: 1px solid #ddd;
+    min-height: calc(100vh - 50px);
+}
+.config-menu ul {
+    list-style: none;
+    padding-left: 0;
+}
+.config-menu ul > li > a {
+    display: block;
+    width: 100%;
+    height: 2rem;
+    line-height: 2rem;
+    border-bottom: 1px solid #ddd;
+    color: #555;
+    position: relative;
+    padding-left: 1.5rem;
+}
+.config-menu > ul > li > a {
+    background: #e1e1e1;
+    border-bottom: 1px solid #ccc;
+    border-top: 1px solid #eee;
+    height: 2.5rem;
+    line-height: 2.5rem;
+}
+.config-menu > ul > li > a::before {
+    font-family: "FontAwesome";
+    display: block;
+    content: "\f0d7";
+    position: absolute;
+    left: .5rem;
+    top: 0;
+    color: #000;
+}
+.config-menu ul >li.active > a {
+    background: #668080;
+    color: #fff;
+}
+.config-menu > ul {
+    padding-left: 0;
+}
+
+.config-container {
+    padding: 1rem;
+}
+
+
+/**   fieldset    */
+.config-fieldset {
+    border: 1px solid #ddd;
+    margin-bottom: .5rem;
+}
+.config-fieldset .config-fieldset-content {
+    padding: 1rem;
+    display: none;
+}
+.config-fieldset.open >.config-fieldset-content {
+    display: block;
+}
+.config-fieldset-header {
+    background: #555;
+    color: #fff;
+    padding: 0 1rem;
+    font-size: 1rem;
+    line-height: 2rem;
+}
+.config-fieldset-header > a {
+    color: #fff;
+    display: block;
+    position: relative;
+}
+.config-fieldset-header > a::after {
+    font-family: "FontAwesome";
+    display: block;
+    content: "\f0ab";
+    position: absolute;
+    right: 0px;
+    top: 0;
+    line-height: 2rem;
+}
+.config-fieldset.open .config-fieldset-header > a::after {
+    content: "\f0aa";
+}
