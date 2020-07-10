@@ -1,13 +1,13 @@
 <?php
 
-namespace modules\admin\backend\controllers;
+namespace admin\backend\controllers;
 
 use Yii;
 use yii\captcha\CaptchaAction;
 use backend\controllers\Controller;
-use modules\admin\models\User;
-use modules\admin\backend\models\LoginForm;
-use modules\admin\backend\vms\LoginView;
+use admin\models\User;
+use admin\backend\models\account\LoginForm;
+use admin\backend\vms\account\LoginView;
 
 /**
  * 账户控制器
@@ -81,12 +81,15 @@ class AccountController extends Controller
     {
         $this->layout = 'login';
         
-        if(!Yii::$app->user->isGuest) {
+        if(!$this->user->isGuest) {
             return $this->goBack();
         }
         $model = new LoginForm();
         if($model->load($this->request->post()) && $model->login()) {
             $this->session->addFlash('success', 'Login successful');
+            $this->log('User login: {nickname}', [
+                'nickname' => $this->identity->nickname,
+            ]);
             return $this->goBack();
         }
         return $this->render('login', ['model' => $model]);
@@ -101,6 +104,12 @@ class AccountController extends Controller
      */
     public function actionLogout()
     {
+        if($this->user->isGuest) {
+            return $this->goHome();
+        }
+        $this->log('User logout: {nickname}', [
+            'nickname' => $this->identity->nickname,
+        ]);  
         Yii::$app->user->logout();
         return $this->goHome();
     }

@@ -4,5 +4,6 @@
  * 
  */
 return [
-    'class' => 'modules\core\Module',
+    'class' => 'core\Module',
+    'layoutPath' => '@app/views/layouts',
 ];

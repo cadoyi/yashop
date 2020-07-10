@@ -54,17 +54,17 @@ class ConfigController extends Controller
      * @param  string $scope  scope 值
      * @return string
      */
-    public function actionEdit($scope = null)
+    public function actionEdit($section = null)
     {
         $config = Yii::$app->config->getSystemConfig();
-        $section = $config->activeSection($scope);
+        $section = $config->activeSection($section);
         if(!$section) {
             return $this->notFound();
         }
-        $model = new SectionModel(['section' => $section]);
-        if($model->load($this->request->post()) && $model->save()) {
+        if($section->load($this->request->post()) && $section->save()) {
+            $this->session->setFlash('success', Yii::t('app', 'Config saved'));
             return $this->refresh();
         }
-        return $this->render('edit', ['model' => $model]);
+        return $this->render('edit', ['section' => $section]);
     }
 }

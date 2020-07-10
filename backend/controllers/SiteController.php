@@ -28,22 +28,11 @@ class SiteController extends Controller
                     'allow' => false,
                     'roles' => ['?'],
                 ],
+                [
+                ],
             ],
         ];
     }
-
-
-
-    /**
-     * @inheritdoc
-     */
-    public function verbs()
-    {
-        return [
-            'logout' => ['post'],
-        ];
-    }
-
 
 
     /**

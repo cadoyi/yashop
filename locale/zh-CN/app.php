@@ -122,12 +122,14 @@ return [
     'Email address' => '邮件地址',
     'Edit customer address' => '编辑客户地址',
     /****************** FFFFFFFFFFFFFFF ************************/
+    'Footer' => '尾部',
     'Female' => '女',
     'Faild delete user: {username}' => '删除用户失败: {username}',
     /****************** GGGGGGGGGGGGGGG ************************/
     'Gender' => '性别',
     'General' => '通用',
     /****************** HHHHHHHHHHHHHHH ************************/
+    'Header' => '头部',
     'Home page' => '首页',
     /****************** IIIIIIIIIIIIIII ************************/
     'Id' => 'ID',

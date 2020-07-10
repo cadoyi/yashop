@@ -1,11 +1,11 @@
 <?php
 
-namespace modules\admin\backend\models;
+namespace admin\backend\models\account;
 
 use Yii;
 use yii\base\Model;
 use cando\web\Attempt;
-use modules\admin\models\User;
+use admin\models\User;
 
 /**
  * 登录表单
@@ -71,17 +71,17 @@ class LoginForm extends Model
     public function init()
     {
         parent::init();
-        /**
-        switch((int) $this->config->getValue('login/captcha/enable')) {
-            case self::CAPTCHA_ALWAYS:
+        $value = $this->config->get('login/captcha/enabled');
+        switch((int) $value) {
+            case 1:
+                $this->conditionCaptcha();
+                break;
+            case 2:
                 $this->requireCaptcha();
                 break;
-            case self::CAPTCHA_DISABLED:
-                break;
             default:
-                $this->conditionCaptcha();
-                break;            
-        } **/
+                break;
+        }
     }
 
 
@@ -92,7 +92,7 @@ class LoginForm extends Model
     {
         $this->_counter = new Attempt([
              'key'        => static::ATTEMPT_KEY,
-             'retryCount' => 3,
+             'retryCount' => $this->config->get('login/captcha/retry_count'),
              'want' => function() {
                  $this->requireCaptcha();
              }
@@ -144,7 +144,7 @@ class LoginForm extends Model
             [['username', 'password'], 'required'],
             [['code'], 'required', 'on' => static::SCENARIO_CAPTCHA],
             [['code'], 'captcha', 
-                'captchaAction' => 'admin/account/captcha',
+                'captchaAction' => '/admin/account/captcha',
                 'on' => static::SCENARIO_CAPTCHA,
             ],
             [['username'], 'string', 'max' =>32],
@@ -223,8 +223,8 @@ class LoginForm extends Model
      */
     public function getRememberMeTime()
     {
-        if($this->remember) {
-            return 3600;
+        if($this->remember && $this->config->get('login/remember/enabled')) {
+            return $this->config->get('login/remember/second');
         }
         return 0;
     }

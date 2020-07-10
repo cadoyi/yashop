@@ -1,5 +1,6 @@
 <?php
 
 return [
-    'class' => 'modules\admin\Module',
+    'class' => 'admin\Module',
+    'layoutPath' => '@app/views/layouts',
 ];

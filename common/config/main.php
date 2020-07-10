@@ -12,9 +12,12 @@ return [
             'class' => 'yii\caching\FileCache',
         ],
         'config' => [ 
-            'class' => 'cando\config\Config',
-            'dir' => 'config/config.d',
-            'systemModelClass' => 'modules\core\models\Config',
+            'class'        => 'cando\config\Config',
+            'dir'          => 'config/config.d',
+            'systemConfig' => [
+                'modelClass' => 'modules\core\models\Config',
+                'filename'   => 'system',
+            ],
         ],
         'authManager' => [
             'class' => 'cando\rbac\DbManager',

@@ -1,6 +1,6 @@
 <?php
 
-namespace modules\admin\models;
+namespace admin\models;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
@@ -14,6 +14,8 @@ use cando\db\ActiveRecord;
  */
 class User extends ActiveRecord implements IdentityInterface
 {
+
+    const SUPER_ADMIN_ID = 1;
 
     const STATUS_ACTIVE = 1;
     const STATUS_INACTIVE = 0;
@@ -81,18 +83,18 @@ class User extends ActiveRecord implements IdentityInterface
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'Id'),
-            'username' => Yii::t('app', 'Username'),
-            'nickname' => Yii::t('app', 'Nickname'),
-            'auth_key' => Yii::t('app', 'Auth key'),
-            'password_hash' => Yii::t('app', 'Password hash'),
-            'avatar' => Yii::t('app', 'Avatar'),
-            'is_active' => Yii::t('app', 'Is active'),
-            'last_login_at' => Yii::t('app', 'Last login at'),
-            'last_login_ip' => Yii::t('app', 'Last login ip'),
-            'created_at' => Yii::t('app', 'Created at'),
-            'updated_at' => Yii::t('app', 'Updated at'),
-            'password' => Yii::t('app', 'Password'),
+            'id'               => Yii::t('app', 'Id'),
+            'username'         => Yii::t('app', 'Username'),
+            'nickname'         => Yii::t('app', 'Nickname'),
+            'auth_key'         => Yii::t('app', 'Auth key'),
+            'password_hash'    => Yii::t('app', 'Password hash'),
+            'avatar'           => Yii::t('app', 'Avatar'),
+            'is_active'        => Yii::t('app', 'Is active'),
+            'last_login_at'    => Yii::t('app', 'Last login at'),
+            'last_login_ip'    => Yii::t('app', 'Last login ip'),
+            'created_at'       => Yii::t('app', 'Created at'),
+            'updated_at'       => Yii::t('app', 'Updated at'),
+            'password'         => Yii::t('app', 'Password'),
             'password_confirm' => Yii::t('app', 'Confirm password'),
         ];
     }
@@ -257,5 +259,40 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
 
+    /**
+     * 是否可删除
+     */
+    public function canDelete()
+    {
+        return $this->id != static::SUPER_ADMIN_ID;
+    }
 
+
+    /**
+     * 记录日志.
+     *
+     * @param  string $description 日志描述
+     * @param  array $params 翻译参数
+     * @return boolean
+     */
+    public function log($description, $params = [])
+    {
+        $config = [
+            'user_id'     => $this->id,
+            'action'      => Yii::$app->controller->route,
+            'description' => $description,
+            'params'      => $params,
+            'ip'          => Yii::$app->request->getUserIP(),
+            'created_at'  => time(),
+        ];
+
+        $log = new Log($config);
+        $result = $log->save();
+        if($result === false) {
+            throw new \Exception('User log cannot be saved');
+        }
+        return true;
+    }
+
+    
 }

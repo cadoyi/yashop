@@ -1,6 +1,6 @@
 <?php
 
-namespace modules\admin\backend\vms;
+namespace admin\backend\vms\account;
 
 use Yii;
 use cando\web\ViewModel;
@@ -22,7 +22,7 @@ class LoginView extends ViewModel
      */
     public function getCaptchaAction()
     {
-        return 'admin/account/captcha';
+        return '/admin/account/captcha';
     }
 
 

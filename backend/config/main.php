@@ -17,7 +17,7 @@ return [
             'csrfParam' => '_csrf-backend',
         ],
         'user' => [
-            'identityClass' => 'modules\admin\models\User',
+            'identityClass' => 'admin\models\User',
             'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
             'loginUrl' => ['admin/account/login'],
@@ -48,10 +48,11 @@ return [
         ],
         'assetManager' => [
             'appendTimestamp' => !YII_DEBUG,
+            'linkAssets' => true,
         ],
         'view' => [
             'class' => 'cando\web\View',
-            'theme' => require __DIR__ . '/main/theme.php',
+            //'theme' => require __DIR__ . '/main/theme.php',
         ],
     ],
     'params' => $params,
