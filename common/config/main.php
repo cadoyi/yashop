@@ -9,13 +9,14 @@ return [
     'modules' => require __DIR__ . '/main/modules.php',
     'components' => [
         'cache' => [
-            'class' => 'yii\caching\FileCache',
+            'class' => 'yii\redis\Cache',
+            'redis' => 'redisCache',
         ],
         'config' => [ 
             'class'        => 'cando\config\Config',
             'dir'          => 'config/config.d',
             'systemConfig' => [
-                'modelClass' => 'modules\core\models\Config',
+                'modelClass' => 'core\models\Config',
                 'filename'   => 'system',
             ],
         ],
@@ -46,7 +47,7 @@ return [
             'class' => 'cando\components\Helper',
             'helpers' => [
                 'hash' => [
-                    'class' => 'modules\core\helpers\HashHelper',
+                    'class' => 'core\helpers\HashHelper',
                     'singleton' => true,
                 ],
             ],

@@ -62,6 +62,10 @@ use common\widgets\Alert;
                     'icon' => 'users',
                     'items' => [
                         [
+                            'label' => Yii::t('app', 'Customer group'),
+                            'url'   => ['/customer/group/index'],
+                        ],
+                        [
                             'label' => Yii::t('app', 'Customers'),
                             'url'  => ['/customer/customer/index'],
                         ],

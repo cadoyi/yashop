@@ -7,10 +7,9 @@ use yii\captcha\Captcha;
 <?php
 /**
  * @var $this yii\web\View
- * @var $params cando\web\ViewModel
+ * @var $self cando\web\ViewModel
  * @var $model modules\admin\backend\models\LoginView
  */
-$model = $params->model;
 $this->title = Yii::t('app', 'Login');
 ?>
 
@@ -28,7 +27,7 @@ $this->title = Yii::t('app', 'Login');
         <div class="">
           <div class="no-label">
             <?= $form->field($model, 'username', [
-                'template' => $params->getUsernameTemplate(),
+                'template' => $self->getUsernameTemplate(),
             ])->textInput([
                 'placeholder' => Yii::t('app', 'Please input {attribute}', [
                     'attribute' => $model->getAttributeLabel('username'),
@@ -37,7 +36,7 @@ $this->title = Yii::t('app', 'Login');
 
 
             <?= $form->field($model, 'password', [
-                'template' => $params->getPasswordTemplate(),
+                'template' => $self->getPasswordTemplate(),
             ])->passwordInput([
                 'placeholder' => Yii::t('app', 'Please input {attribute}', [
                      'attribute' => $model->getAttributeLabel('password'),
@@ -46,8 +45,8 @@ $this->title = Yii::t('app', 'Login');
 
             <?php if($model->canDisplayCaptcha()): ?>
                 <?= $form->field($model, 'code')->label('') -> widget(Captcha::class, [
-                    'captchaAction' => $params->getCaptchaAction(),
-                    'template' => $params->getCaptchaTemplate(),
+                    'captchaAction' => $self->getCaptchaAction(),
+                    'template' => $self->getCaptchaTemplate(),
                     'options' => [
                          'placeholder' => Yii::t('app', 'Captcha code'),
                     ],

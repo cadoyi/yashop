@@ -23,6 +23,8 @@ return [
             'loginUrl' => ['admin/account/login'],
         ],
         'session' => [
+            'class' => 'yii\redis\Session',
+            'redis' => 'redisSession',
             // this is the name of the session cookie used for login on the backend
             'name' => 'advanced-backend',
         ],

@@ -9,6 +9,9 @@ return [
         'general' => [
             'label' => 'General',
         ],
+        'customer' => [
+            'label' => 'Customer',
+        ],
         'admin' => [
             'label' => 'Admin',
         ],
@@ -148,6 +151,25 @@ return [
                         ], 
                    ],
                ],
+           ],
+       ],
+       'customer' => [
+           'tab' => 'customer',
+           'fieldsets' => [
+               'group' => [
+                   'label' => 'Customer group',
+                   'fields' => [
+                       'default' => [
+                           'label'     => 'Default customer group',
+                           'type'      => 'select',
+                           'typeItems' => '\\customer\\models\\CustomerGroup::hashOptions',
+                           'defaultValue' => 1,
+                           'validators' => [
+                                ['required'],
+                           ],
+                       ],
+                   ],
+               ], 
            ],
        ],
     ],

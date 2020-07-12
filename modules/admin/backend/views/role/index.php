@@ -9,13 +9,11 @@ use yii\bootstrap4\ActiveForm;
 <?php 
 /**
  * @var  $this yii\web\View
- * @var  $params cando\web\ViewModel
+ * @var  $self cando\web\ViewModel
  * @var  $filterModel cado\rbac\RoleFilter
  * @var  $dataProvider yii\data\ActiveDataProvider
  * 
  */
-$filterModel = $params->filterModel;
-$dataProvider = $params->dataProvider;
 $this->title = Yii::t('app', 'Manage roles');
 ?>
 <div class="grid-buttons">

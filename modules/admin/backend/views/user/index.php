@@ -11,12 +11,10 @@ use admin\models\User;
 <?php 
 /**
  * @var  $this yii\web\View
- * @var  $params cando\web\ViewModel
+ * @var  $self cando\web\ViewModel
  * @var  $filterModel 
  * @var  $dataProvider 
  */
-$filterModel = $params->filterModel;
-$dataProvider = $params->dataProvider;
 
 $this->title = Yii::t('app', 'Manage user');
 ?>

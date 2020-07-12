@@ -1,6 +1,6 @@
 <?php
 
-namespace modules\core\backend\vms\config;
+namespace core\backend\vms\config;
 
 use Yii;
 

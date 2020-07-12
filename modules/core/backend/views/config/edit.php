@@ -13,9 +13,7 @@ EditAsset::register($this);
  * @var  $section cando\config\system\Section
  * @var  $config cando\config\System
  */
-$section = $params->section;
 $config = $section->config;
-
 $this->title = $section->t('label');
 $this->addBreadcrumb(Yii::t('app', 'System config') , ['edit']);
 

@@ -9,10 +9,9 @@ use cando\rbac\widgets\SelectRole;
 <?php 
 /**
  * @var  $this yii\web\View
- * @var  $params cando\web\ViewModel
+ * @var  $self cando\web\ViewModel
  * @var  $model modules\admin\backend\models\user\Edit
  */
-$model = $params->model;
 $this->title = Yii::t('app', 'Create user');
 $this->addBreadcrumb(Yii::t('app', 'Manage user'), ['index']);
 ?>

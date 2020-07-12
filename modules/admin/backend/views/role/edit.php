@@ -7,12 +7,11 @@ use cando\rbac\widgets\SelectPermission;
 <?php 
 /**
  * @var  $this yii\web\View
- * @var  $params cando\web\ViewModel
+ * @var  $self cando\web\ViewModel
  * @var  $model cando\rbac\models\Role
  *
  * 
  */
-$model = $params->model;
 $this->title = Yii::t('app', 'Edit role');
 $this->addBreadcrumb(Yii::t('app', 'Manage roles'), ['index']);
 ?>

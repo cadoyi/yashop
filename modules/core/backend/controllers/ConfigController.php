@@ -1,11 +1,11 @@
 <?php
 
-namespace modules\core\backend\controllers;
+namespace core\backend\controllers;
 
 use Yii;
 use backend\controllers\Controller;
 use cando\config\models\SectionModel;
-use modules\core\backend\vms\config\Edit;
+use core\backend\vms\config\Edit;
 
 
 /**
