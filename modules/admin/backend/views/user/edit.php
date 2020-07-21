@@ -28,8 +28,8 @@ $this->addBreadcrumb(Yii::t('app', 'Manage user'), ['index']);
     </li>
 </ul>
 
-<?php $form = ActiveForm::begin([
-   'id' => 'edit_user_form',
+<?php $form = $this->beginForm([
+   'id' => 'edit_user_form',   
 ]) ?>
 <div class="tab-content p-3">
     <div id="basic_info" class="tab-pane fade active show">
@@ -61,4 +61,4 @@ $this->addBreadcrumb(Yii::t('app', 'Manage user'), ['index']);
     <?= Html::submitButton(Yii::t('app', 'Submit'), [
         'class' => 'btn btn-sm btn-primary',
     ]) ?>
-<?php ActiveForm::end() ?>
+<?php $this->endForm() ?>

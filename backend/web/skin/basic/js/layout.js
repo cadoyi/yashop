@@ -5,6 +5,7 @@
  */
 jQuery(function($) {
 
+    // 展开/隐藏 左侧菜单栏, 并记住设置.
     ;(function() {
         if(!hasStorage('localStorage')) return;
 
@@ -29,9 +30,13 @@ jQuery(function($) {
         });
     })();
 
-    
+
+
+    // 左侧菜单栏调整
+    $('aside.main-sidebar .menu > li.active > a[href="#"]').addClass('active');
     $('aside.main-sidebar .menu').on('click', 'li > a[href="#"]', function( e ) {
         stopEvent(e);
+        $(this).parent().toggleClass('closed');
         $(this).toggleClass('active');
     });
 

@@ -58,7 +58,7 @@ $this->title = Yii::t('app', 'Manage user');
         'last_login_ip', 
         [
             'class' => ActionColumn::class,
-            'header' => Yii::t('app', 'Operation'),
+            'header' => Yii::t('app', 'Action'),
             'template' => '{role} {log} {update} {delete}',
             'buttons' => [
                'log' => function($url, $model, $key) {

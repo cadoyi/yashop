@@ -1,7 +1,6 @@
 <?php
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\bootstrap4\ActiveForm;
 use cando\rbac\widgets\SelectPermission;
 ?>
 <?php 
@@ -19,7 +18,7 @@ $this->addBreadcrumb(Yii::t('app', 'Manage roles'), ['index']);
 
 </div>
 <div class="mw-500">
-<?php $form = ActiveForm::begin([
+<?php $form = $this->beginForm([
     'id' => 'edit_role_form',
 ]) ?>
 <?= $form->field($model, 'name') ?>
@@ -32,5 +31,5 @@ $this->addBreadcrumb(Yii::t('app', 'Manage roles'), ['index']);
     'class' => 'btn btn-sm btn-primary',
 ])?>
 
-<?php ActiveForm::end() ?>
+<?php $this->endForm() ?>
 </div>

@@ -47,6 +47,7 @@ $this->title = Yii::t('app', 'Manage roles');
        [
            'class' => ActionColumn::class,
            'template' => '{update} {delete}',
+           'header'   => Yii::t('app', 'Action'),
            'urlCreator' => function($action, $model, $key, $index, $column) {
                 return [$action, 'name' => $model->name];
            }

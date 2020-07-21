@@ -104,16 +104,13 @@ body.open-sidebar .main-sidebar {
 }
 .menu > li > a {
     font-size: 15px;
+    line-height: 2.5rem;
 }
 .menu li > ul {
     display: none;
 }
-.menu li > a.active + ul {
-    display: block;
-}
 .menu li.active > a {
     color: #fff;
-
 }
 .menu a[href="#"]::after {
     font-family: "FontAwesome";

@@ -19,6 +19,7 @@ use common\widgets\Alert;
     </div>
     <div class="menus">
        <?= Menu::widget([
+           'activateParents' => true,
            'items' => [
                 [
                    'label' => Yii::t('app', 'Home page'),
@@ -26,16 +27,16 @@ use common\widgets\Alert;
                    'icon'  => 'home', 
                 ],
                 [
-                    'label' => Yii::t('app', 'Admin'),
+                    'label' => Yii::t('app', 'User center'),
                     'url' => '#',
                     'icon' => 'user-circle',
                     'items' => [
                         [
-                            'label' => Yii::t('app', 'User'),
+                            'label' => Yii::t('app', 'Manage users'),
                             'url' => ['/admin/user/index'],
                         ],
                         [
-                            'label' => Yii::t('app', 'Role'),
+                            'label' => Yii::t('app', 'Manage roles'),
                             'url' => ['/admin/role/index'],
                         ],
                     ],

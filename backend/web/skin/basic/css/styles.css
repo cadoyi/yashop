@@ -7,12 +7,78 @@
 .glyphicon-eye-open::after {
     content: "查看";
 }
-.glyphicon-pencil::after {
-    content: "编辑";
+.grid-view .glyphicon-trash {
+    background: #e07968;
+    color: #fff;
+    padding: 0 .5rem;    
 }
-.glyphicon-trash::after {
+.grid-view .glyphicon-trash::after {
     content: "删除";
 }
+.grid-view .glyphicon-pencil {
+    background: #21a940;
+    color: #fff;
+    padding: 0 .5rem;
+}
+.grid-view .glyphicon-pencil::after {
+    content: "编辑";
+}
+
+.grid-view .table-striped tbody tr:nth-of-type(odd) {
+    background: #fff;
+}
+.grid-view table th {
+    border-bottom-width: 1px !important;
+    font-weight: 400;
+}
+.grid-view table th > a {
+    color: #000;
+}
+.grid-view table th,
+.grid-view table td {
+    padding: 0.5rem;
+    text-align: center;
+    font-size: .9rem;
+}
+.grid-view table th > a[data-sort] {
+    position: relative;
+}
+.grid-view table th > a[data-sort]::before,
+.grid-view table th > a[data-sort]::after {
+    display: inline-block;
+    font-family: FontAwesome;
+    content: "";
+    position: absolute;
+    right: -.75rem;
+    line-height: 50%;
+    color: #999;
+    font-size: .5rem;
+}
+.grid-view table th > a[data-sort]::before {
+    content: "\f0d7";
+    top: 50%;
+}
+.grid-view table th > a[data-sort]::after {
+   content: "\f0d8";
+   bottom: 50%;
+}
+
+
+
+/**
+ * form
+ */
+ .form-control {
+    border-radius: 0;
+}
+
+
+
+
+
+
+
+
 
 .pedit .tab-content-bar {
     width: 250px;

@@ -325,6 +325,7 @@ return [
     'Unit "seconds"'   => '单位 “秒”',
     'User saved'       => '用户已保存',
     'User was deleted' => '用户已删除',
+    'User center'      => '用户中心',
     'User login: {nickname}'  => '用户登录: {nickname}',
     'User logout: {nickname}' => '用户注销: {nickname}',
     'Update article: {title}' => '编辑文章: {title}',
