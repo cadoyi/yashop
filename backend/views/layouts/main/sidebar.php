@@ -47,6 +47,10 @@ use common\widgets\Alert;
                     'icon' => 'file-text-o',
                     'items' => [
                         [
+                            'label'  => Yii::t('app', 'Article tag'),
+                            'url'    => ['/cms/tag/index'],
+                        ],
+                        [
                             'label' => Yii::t('app', 'Article category'),
                             'url' => ['/cms/category/index'],
                         ],
@@ -74,6 +78,17 @@ use common\widgets\Alert;
 
                 ],
                 [
+                    'label' => Yii::t('app', 'Store'),
+                    'url'   => '#',
+                    'icon'  => 'handshake-o',
+                    'items' => [
+                         [
+                             'label' => Yii::t('app', 'Manage stores'),
+                             'url'   => ['/store/store/index'],
+                         ],
+                    ],
+                ],
+                [
                     'label' => Yii::t('app', 'Catalog'),
                     'url'  => '#',
                     'icon' => 'server',
@@ -88,7 +103,7 @@ use common\widgets\Alert;
                          ],
                          [
                              'label' => Yii::t('app', 'Product type'),
-                             'url' => ['/catalog/product-type/index'],
+                             'url' => ['/catalog/type/index'],
                          ],
                          [
                              'label' => Yii::t('app', 'Supplier'),
@@ -100,7 +115,7 @@ use common\widgets\Alert;
                          ],
                          [
                               'label' => Yii::t('app', 'Product restore'),
-                              'url' => ['/catalog/product/restore-list'],
+                              'url' => ['/catalog/product/deleted'],
                          ]
 
 

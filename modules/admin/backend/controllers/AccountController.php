@@ -86,7 +86,7 @@ class AccountController extends Controller
         }
         $model = new LoginForm();
         if($model->load($this->request->post()) && $model->login()) {
-            $this->session->addFlash('success', 'Login successful');
+            $this->_success('Login successful');
             $this->log('User login: {nickname}', [
                 'nickname' => $this->identity->nickname,
             ]);
@@ -111,6 +111,7 @@ class AccountController extends Controller
             'nickname' => $this->identity->nickname,
         ]);  
         Yii::$app->user->logout();
+        $this->_success('User logouted');
         return $this->goHome();
     }
 

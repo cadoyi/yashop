@@ -11,3 +11,4 @@ Yii::setAlias('@core', dirname(dirname(__DIR__)) . '/modules/core');
 Yii::setAlias('@cms', dirname(dirname(__DIR__)) . '/modules/cms');
 Yii::setAlias('@catalog', dirname(dirname(__DIR__)) . '/modules/catalog');
 Yii::setAlias('@customer', dirname(dirname(__DIR__)) . '/modules/customer');
+Yii::setAlias('@store', dirname(dirname(__DIR__)) . '/modules/store');

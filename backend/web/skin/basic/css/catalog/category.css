@@ -1,0 +1,11 @@
+
+.root-category {
+    cursor: pointer;
+    color: #555;
+}
+.root-category:focus,
+.root-category:hover {
+    color: #555;
+    background: #e9f3f7;
+    text-decoration: none;
+}

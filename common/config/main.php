@@ -20,6 +20,11 @@ return [
                 'filename'   => 'system',
             ],
         ],
+        'storage' => [
+            'class'   => 'cando\storage\local\Manager',
+            'path'    => '@media',
+            'baseUrl' => '@mediaUrl',
+        ],
         'authManager' => [
             'class' => 'cando\rbac\DbManager',
         ],

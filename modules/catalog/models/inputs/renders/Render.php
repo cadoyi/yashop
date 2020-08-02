@@ -1,0 +1,195 @@
+<?php
+
+namespace catalog\models\inputs\renders;
+
+use Yii;
+use yii\base\Component;
+
+/**
+ * 渲染器。
+ *
+ * @author  zhangyang <zhangyangcado@qq.com>
+ */
+class Render extends Component
+{
+
+    public $typeConfig;
+
+
+
+    /**
+     * 渲染指定的 input
+     * 
+     * @param  ActiveForm $form 
+     * @param  yii\base\Model $model 
+     * @param  string $name  模型的属性
+     * @return string
+     */
+    public function render($form, $model, $name)
+    {
+        $inputType = strtolower($this->typeConfig->getType());
+        switch($inputType) {
+            case "text":
+            case "password":
+            case "boolean":
+            case "textarea":
+            case "select":
+            case "multiselect":
+            case "radio":
+            case "radiolist":
+            case "checkbox":
+            case "checkboxlist":
+               $method = 'render' . ucfirst($inputType);
+               return $this->$method($form, $model, $name);
+               break;
+            default:
+               throw new \Exception('Unknown render in type : ' . $inputType);
+        }
+    }
+
+
+    public function getInputOptions()
+    {
+        return $this->typeConfig->getOptions();
+    }
+
+
+
+    /**
+     * 渲染 boolean 框
+     * 
+     * @param  [type] $form  [description]
+     * @param  [type] $model [description]
+     * @param  [type] $name  [description]
+     * @return [type]        [description]
+     */
+    public function renderBoolean($form, $model, $name)
+    {
+         $items = $this->typeConfig->getItems();
+         $options = $this->getInputOptions();
+         $options['prompt'] = Yii::t('app', 'Please select');
+         if(empty($items) || count($items) !== 2) {
+             $items = ['是' => '是', '否' => '否'];
+         }
+         return $form->field($model, $name)->dropDownList($items, $options);
+    }
+
+
+    public function renderRadioList($form, $model, $name)
+    {
+        $items = $this->typeConfig->getItems();
+        $options = $this->getInputOptions();
+        return $form->field($model, $name)->radioList($items, $options);
+    }
+
+
+    public function renderCheckboxList($form, $model, $name)
+    {
+        $items = $this->typeConfig->getItems();
+        $options = $this->getInputOptions();
+        return $form->field($model, $name)->checkboxList($items, $options);
+    }
+
+
+
+    public function renderCheckbox($form, $model, $name)
+    {
+        return $form->field($model, $name)->checkbox($this->getInputOptions());
+    }
+
+
+    public function renderRadio($form, $model, $name)
+    {
+        return $form->field($model, $name)->radio($this->getInputOptions());
+    }
+
+
+
+    /**
+     * 渲染 select 框。
+     * 
+     * @param  [type] $form  [description]
+     * @param  [type] $model [description]
+     * @param  [type] $name  [description]
+     * @return [type]        [description]
+     */
+    public function renderSelect($form, $model, $name)
+    {
+        $options = $this->getInputOptions();
+        if(isset($options['multiple']) && $options['multiple']) {
+            return $this->renderMultiselect($form, $model, $name);
+        }
+        $options['prompt'] = Yii::t('app', 'Please select');
+        $items = $this->typeConfig->getItems();
+        return $form->field($model, $name)->dropDownList($items, $options);
+    }
+
+
+
+  
+    /**
+     * 渲染多选框
+     * 
+     * @param  [type] $form  [description]
+     * @param  [type] $model [description]
+     * @param  [type] $name  [description]
+     * @return [type]        [description]
+     */
+    public function renderMultiselect($form, $model, $name)
+    {
+        $options = $this->getInputOptions();
+        $options['multiple'] = true;
+        $items = $this->typeConfig->getItems();
+        return $form->field($model, $name)->dropDownList($items, $options);
+    }
+   
+
+    /**
+     * 渲染 password 字段。
+     * 
+     * @param  [type] $form  [description]
+     * @param  [type] $model [description]
+     * @param  [type] $name  [description]
+     * @return [type]        [description]
+     */
+    public function renderPassword($form, $model, $name)
+    {
+        return $form->field($model, $name)->passwordInput($this->getInputOptions());
+    }
+
+
+
+
+    /**
+     * 渲染 textarea
+     * 
+     * @param  [type] $form  [description]
+     * @param  [type] $model [description]
+     * @param  [type] $name  [description]
+     * @return [type]        [description]
+     */
+    public function renderTextarea($form, $model, $name)
+    {
+        return $form->field($model, $name)->textarea($this->getInputOptions());
+    }
+
+
+
+    /**
+     * 渲染文本框
+     * 
+     * @param  [type] $form  [description]
+     * @param  [type] $model [description]
+     * @param  [type] $name  [description]
+     * @return [type]        [description]
+     */
+    public function renderText($form, $model, $name)
+    {
+        $options = $this->getInputOptions();
+        return $form->field($model, $name)->textInput($this->getInputOptions());
+    }
+
+
+
+
+}

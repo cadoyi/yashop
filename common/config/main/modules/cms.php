@@ -1,6 +1,6 @@
 <?php
 
 return [
-    'class' => 'customer\Module',
+    'class' => 'cms\Module',
     'layoutPath' => '@app/views/layouts',
 ];
