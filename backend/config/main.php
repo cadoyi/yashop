@@ -53,7 +53,8 @@ return [
             'linkAssets' => true,
         ],
         'view' => [
-            'class' => 'cando\web\View',
+            'class' => 'backend\components\View',
+            'baseAsset' => 'backend\assets\basic\AssetBundle',
             //'theme' => require __DIR__ . '/main/theme.php',
         ],
     ],

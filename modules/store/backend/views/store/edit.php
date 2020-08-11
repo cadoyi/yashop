@@ -2,6 +2,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use store\models\Store;
+use core\widgets\Uploader;
 ?>
 <?php 
 /**
@@ -17,6 +18,9 @@ $this->addBreadcrumb(Yii::t('app', 'Manage stores'), ['index']);
     'id' => 'edit_store_profile_form',
 ]) ?>
     <?= $form->field($model, 'name') ?>
+    <?= $form->field($model, 'logo')->widget(Uploader::class, [
+        'uploadId' => 'store/store/logo',
+    ]) ?>
     <?= $form->field($model, 'description')->textarea() ?>
     <?= $form->field($model, 'type')->dropDownList(Store::typeHashOptions(), [
         'prompt' => Yii::t('app', 'Please select'),

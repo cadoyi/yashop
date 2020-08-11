@@ -20,6 +20,9 @@ return [
                 'filename'   => 'system',
             ],
         ],
+        'linkable' => [
+            'class' => 'cando\link\Manager',
+        ],
         'storage' => [
             'class'   => 'cando\storage\local\Manager',
             'path'    => '@media',

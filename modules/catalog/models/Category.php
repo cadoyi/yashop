@@ -137,8 +137,9 @@ class Category extends ActiveRecord
     public function getChilds()
     {
         return $this->hasMany(static::class, ['parent_id' => 'id'])
-           ->orderBy(['sort_order' => SORT_ASC ]);
+           ->orderBy(['sort_order' => SORT_ASC, 'id' => SORT_DESC ]);
     }
+
 
     
 

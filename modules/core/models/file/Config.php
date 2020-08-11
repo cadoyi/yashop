@@ -14,7 +14,7 @@ use yii\base\Component;
 class Config extends Component
 {
 
-    const CONFIG_FILE_NAME = 'uploader';
+    const CONFIG_FILE_NAME = 'upload';
 
 
     public $id;
@@ -34,7 +34,7 @@ class Config extends Component
     {
         parent::init();
         $this->config = Yii::$app->config->getConfig(self::CONFIG_FILE_NAME);
-        $this->path   = $this->config->getConfig('paths.' .$this->id);
+        $this->path   = $this->config->getConfig(['paths', $this->id]);
     }
 
 

@@ -21,6 +21,8 @@ class Uploader extends Component
 
     protected $_config;
 
+    protected $_uploader;
+
 
 
 

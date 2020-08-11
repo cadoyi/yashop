@@ -38,6 +38,10 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
+        'view' => [
+            'class'     => 'frontend\components\View',
+            'baseAsset' => 'frontend\assets\basic\AssetBundle',
+        ],
         
         'urlManager' => [
             'enablePrettyUrl' => true,

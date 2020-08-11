@@ -31,6 +31,14 @@ return [
                                   ['string', 'max' => 255],
                               ],
                          ],
+                         'keywords' => [
+                             'type' => 'textarea',
+                             'defaultValue' => 'website keywords',
+                             'validators' => [
+                                  ['required'],
+                                  ['string'],
+                             ],
+                         ],
                          'description' => [
                               'type' => 'textarea',
                               'defaultValue' => 'Website description',

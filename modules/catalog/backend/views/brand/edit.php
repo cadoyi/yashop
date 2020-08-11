@@ -1,6 +1,9 @@
 <?php
 use yii\helpers\Html;
 use yii\helpers\Url;
+//use cando\storage\assets\UploaderAsset;
+//UploaderAsset::register($this);
+use core\widgets\Uploader;
 ?>
 <?php 
 /**
@@ -16,6 +19,9 @@ $this->addBreadcrumb(Yii::t('app', 'Manage brands'), ['index']);
     'id' => 'edit_catalog_brand_form',
 ]); ?>
     <?= $form->field($model, 'name') ?>
+    <?= $form->field($model, 'logo')->widget(Uploader::class, [
+        'uploadId' => 'catalog/brand/logo',
+    ]) ?>
     <?= $form->field($model, 'description')->textarea() ?>
     <?= $form->field($model, 'sort_order') ?>
 
@@ -23,3 +29,11 @@ $this->addBreadcrumb(Yii::t('app', 'Manage brands'), ['index']);
         'class' => 'btn btn-sm btn-primary',
     ])?>
 <?php $this->endForm() ?>
+<style>
+    .previews {
+        cursor: pointer;
+    }
+    .preview img {
+        width: 90px;
+    }
+</style>

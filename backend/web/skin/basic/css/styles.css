@@ -72,7 +72,12 @@
     border-radius: 0;
 }
 
-
+.previews {
+    cursor: pointer;
+}
+.preview img {
+    width: 90px;
+}
 
 
 

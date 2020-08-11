@@ -3,9 +3,12 @@
 namespace catalog\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
+use yii\base\DynamicModel;
 use yii\behaviors\TimestampBehavior;
 use cando\mongodb\ActiveRecord;
 use store\models\Store;
+use catalog\models\forms\TypeAttributeForm;
 
 /**
  * 产品
@@ -14,6 +17,8 @@ use store\models\Store;
  */
 class Product extends ActiveRecord
 {
+
+    protected $_typeAttributeForm;
 
 
     /**
@@ -65,6 +70,7 @@ class Product extends ActiveRecord
             'virtual_sales',      // 虚拟销量
             'real_sales',         // 真实销量
             'options',            // 产品选项
+            'skus',               // 产品子选项 SKU                
             'created_at',         // 添加时间
             'updated_at',         // 更新时间
             'deleted_at',         // 删除时间
@@ -106,7 +112,6 @@ class Product extends ActiveRecord
             'is_best'            => 0,
             'is_deleted'         => 0,
             'virtual_sales'      => 0,
-            'real_sales'         => 0,
         ];
     }
 
@@ -118,16 +123,17 @@ class Product extends ActiveRecord
     public function rules()
     {
         return [
-            [['store_id', 'type_id', 'type_data', 'category_id', 'price', 'cost_price', 'weight', 'sku', 'stock', 'image', 'galleries', 'options'], 'required'],
-            [['store_id', 'brand_id', 'type_id', 'weight', 'stock', 'stock_warning', 'virtual_sales', 'real_sales', 'category_id'], 'integer'],
+            [['store_id', 'type_id', 'type_data', 'category_id', 'price', 'cost_price', 'sku', 'stock', 'image', 'galleries', 'options', 'skus'], 'required'],
+            [['store_id', 'brand_id', 'type_id', 'weight', 'stock', 'stock_warning', 'virtual_sales', 'category_id'], 'integer'],
             [['price', 'market_price', 'cost_price', 'promote_price', 'rate'], 'number', 'min' => 0 ],
             [['title', 'sku', 'image'], 'string', 'max' => 255],
-            [['type_data', 'category_ids', 'description', 'meta_keywords', 'meta_description', 'galleries', 'options'], 'string'],
+            [['description', 'meta_keywords', 'meta_description'], 'string'],
             [['promote_start_date', 'promote_end_date'], 'datetime'],
             [['on_sale', 'is_virtual', 'is_part', 'is_hot', 'is_new', 'is_best'], 'boolean'],
             [['type_data'], 'validateTypeData'],
             [['galleries'], 'validateGalleries'],
             [['options'], 'validateOptions'],
+            [['skus'], 'validateSkus'],
             [['store_id'], 'exist', 'targetClass' => Store::class, 'targetAttribute' => 'id'],
             [['brand_id'], 'exist', 'targetClass' => Brand::class, 'targetAttribute' => 'id'],
             [['type_id'], 'exist', 'targetClass'  => Type::class, 'targetAttribute' => 'id'],
@@ -135,8 +141,9 @@ class Product extends ActiveRecord
             [['sku'], 'unique', 'when' => function($model, $attribute) {
                 return $model->isAttributeChanged($attribute);
             }],
-            [['market_price', 'stock_warning','is_virtual', 'is_part', 'is_hot', 'is_new', 'is_best', 'is_deleted', 'virtual_sales', 'real_sales'], 'default', 'value' => 0],
+            [['market_price', 'stock_warning','is_virtual', 'is_part', 'is_hot', 'is_new', 'is_best', 'is_deleted', 'virtual_sales'], 'default', 'value' => 0],
             [['on_sale'], 'default', 'value' => 1],
+            [['weight'], 'default', 'value' => 1000],
         ];
     }
 
@@ -151,20 +158,130 @@ class Product extends ActiveRecord
      */
     public function validateTypeData($attribute, $params, $validator)
     {
-
+        if(!is_array($this->$attribute)) {
+            $this->addError($attribute, 'Invalid data');
+        }
     }
 
 
 
+    /**
+     * 验证 gallery
+     * 
+     * @param  [type] $attribute [description]
+     * @param  [type] $params    [description]
+     * @param  [type] $validator [description]
+     * @return [type]            [description]
+     */
     public function validateGalleries($attribute, $params, $validator)
     {
-
+        if(!is_array($this->$attribute)) {
+            $this->addError($attribute, 'Invalid data');
+            return;
+        }
+        foreach($this->$attribute as $image) {
+            if(!is_string($image) || !Yii::$app->storage->has($image)) {
+                $this->addError($attribute, 'Invalid image');
+            }
+        }
     }
 
 
+
+    /**
+     * 验证选项
+     * 
+     * @param  [type] $attribute [description]
+     * @param  [type] $params    [description]
+     * @param  [type] $validator [description]
+     * @return [type]            [description]
+     */
     public function validateOptions($attribute, $params, $validator)
     {
+        if(!is_array($this->$attribute)) {
+            $this->addError($attribute, 'Invalid data');
+            return;
+        }
+        $_attributes = [];
+        foreach($this->$attribute as $i => $data) {
+            $model = new DynamicModel([
+                'name' => null,
+                'values' => [],
+                'sort_order' => null,
+            ]);
+            $model->addRule(['name', 'values'], 'required');
+            $model->addRule('name', 'string', ['max' => 32]);
+            $model->addRule('values', 'each', [
+               'rule' => ['string', 'max' => 255],
+            ]);
+            $model->addRule('sort_order', 'integer');
+            $model->addRule('sort_order', 'default', ['value' => $i ]);
+            $result = $model->load($data, '') && $model->validate();
+            if(!$result) {
+                $errors = $model->getFirstErrors();
+                foreach($errors as $error) {
+                    $this->addError($attribute, $error); 
+                }
+                return;
+            }
+            $_attributes[$i] = $model->attributes;
+        }
+        $names = ArrayHelper::getColumn($_attributes, 'name');
+        if(count($names) !== count(array_unique($names))) {
+            $this->addError($attribute, 'Option name must be unique');
+            return;
+        }
+        $this->$attribute = $_attributes;
+    }
 
+
+
+    /**
+     * 验证 sku 数据.
+     * 
+     * @param  [type] $attribute [description]
+     * @param  [type] $params    [description]
+     * @param  [type] $validator [description]
+     * @return [type]            [description]
+     */
+    public function validateSkus($attribute, $params, $validator)
+    {
+        if(!is_array($this->$attribute)) {
+            $this->addError($attribute, 'Invalid data');
+        }
+        $_attributes = [];
+        foreach($this->$attribute as $i => $skuData) {
+            if(!is_array($skuData)) {
+                $this->addError($attribute, 'Invalid data');
+                return;
+            }
+            $model = new DynamicModel([
+                'image' => null,
+                'sku'   => null,
+                'price' => null,
+                'stock' => null,
+            ]);
+            $model->addRule(['sku', 'price', 'stock'], 'required');
+            $model->addRule(['image', 'sku'], 'string');
+            $model->addRule('price', 'number', ['min' => 0]);
+            $model->addRule('stock', 'integer', ['min' => 0]);
+            $options = $this->options;
+            foreach($options as $option) {
+                $model->defineAttribute($option['name'], null);
+                $model->defineAttribute($option['name'], 'required');
+                $model->addRule($option['name'], 'in', ['range' => $option['values']]);
+            }
+            $result = $model->load($skuData, '') && $model->validate();
+            if(!$result) {
+                $errors = $model->getFirstErrors();
+                foreach($errors as $error) {
+                    $this->addError($attribute, $error);
+                    return;
+                }
+            }
+            $_attributes[$i] = $model->attributes;
+        }
+        $this->$attribute = $_attributes;
     }
 
 
@@ -227,6 +344,112 @@ class Product extends ActiveRecord
         $this->deleted_at = time();
         return $this->save();
     }
+
+
+
+    
+    /**
+     * 获取产品类型
+     * 
+     * @return yii\db\ActiveQuery
+     */
+    public function getType()
+    {
+        return $this->hasOne(Type::class, ['id' => 'type_id']);
+    }
+
+
+
+    /**
+     * 获取分类
+     * 
+     * @return yii\db\ActiveQuery
+     */
+    public function getCategory()
+    {
+        return $this->hasOne(Category::class, ['id' => 'category_id']);
+    }
+
+
+
+
+
+    public function setTypeAttributeForm( $typeAttributeForm )
+    {
+        $this->_typeAttributeForm = $typeAttributeForm;
+    }
+
+
+    public function getTypeAttributeForm()
+    {
+        return $this->_typeAttributeForm;
+    }
+
+
+    
+    /**
+     * 加载产品和属性
+     * 
+     * @param  array $data  表单数据
+     * @return boolean
+     */
+    public function loadForm( $data )
+    {
+        $result = true;
+        if($form = $this->getTypeAttributeForm()) {
+            $result = $form->load($data);
+        }
+        return $this->load($data) && $result;
+    }
+
+
+    
+    /**
+     * 验证产品和属性.
+     * 
+     * @return boolean
+     */
+    public function validateForm()
+    {
+        $result = true;
+        if($form = $this->getTypeAttributeForm()) {
+            $result = $form->validate();
+            $this->type_data = $form->getProductTypeData();
+        }
+        return $this->validate() && $result;
+    }
+
+
+
+    /**
+     * 保存表单
+     * 
+     * @return boolean
+     */
+    public function saveForm()
+    {
+        if(!$this->validateForm()) {
+            return false;
+        }
+        if($form = $this->typeAttributeForm) {
+            $this->type_data = $form->getProductTypeData();
+        }
+        return $this->save();
+    }
+
+
+
+    /**
+     * 获取产品名
+     * 
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->title;
+    }
+
+
 
 
 }

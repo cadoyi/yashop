@@ -25,27 +25,32 @@ class FileController extends Controller
      */
     public function actionUpload($id)
     {
+        $fileId = $this->request->post('file_id');
         try {
             $uploader = new Uploader($id);
             $uploader->upload('file');
             if($uploader->done()) {
                 $data = [
-                    'success' => true,
-                    'data'    => [
+                    'success'   => true,                        
+                    'file_id'   => $fileId,
+                    'data'      => [
                         'filename' => $uploader->getUploadedFilename(),
-                        'url'      => $uploader->getUrl(), 
+                        'url'      => (string) $uploader->getUrl(),
                     ],
                 ];
             } else {
-                $data = ['success' => true];
+                $data = ['success' => true, 'file_id' => $fileId];
             }
+            return $this->asJson($data);
         } catch(UploadUserException $e) {
             $data = [
                 'success' => false,
                 'message' => $e->getMessage(),
+                'file_id' => $fileId,
             ];
+            return $this->asJson($data);
         }
-        return $this->toJson($data);
+        
     }
 
 

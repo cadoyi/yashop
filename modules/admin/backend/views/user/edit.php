@@ -3,7 +3,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\bootstrap4\ActiveForm;
 use cando\rbac\widgets\SelectRole;
-//use common\widgets\FileInput;
+use core\widgets\Uploader;
 
 ?>
 <?php 
@@ -37,13 +37,9 @@ $this->addBreadcrumb(Yii::t('app', 'Manage user'), ['index']);
             'disabled' => !$model->isNewRecord,
         ]) ?>
         <?= $form->field($model, 'nickname') ?>
-        <?php /*
-        <?= $form->field($model, 'avatar')->widget(FileInput::class, [
-            'width'  => '100px',
-            'height' => '100px',
-            'url'    => $model->getAvatarUrl(),
+        <?= $form->field($model, 'avatar')->widget(Uploader::class, [
+            'uploadId' => 'admin/user/avatar',
         ]) ?>
-        */ ?>
         <?= $form->field($model, 'password')->passwordInput() ?>
         <?= $form->field($model, 'password_confirm')->passwordInput() ?>
         <?= $form->field($model, 'is_active')->checkbox() ?>

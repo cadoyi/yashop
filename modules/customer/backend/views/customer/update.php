@@ -4,6 +4,7 @@ use yii\helpers\Url;
 use yii\bootstrap4\ActiveForm;
 use customer\models\Customer;
 use customer\models\CustomerGroup;
+use core\widgets\Uploader;
 ?>
 <?php 
 /**
@@ -14,6 +15,9 @@ use customer\models\CustomerGroup;
 <?php $this->beginBlock('content') ?>
     <div class="mw-500">
         <?php $form = ActiveForm::begin(['id' => 'customer_basic_form']) ?>
+            <?= $form->field($customer, 'avatar')->widget(Uploader::class, [
+                'uploadId' => 'customer/customer/avatar',
+            ]) ?>
             <?= $form->field($customer, 'nickname') ?>
             <?= $form->field($customer, 'qq') ?>
             <?= $form->field($customer, 'gender')

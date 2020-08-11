@@ -4,6 +4,7 @@ use yii\helpers\Url;
 use catalog\models\Brand;
 use store\models\Store;
 use common\widgets\CKEditorInput;
+use core\widgets\Uploader;
 ?>
 <?php 
 /**
@@ -82,7 +83,10 @@ $this->addBreadcrumb(Yii::t('app', 'Manage products'), ['index']);
             ]) ?>
             <?= $form->field($product, 'title') ?>
             <?= $form->field($product, 'sku') ?>
-            <?= $form->field($product, 'image') ?>
+            <?= $form->field($product, 'image')->widget(Uploader::class, [
+                'uploadId' => 'catalog/product/image',
+            ]) ?>
+            <?= $form->field($product, 'virtual_sales') ?>
             <?= $form->field($product, 'on_sale')->checkbox() ?>
             <?= $form->field($product, 'is_virtual')->checkbox() ?>
             <?= $form->field($product, 'is_part')->checkbox() ?>
@@ -99,16 +103,29 @@ $this->addBreadcrumb(Yii::t('app', 'Manage products'), ['index']);
             <?= $form->field($product, 'price') ?>
             <?= $form->field($product, 'market_price') ?>
             <?= $form->field($product, 'cost_price') ?>
+            <?= $form->field($product, 'weight') ?>
             <?= $form->field($product, 'rate') ?>
+            <?= $form->field($product, 'promote_price') ?>
+            <?= $form->field($product, 'promote_start_date') ?>
+            <?= $form->field($product, 'promote_end_date') ?>
         </div>
         <div id="stock_info" class="tab tab-pane">
-            库存
+            <?= $form->field($product, 'stock') ?>
+            <?= $form->field($product, 'stock_warning') ?>
         </div>
         <div id="product_options" class="tab tab-pane">
-            产品选项
+            <?= $this->render('options', [
+                 'product' => $product,
+                 'form'    => $form,
+                 'self'    => $self,
+            ])?>
         </div>
         <div id="product_gallery" class="tab tab-pane ">
-            产品画册
+            <?= $this->render('gallery', [
+                'product' => $product,
+                'form'    => $form,
+                'self'    => $self,
+            ])?>
         </div>
 
         <div id="product_description" class="tab tab-pane">

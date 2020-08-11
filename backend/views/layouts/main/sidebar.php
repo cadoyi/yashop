@@ -106,10 +106,6 @@ use common\widgets\Alert;
                              'url' => ['/catalog/type/index'],
                          ],
                          [
-                             'label' => Yii::t('app', 'Supplier'),
-                             'url' => ['/catalog/supplier/index'],
-                         ],
-                         [
                              'label' => Yii::t('app', 'Product'),
                              'url' => ['/catalog/product/index'],
                          ],
@@ -123,17 +119,13 @@ use common\widgets\Alert;
                 
                 ],
                 [
-                    'label' => Yii::t('app', 'System'),
+                    'label' => Yii::t('app', 'Frontend'),
                     'url' => '#',
                     'icon' => 'desktop',
                     'items' => [
                         [
-                            'label' => Yii::t('app', 'Menu action'),
-                            'url'   => ['/system/menu-action/index'],
-                        ],
-                        [
                             'label' => Yii::t('app', 'Menu'),
-                            'url'   => ['/system/menu/index'],
+                            'url'   => ['/front/menu/index'],
                         ],
                     ],
 

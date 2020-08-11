@@ -9,7 +9,8 @@ use catalog\models\Product;
 use catalog\models\Type;
 use catalog\models\filters\ProductFilter;
 use catalog\backend\vms\product\SelectCategory;
-use catalog\backend\models\TypeAttributeForm;
+use catalog\backend\vms\product\Edit;
+use catalog\models\forms\TypeAttributeForm;
 use cando\base\DynamicModel;
 
 
@@ -20,6 +21,19 @@ use cando\base\DynamicModel;
  */
 class ProductController extends Controller
 {
+
+
+
+    /**
+     * @inheritdoc
+     */
+    public function viewModels()
+    {
+        return [
+            'create' => Edit::class,
+            'update' => Edit::class,
+        ];
+    }
 
 
     /**
@@ -76,21 +90,21 @@ class ProductController extends Controller
 
         $product = new Product();
         $product->category_id = $category->id;
-        $product->type_id = $type->id;
+        $product->type_id = $type_id;
         $product->insertMode();
         $typeAttributeForm = new TypeAttributeForm([
             'type'    => $type,
             'product' => $product,
         ]);
 
-        if($product->load($this->request->post()) && $product->save()) {
+        if($product->loadForm($this->request->post()) && $product->saveForm()) {
             $this->_success('Product saved');
-            return $this->_redirect(['index']);
+            return $this->redirect(['index']);
         }
         return $this->render('edit', [
-           'category' => $category,
-           'product'  => $product,
-           'type'     => $type,
+           'category'          => $category,
+           'product'           => $product,
+           'type'              => $type,
            'typeAttributeForm' => $typeAttributeForm,
         ]);
     }
@@ -104,7 +118,25 @@ class ProductController extends Controller
      */
     public function actionUpdate( $id )
     {
+        $product = $this->findProduct($id);
+        $product->updateMode();
+        $typeAttributeForm = new TypeAttributeForm([
+            'type'    => $product->type,
+            'product' => $product,  
+        ]);
+        $category = $product->category;
+        $type = $product->type;
 
+        if($product->loadForm($this->request->post()) && $product->saveForm()) {
+            $this->_success('Product saved');
+            return $this->redirect(['index']);
+        }
+        return $this->render('edit', [
+           'category'          => $category,
+           'product'           => $product,
+           'type'              => $type,
+           'typeAttributeForm' => $typeAttributeForm,
+        ]);
     }
 
 
@@ -163,11 +195,10 @@ class ProductController extends Controller
     /**
      * @inheritdoc
      */
-    public function findProduct($id, $class, $throw = true, $field = '_id')
+    public function findProduct($id, $throw = true, $field = '_id')
     {
-        return $this->findModel($id, $class, $throw, $field);
+        return $this->findModel($id, Product::class, $throw, $field);
     }
-
 
 
 }
