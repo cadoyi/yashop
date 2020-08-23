@@ -1,7 +1,14 @@
 <?php 
 use yii\helpers\Html;
 use yii\helpers\Url;
-
+?>
+<?php 
+/**
+ * @var  $this yii\web\View
+ *
+ * 
+ */
+$customer = Yii::$app->user->identity;
 ?>
 <header class="page-head">
      <div class="title-bar d-flex justify-content-between">
@@ -23,13 +30,13 @@ use yii\helpers\Url;
                           data-toggle="dropdown" 
                           href="#"
                        >
-                          zhan**ang
+                          <?= Html::encode($customer->nickname) ?>
                        </a>
                         <div class="dropdown-menu">
                              <div class="dropdown-item text-center border-bottom">
-                                 嗨! &lt;<?= 'zhangyang' ?>&gt;
+                                 嗨! &lt;<?= Html::encode($customer->nickname) ?>&gt;
                              </div>
-                             <a class="dropdown-item" href="<?= Url::to(['/customer/account/dashboard'])?>">
+                             <a class="dropdown-item" href="<?= Url::to(['/customer/center/dashboard'])?>">
                                  <i class="fa fa-user-circle"></i>
                                   &nbsp; <?= Yii::t('app', 'Customer center')?>
                              </a>
@@ -42,7 +49,7 @@ use yii\helpers\Url;
                                   <i class="fa fa-money"></i>
                                   &nbsp; <?= Yii::t('app', 'Orders center')?>
                              </a>
-                             <a class="dropdown-item" href="<?= Url::to(['/customer/account/dashboard'])?>">
+                             <a class="dropdown-item" href="<?= Url::to(['/customer/center/dashboard'])?>">
                                  <i class="fa fa-credit-card"></i>
                                   &nbsp; <?= Yii::t('app', 'Pending orders') ?>
                                   <span class="badge badge-danger">4</span>
@@ -54,7 +61,7 @@ use yii\helpers\Url;
                              </a>
                        
                              <div class="dropdown-item last-dropdown-item d-flex flex-nowrap py-2">
-                                 <a class="flex-grow-1 bind-account" href="#">
+                                 <a class="flex-grow-1 bind-account" href="<?= Url::to(['/customer/center/bind'])?>">
                                      <?= Yii::t('app', 'Bind other accounts') ?>
                                  </a>
                                  <a class="flex-grow-1 text-center" 
@@ -99,16 +106,6 @@ use yii\helpers\Url;
                   <a class="nav-link" title="" href="#">家用电器</a>
               </li>
          </ul>
-          <form class="search-form form-inline flex-nowrap">
-                <input class="form-control rounded-0" 
-                       type="search" 
-                       placeholder="<?= Yii::t('app', 'Search')?> ..." 
-                       aria-label="Search"
-                >
-                
-                <?= Html::submitButton(Yii::t('app', 'Search'), [
-                    'class' => 'btn btn-outline-secondary rounded-0'
-                ]) ?>
-          </form>
+         <?= $this->render('search') ?>
      </div>
 </header>

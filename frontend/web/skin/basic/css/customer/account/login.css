@@ -1,0 +1,113 @@
+/**
+ *
+ * 
+ */
+.body-wrapper {
+    position: relative;
+}
+.login-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 5rem;
+    padding: 1rem 2rem;
+    border-bottom: 1px solid #ddd;
+    box-shadow: 0 3px 7px #ddd;
+}
+.login-title {
+    margin-left: 1rem;
+    padding: 0 1rem;
+    border-left: 1px solid #555;
+    line-height: 3rem;
+}
+.login-title > h1 {
+    font-size: 24px;
+    margin-bottom: 0;
+}
+.login-header .logo {
+    padding: .5rem 0;
+}
+.login-header .logo > img {
+    width: 120px;
+}
+.login-content {
+    min-height: 100vh;
+    padding-top: 5rem;
+}
+.login-container {
+    padding: 3rem;
+    background-color: #efefef;
+}
+
+.login-container .form-wrapper {
+    width: 450px;
+    margin-left: auto;
+    background-color: #fff;
+}
+.login-container .form-wrapper > form {
+    padding: 3rem 6rem;
+    padding-bottom: 2rem;
+    border: 1px solid #ddd;
+}
+.login-container .form-wrapper > form  .form-control {
+    border-radius: 0;
+}
+.login-container .form-wrapper-header {
+    border: 1px solid #777;
+    border-bottom: 0;
+    text-align: center;
+}
+.login-container .form-wrapper-header div {
+    color: #fff;
+    padding: 1rem 3rem;
+    background-color: #777;
+}
+
+.login-container .form-wrapper-footer {
+    border: 1px solid #ddd;
+    border-top: 0;
+    padding: .5rem 6rem;
+    font-size: 10px;
+    text-align: center;
+}
+.login-container .form-wrapper-footer .wechat-link {
+    font-size: 1rem;
+    color: #347121;
+}
+.login-container .form-wrapper > form .form-group {
+    margin-bottom: 1rem;
+}
+.login-container .form-wrapper > form .form-group > label {
+    display: none;
+}
+.login-container .form-wrapper > form .links a {
+    color: #555;
+    font-size: 12px;
+    margin: 5px;
+}
+#loginform-code-image {
+    border: 1px solid #ddd;
+    cursor: grab;
+}
+.login-container .form-wrapper > form .links label {
+    font-size: 12px;
+    line-height: 1.5rem;
+}
+.login-container .form-wrapper > form .invalid-feedback {
+    display: block;
+    min-height: 1.3rem;
+}
+
+.register-container form label {
+    display: none;
+}
+
+.register-container .form-group .invalid-feedback {
+    display: block;
+    min-height: 1.2rem;
+}
+.register-container .form-group .form-control {
+    border-radius: 0;
+}

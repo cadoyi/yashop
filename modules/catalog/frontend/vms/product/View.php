@@ -41,7 +41,7 @@ class View extends ViewModel
                break;
             case 2:
                $parent = $category->parent;
-               $this->getView()->addBreadcrumb($parent->title, ['view', 'id' => $parent->id]);
+               $this->getView()->addBreadcrumb($parent->title, ['/catalog/category/view', 'id' => $parent->id]);
                break;
             default:
                 array_pop($ids);
@@ -60,5 +60,7 @@ class View extends ViewModel
         $this->getView()->addBreadcrumb($category->title, ['/catalog/category/view', 'id' => $category->id]);
 
     }
+
+
 
 }

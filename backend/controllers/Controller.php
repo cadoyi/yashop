@@ -38,31 +38,6 @@ class Controller extends \cando\web\Controller
 
 
     /**
-     * 获取当前用户
-     * 
-     * @return IdentityInterface
-     */
-    public function getIdentity()
-    {
-        return $this->user->identity;
-    }
-
-
-
-
-    /**
-     * 获取 user 组件
-     * 
-     * @return yii\web\User
-     */
-    public function getUser()
-    {
-        return Yii::$app->user;
-    }
-
-
-
-    /**
      * 成功的消息
      * 
      * @param  string $message 消息

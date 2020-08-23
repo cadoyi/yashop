@@ -7,7 +7,13 @@ return [
     'language' => 'zh-CN',
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'modules' => require __DIR__ . '/main/modules.php',
+    'bootstrap' => ['queue'],
     'components' => [
+        'queue' => [
+            'class' => 'yii\queue\redis\Queue',
+            'redis' => 'redisQueue',
+            'as log' => 'yii\queue\LogBehavior',
+        ],
         'cache' => [
             'class' => 'yii\redis\Cache',
             'redis' => 'redisCache',
@@ -30,6 +36,12 @@ return [
         ],
         'authManager' => [
             'class' => 'cando\rbac\DbManager',
+        ],
+        'sms' => [
+             'class' => 'cando\sms\Manager',
+             'id'     => 'sms',
+             'configFilename' => 'sms',
+             'queue' => 'queue',
         ],
         'formatter' => [
             'class'           => 'yii\i18n\Formatter',
@@ -58,6 +70,12 @@ return [
                     'class' => 'core\helpers\HashHelper',
                     'singleton' => true,
                 ],
+            ],
+        ],
+        'httpclient' => [
+            'class' => 'yii\httpclient\Client',
+            'transport' => [
+                'class' => 'yii\httpclient\CurlTransport',
             ],
         ],
     ],

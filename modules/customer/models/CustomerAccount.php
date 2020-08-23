@@ -11,7 +11,7 @@ use cando\db\ActiveRecord;
  *
  * @author  zhangyang <zhangyangcado@qq.com>
  */
-class CustomerAccount extends ActiveRecord
+class CustomerAccount extends ActiveRecord implements CustomerTypeInterface
 {
 
 
@@ -134,6 +134,20 @@ class CustomerAccount extends ActiveRecord
 
     /**
      * @inheritdoc
+     * 
+     * @return Customer
+     */
+    public function getIdentity()
+    {
+        if($this->customer) {
+            $this->customer->setLoginType($this);
+        }
+        return $this->customer;
+    }
+
+
+    /**
+     * @inheritdoc
      */
     public function beforeSave($insert)
     {
@@ -150,6 +164,19 @@ class CustomerAccount extends ActiveRecord
            }
         }
         return $result;
+    }
+
+
+
+    /**
+     * 根据用户名来查找
+     * 
+     * @param  string $username  用户名
+     * @return null | static
+     */
+    public static function findByUsername( $username )
+    {
+         return static::findOne(['username' => (string) $username ]);
     }
     
 

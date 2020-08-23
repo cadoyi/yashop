@@ -46,10 +46,19 @@ class CategoryProductFilter extends ActiveFilter
     public function query()
     {
         $ids = $this->getCategoryIds();
-        return parent::query()->andWhere(['category_id' => $ids ]);
+        return parent::query()
+            ->andWhere(['on_sale' => "1"])
+            ->andWhere(['category_id' => $ids ]);
     }
 
 
-    
+    public function dataProviderConfig( $query )
+    {
+        return [
+            'pagination' => [
+                'pageSize' => 20,
+            ],
+        ];
+    }
 
 }

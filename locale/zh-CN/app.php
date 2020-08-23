@@ -57,6 +57,7 @@ return [
     'Add new address' => '增加新地址',
     'As default address' => '设为默认地址',
     'Account binded' => '账户已绑定',
+    'Allow remember me' => '允许记住我',
 
     /****************** BBBBBBBBBBBBBBB ************************/
     'Brands'  => '品牌',
@@ -98,18 +99,22 @@ return [
     'Category description' => '分类描述',
     'Content info' => '内容信息',
     'Customer saved' => '客户已保存',
+    'Customer registered' => '客户注册成功',
     'Customer deleted' => '客户已删除',
     'Customer group'   => '客户组',
     'Customer group name' => '客户组名',
     'Customer group saved' => '客户组已保存',
+    'Customer login'  => '客户登录',
     'Category saved' => '分类已保存',
     'Category name'  => '分类名',
     "Create new category" => "新建分类",
     'Confirm password' => '确认密码',
+    'Captcha retry count' => '验证码尝试次数',
     'Current user\'s password' => '当前用户密码',
     'Customer account deleted' => '客户账户已删除',
     'Customer password saved' => '客户密码已保存',
     'Customer address saved'  => '客户地址已保存',
+    'Customer logged out'     => '客户已登出',
     'Confirm your registion'  => '注册确认',
     'Cannot delete the default group' => '不能删除默认组',
     /****************** DDDDDDDDDDDDDDD ************************/
@@ -127,6 +132,8 @@ return [
     'Display in navbar' => '在导航栏显示',
     'Display in product list' => '在产品列表页显示',
     'Do you want remove this address' => '您要移除这个地址吗',
+    'Do you want remove it?' => '是否要移除它? ',
+    'Do you want empty shopping cart' => '是否要清空购物车',
 
     /****************** EEEEEEEEEEEEEEE ************************/
     'Enabled' => '已启用',
@@ -163,6 +170,7 @@ return [
     'Footer' => '尾部',
     'Female' => '女',
     'Frontend' => '前端',
+    'Forgot password' => '忘记密码',
     'Faild delete user: {username}' => '删除用户失败: {username}',
     /****************** GGGGGGGGGGGGGGG ************************/
     'Gender' => '性别',
@@ -188,6 +196,7 @@ return [
     'Icp number' => 'ICP 备案号',
     'Icp link'   => 'ICP 官网',
     'Is platform store' => '是否为平台店铺',
+    'Item is removed' => '项目已经被移除',
     /****************** JJJJJJJJJJJJJJJ ************************/
     'Join time' => '加入时间',
     /****************** KKKKKKKKKKKKKKK ************************/
@@ -201,6 +210,7 @@ return [
     'Last login at' => '最近登录时间',
     'Last login ip' => '最近登录 IP',
     'Legal person' => '法人',
+    'Login captcha enabled' => '启用登录验证码',
     /****************** MMMMMMMMMMMMMMM ************************/
     'Message' => '消息',
     'Menu'    => '菜单',
@@ -252,6 +262,7 @@ return [
     'Operation' => '操作',
     'On sale'   => '上架',
     'Oauth account' => 'Oauth 账户',
+    'Oauth accounts' => 'Oauth 账户',
     'Orders center'  => '订单中心',
     'Original password' => '原始密码',
 
@@ -268,6 +279,7 @@ return [
     'Parent category' => '父分类',
     'Page not found' => '页面未找到',
     'Password info'  => '密码信息',
+    'Password changed' => '密码已修改',
     'Product name'   => '产品名',
     'Product sku'    => '产品 SKU',
     'Product price'  => '产品价格',
@@ -301,6 +313,7 @@ return [
     'Please input password' => '请输入密码',
     'Please input confirm password' => '请输入确认密码',
     'Please contact us if you think this is a server error. Thank you.' => '如果您认为这是服务器的错误,请联系我们. 谢谢!',
+    'Please remove spaces and newline characters' => '请移除空格和换行符',
     /****************** QQQQQQQQQQQQQQQ ************************/
     'Qq' => 'QQ',
     'Quick to login' => '快速登录',
@@ -320,6 +333,7 @@ return [
     'Review successful' => '审核成功',
     'Review failed'     => '审核失败',
     'Remove address' => '删除地址',
+    'Reset password' => '重置密码',
     'Remember me' => '记住我',
     'Remember me time' => '记住我的时间',
     'Resend verify code must be wait {number} second' => '重新发送验证码需要等 {number} 秒',
@@ -361,6 +375,7 @@ return [
     'Shopping cart' => '购物车',
     'Search engine optimize' => '搜索引擎优化',
     'Show warning when stock too low' => '低库存预警',
+    'Shopping cart is empty' => '购物车已经被清空',
     /****************** TTTTTTTTTTTTTTT ************************/
     'Time' => '时间',
     'Type' => '类型',
@@ -404,22 +419,26 @@ return [
     'Weixin'        => '微信',
     'Wechat'        => '微信',
     'Weight'        => '重量',
+    'Wechat login'  => '微信登录',
     'Website title' => '网站标题',
     'Website description' => '网站描述',
     'Website keywords' => '网站关键字',
     'When login faild' => '当登陆失败时',
     'Write article' => '写文章',
     'Welcome to register' => '欢迎注册',
+    'When login failed'    => '当登录失败时',
     'Welcome visite {name} shop' => '欢迎访问 {name} 网店',
     /****************** XXXXXXXXXXXXXXX ************************/
     /****************** YYYYYYYYYYYYYYY ************************/
     'Yes' => '是',
+    'Your captcha code is {code}' => '您的验证码是 {code}',
     'You must have lastest one Phone or email account' => '至少有一个手机或者邮件账户',
     'You cannot add more than {number} addresses' => '地址不能超过 {number} 条',
     'You cannot remove the default address' => '默认地址不能移除',
     /****************** ZZZZZZZZZZZZZZZ ************************/
     'Zip code' => '邮政编码',
     '{attribute} incorrent' => '{attribute}不正确',
+    '{attribute} or {password} incorrent' => '{attribute}或{password}不正确',
 
 
 

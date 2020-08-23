@@ -16,9 +16,15 @@ return [
             'csrfParam' => '_csrf-frontend',
         ],
         'user' => [
-            'identityClass' => 'common\models\User',
+            'identityClass' => 'customer\models\Customer',
             'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_identity-frontend', 'httpOnly' => true],
+            'loginUrl' => ['/customer/account/login'],
+            'on beforeLogin' => function( $event ) {
+                $identity = $event->identity;
+                $account = $identity->getLoginType();
+                Yii::$app->session->set('customer_account_type', $account->type);
+            }
         ],
         'session' => [
             'class' => 'yii\redis\Session',
@@ -46,8 +52,13 @@ return [
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
+            'suffix' => '.html',
             'rules' => [
             ],
+        ],
+        'assetManager' => [
+            'appendTimestamp' => true,
+            'linkAssets' => true,
         ],
         
     ],

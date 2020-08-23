@@ -177,8 +177,61 @@ return [
                            ],
                        ],
                    ],
-               ], 
-           ],
-       ],
-    ],
+               ],
+               'login' => [
+                   'label' => 'Customer login',
+                   'fields' => [
+                       'remember_me' => [
+                           'label' => 'Allow remember me',
+                           'type'  => 'select',
+                           'defaultValue' => 1,
+                           'typeItems' => [
+                                 0 => 'Disabled',
+                                 1 => 'Enabled',
+                            ],
+                            'validators' => [
+                                ['required'],
+                                ['boolean'],
+                            ],
+                       ],
+                       'remember_time' => [
+                           'label' => 'Remember me time',
+                           'type'  => 'text',
+                           'defaultValue' => 7200,
+                           'validators' => [
+                               ['required'],
+                               ['integer', 'min' => 60, 'max' => 2592000],
+                           ],
+                       ], 
+                   ], // <== customer/login[fields]
+               ],  // <= customer/login
+
+           ], // <= customer[fieldsets]
+       ], // <== customer
+       'oauth' => [
+           'label' => 'Oauth accounts',
+           'tab'   => 'customer',
+           'fieldsets' => [
+               'weixin' => [
+                   'label' => 'Wechat login',
+                    'fields' => [
+                        'app_id' => [
+                            'label' => 'APP ID',
+                            'type' => 'text',
+                        ],
+                        'app_secret' => [
+                            'label' => 'App Secret',
+                            'type'  => 'text',
+                        ],
+                        'redirect_uri' => [
+                            'label' => 'Redirect uri',
+                            'type'  => 'textarea',
+                            'hint'  => 'Please remove spaces and newline characters',
+                        ],
+                    ],
+               ], // oauth/weixin
+           ], //<== oauth[fieldsets]
+       ], // <== oauth
+
+    ], // <= sections
 ];

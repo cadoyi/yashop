@@ -18,6 +18,18 @@ class Render extends Component
 
 
     /**
+     * 获取 type_attribute
+     * 
+     * @return TypeAttribute
+     */
+    public function getTypeAttribute()
+    {
+        return $this->typeConfig->typeAttribute;
+    }
+
+
+
+    /**
      * 渲染指定的 input
      * 
      * @param  ActiveForm $form 
@@ -94,13 +106,19 @@ class Render extends Component
 
     public function renderCheckbox($form, $model, $name)
     {
-        return $form->field($model, $name)->checkbox($this->getInputOptions());
+        $options = $this->getInputOptions();
+        $options['value'] = '是';
+        $options['uncheck'] = '否';
+        return $form->field($model, $name)->checkbox($options);
     }
 
 
     public function renderRadio($form, $model, $name)
     {
-        return $form->field($model, $name)->radio($this->getInputOptions());
+        $options = $this->getInputOptions();
+        $options['value'] = '是';
+        $options['uncheck'] = '否';
+        return $form->field($model, $name)->radio($options);
     }
 
 

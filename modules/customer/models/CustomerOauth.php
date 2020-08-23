@@ -11,7 +11,7 @@ use cando\db\ActiveRecord;
  *
  * @author  zhangyang <zhangyangcado@qq.com>
  */
-class CustomerOauth extends ActiveRecord
+class CustomerOauth extends ActiveRecord implements CustomerTypeInterface
 {
 
 
@@ -57,7 +57,8 @@ class CustomerOauth extends ActiveRecord
     public function rules()
     {
         return [
-            [['customer_id', 'oauth_id'], 'required'],
+            [['oauth_id'], 'required'],
+            [['customer_id'], 'integer'],
             [['data'], 'safe'],
             [['customer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Customer::className(), 'targetAttribute' => ['customer_id' => 'id']],
         ];
@@ -94,7 +95,6 @@ class CustomerOauth extends ActiveRecord
         if($result) {
            if($insert) {
                $customer = new Customer();
-               $customer->nickname = $this->username;
                if(false === $customer->save()) {
                    throw new \Exception('Customer save failed');
                }
@@ -117,4 +117,19 @@ class CustomerOauth extends ActiveRecord
         ]);
     }
 
+
+
+    /**
+     * @inheritdoc
+     * 
+     * @return Customer
+     */
+    public function getIdentity()
+    {
+        if($this->customer) {
+            $this->customer->setLoginType($this);
+        }
+        return $this->customer;
+    }
+ 
 }

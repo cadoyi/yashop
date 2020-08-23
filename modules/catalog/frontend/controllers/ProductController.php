@@ -7,6 +7,7 @@ use Yii;
 use frontend\controllers\Controller;
 use catalog\models\Product;
 use catalog\frontend\vms\product\View;
+use review\models\filters\ReviewFilter;
 
 /**
  * 产品控制器
@@ -37,9 +38,12 @@ class ProductController extends Controller
     public function actionView( $id )
     {
         $product = $this->findModel($id, Product::class, true, '_id');
-
+        $filterModel = new ReviewFilter(['product_id' => $product->id]);
+        $dataProvider = $filterModel->search($this->request->get(), '');
         return $this->render('view', [
-            'product' => $product,
+            'product'      => $product,
+            'filterModel'  => $filterModel,
+            'dataProvider' => $dataProvider,
         ]);
     }
 

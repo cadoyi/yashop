@@ -51,3 +51,15 @@
     color: #999;
     box-shadow: 0 0 3px 1px #dee2e6;
 }
+
+.product-desc-table th,
+.product-desc-table td {
+    border-top: 0;
+}
+.product-name h5 {
+    margin: 0;
+}
+.product-tags td {
+    padding-top: .25rem;
+    padding-bottom: .25rem;
+}

@@ -9,6 +9,8 @@ use yii\behaviors\TimestampBehavior;
 use cando\mongodb\ActiveRecord;
 use store\models\Store;
 use catalog\models\forms\TypeAttributeForm;
+use catalog\models\product\PriceModel;
+use catalog\models\product\SkuModel;
 
 /**
  * 产品
@@ -19,6 +21,10 @@ class Product extends ActiveRecord
 {
 
     protected $_typeAttributeForm;
+
+    protected $_priceModel;
+
+    protected $_skuModels;
 
 
     /**
@@ -372,14 +378,46 @@ class Product extends ActiveRecord
 
 
 
+    /**
+     * 获取店铺
+     * 
+     * @return store
+     */
+    public function getStore()
+    {
+         return $this->hasOne(Store::class, ['id' => 'store_id']);
+    }
 
 
+
+    /**
+     * 获取品牌
+     * 
+     * @return brand
+     */
+    public function getBrand()
+    {
+        return $this->hasOne(Brand::class, ['id' => 'brand_id']);
+    }
+
+
+    /**
+     * 设置产品类型属性表单,用于验证和保存产品类型属性值.
+     * 
+     * @param TypeAttributeForm $typeAttributeForm 
+     */
     public function setTypeAttributeForm( $typeAttributeForm )
     {
         $this->_typeAttributeForm = $typeAttributeForm;
     }
 
 
+
+    /**
+     * 获取 TypeAttributeForm
+     * 
+     * @return TypeAttributeForm
+     */
     public function getTypeAttributeForm()
     {
         return $this->_typeAttributeForm;
@@ -451,5 +489,114 @@ class Product extends ActiveRecord
 
 
 
+    /**
+     * 获取价格模型, 用于计算产品价格
+     * 
+     * @return priceModel
+     */
+    public function getPriceModel()
+    {
+        if(!$this->_priceModel) {
+            $this->_priceModel = new PriceModel(['product' => $this]);
+        }
+        return $this->_priceModel;
+    }
+
+
+    /**
+     * 获取 skus 模型
+     * 
+     * @return array
+     */
+    public function getSkuModels()
+    {
+        if(is_null($this->_skuModels)) {
+            $this->_skuModels = [];
+            foreach($this->skus as $sku) {
+                $this->_skuModels[] = new SkuModel($this, $sku);
+            }         
+        }
+        return $this->_skuModels;
+    }
+
+
+
+    /**
+     * 获取 sku 模型
+     * 
+     * @param  string $sku  SKU 字符串
+     * @return skuModel
+     */
+    public function getSkuModel( $sku )
+    {
+        $models = $this->getSkuModels();
+        foreach($models as $model) {
+            if($model->sku === $sku) {
+                return $model;
+            }
+        }
+        return null;
+    }
+
+
+
+    /**
+     * 获取 sku 数据.
+     * 
+     * @return array
+     */
+    public function getSkusData()
+    {
+        $data = [];
+        $models = $this->getSkuModels();
+        foreach($models as $model) {
+            $data[] = $model->getData();
+        }
+        return $data;
+    }
+
+
+
+    /**
+     * 是否有货.
+     * 
+     * @return boolean
+     */
+    public function hasStock()
+    {
+        $hasStock = false;
+        foreach($this->getSkuModels() as $model) {
+            if($model->hasStock()) {
+                $hasStock = true;
+            }
+        }
+        return $hasStock;
+    }
+
+
+
+    /**
+     * 获取最终的价格
+     * 
+     * @return number
+     */
+    public function getFinalPrice()
+    {
+        return $this->getPriceModel()->getFinalPrice();
+    }
+
+
+
+    /**
+     * 获取图片的 URL
+     * 
+     * @param  [type] $width  [description]
+     * @param  [type] $height [description]
+     * @return [type]         [description]
+     */
+    public function getImageUrl( $width = null, $height = null)
+    {
+        return (string) Yii::$app->storage->getUrl($this->image, $width, $height);
+    }
 
 }

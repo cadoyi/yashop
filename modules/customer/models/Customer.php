@@ -6,6 +6,7 @@ use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\web\IdentityInterface;
 use cando\db\ActiveRecord;
+use checkout\models\Cart;
 
 /**
  * customer 模型
@@ -20,6 +21,8 @@ class Customer extends ActiveRecord implements IdentityInterface
 
     const GENDER_MALE   = 0;
     const GENDER_FEMALE = 1;
+
+    protected $_loginType;
     
 
 
@@ -132,6 +135,28 @@ class Customer extends ActiveRecord implements IdentityInterface
         ];
     }
 
+
+
+    /**
+     * 设置登录类型
+     * 
+     * @param CustomerAccount $type 登录类型
+     */
+    public function setLoginType( CustomerTypeInterface $type )
+    {
+        $this->_loginType = $type;
+    }
+
+
+    /**
+     * 获取登录类型.
+     * 
+     * @return CustomerTypeInterface
+     */
+    public function getLoginType()
+    {
+        return $this->_loginType;
+    }
 
 
     /**
@@ -293,6 +318,13 @@ class Customer extends ActiveRecord implements IdentityInterface
 
 
 
+    public function hasPasswordAccount()
+    {
+        return $this->typeEmail || $this->typePhone;
+    }
+
+
+
     /**
      * 修改密码
      * 
@@ -310,6 +342,25 @@ class Customer extends ActiveRecord implements IdentityInterface
             }
         }
         return true;
+    }
+
+
+
+
+    /**
+     * 获取 cart 实例.
+     * 
+     * @return cart
+     */
+    public function getCart()
+    {
+        $cart = Cart::findByCustomer($this);
+        if(!$cart) {
+            $cart = new Cart(['customer_id' => $this->id]);
+            $cart->save();
+        }
+        $cart->populateRelation('customer', $this);
+        return $cart;
     }
 
 
