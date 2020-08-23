@@ -62,5 +62,5 @@ phpunit.phar
 
 # ignore sqlite db file
 /protected/data/*.db
-
+/media/
 
