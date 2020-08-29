@@ -1,6 +1,7 @@
 <?php 
 use yii\helpers\Html;
 use yii\helpers\Url;
+use front\widgets\Menu;
 ?>
 <?php 
 /**
@@ -40,11 +41,15 @@ $customer = Yii::$app->user->identity;
                                  <i class="fa fa-user-circle"></i>
                                   &nbsp; <?= Yii::t('app', 'Customer center')?>
                              </a>
-                             <a class="dropdown-item" href="#">
+                             <a class="dropdown-item" href="<?= Url::to(['/wishlist/wishlist/index'])?>">
                                  <i class="fa fa-heartbeat"></i>
                                  &nbsp; <?= Yii::t('app', 'My favorite')?>
-                                 <span class="badge badge-danger">36</span>
-                             </a>   
+                                 <?php if($count = (int) $customer->wishlist->item_count): ?>
+                                 <span class="badge badge-danger">
+                                  <?= (int) $customer->wishlist->item_count; ?>
+                                  </span>
+                                <?php endif; ?>
+                             </a>
                              <a class="dropdown-item" href="#">
                                   <i class="fa fa-money"></i>
                                   &nbsp; <?= Yii::t('app', 'Orders center')?>
@@ -89,23 +94,14 @@ $customer = Yii::$app->user->identity;
                  <img src="<?= $this->getAssetUrl('img/yashop.png') ?>" />
              </a>
          </div>
-         <ul class="nav">
-             <li class="nav-item">
-                  <a class="nav-link" title="" href="#">首页</a>
-              </li>
-             <li class="nav-item">
-                  <a class="nav-link" title="" href="#">服装</a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link" title="" href="#">移动电源</a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link" title="" href="#">数码时尚</a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link" title="" href="#">家用电器</a>
-              </li>
-         </ul>
+         <?= Menu::widget([
+              'code' => 'header',
+              'options' => [
+                  'class' => 'nav',
+              ],
+              'itemOptions' => ['class' => 'nav-item'],
+              'linkTemplate' => '<a class="nav-link" href="{url}">{label}</a>',
+        ])?>
          <?= $this->render('search') ?>
      </div>
 </header>

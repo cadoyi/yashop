@@ -92,12 +92,12 @@ class SkuModel extends DynamicModel
      * @param   int $width  宽度
      * @return  string
      */
-    public function getImageUrl($width = null)
+    public function getImageUrl($width = null, $height = null)
     {
         if($this->image) {
-            return (string) Yii::$app->storage->getUrl($this->image, $width);
+            return (string) Yii::$app->storage->getUrl($this->image, $width, $height);
         }
-        return null;
+        return $this->_product->getImageUrl($width, $height);
     }
 
 

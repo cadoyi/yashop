@@ -7,6 +7,7 @@ use yii\behaviors\TimestampBehavior;
 use yii\web\IdentityInterface;
 use cando\db\ActiveRecord;
 use checkout\models\Cart;
+use wishlist\models\Wishlist;
 
 /**
  * customer 模型
@@ -23,6 +24,8 @@ class Customer extends ActiveRecord implements IdentityInterface
     const GENDER_FEMALE = 1;
 
     protected $_loginType;
+    protected $_cart;
+    protected $_wishlist;
     
 
 
@@ -354,13 +357,67 @@ class Customer extends ActiveRecord implements IdentityInterface
      */
     public function getCart()
     {
-        $cart = Cart::findByCustomer($this);
-        if(!$cart) {
-            $cart = new Cart(['customer_id' => $this->id]);
-            $cart->save();
+        if(!$this->_cart) {
+            $cart = Cart::findByCustomer($this);
+            if(!$cart) {
+                $cart = new Cart(['customer' => $this]);
+                $cart->save();
+            }
+            $this->_cart = $cart;          
         }
-        $cart->populateRelation('customer', $this);
-        return $cart;
+        return $this->_cart;
+    }
+
+
+
+    /**
+     * 获取 wishlist
+     * 
+     * @return wishlist
+     */
+    public function getWishlist()
+    {
+        if(!$this->_wishlist) {
+            $wishlist = Wishlist::findByCustomer($this);
+            if(!$wishlist) {
+                $wishlist = new Wishlist(['customer' => $this]);
+                $wishlist->save();
+            }
+            $this->_wishlist = $wishlist;          
+        }
+        return $this->_wishlist;
+    }
+
+
+
+    /**
+     * 获取地址
+     * 
+     * @return yii\db\ActiveQuery[]
+     */
+    public function getAddresses()
+    {
+        return $this->hasMany(CustomerAddress::class, ['customer_id' => 'id'])
+            ->inverseof('customer');
+    }
+
+
+
+    
+    /**
+     * 获取默认地址.
+     * 
+     * @return CustomerAddress
+     */
+    public function getDefaultAddress()
+    {
+        $addresses = $this->getAddresses();
+        foreach($addresses as $address) {
+            if($address->isDefault()) {
+                return $address;
+            }
+        }
+        return reset($addresses);
     }
 
 

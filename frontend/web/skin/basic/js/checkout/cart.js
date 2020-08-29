@@ -56,8 +56,26 @@ jQuery(function( $ ) {
             $('[checkout-button]').prop('disabled', true);
             $('#checkout_show_total').text('0.00');
         }
+    }).trigger('change');
+
+
+    $('#checkout_button').on('click', function( e ) {
+        stopEvent(e);
+        var selects = $('input.checkout-it').filter(':checked');
+        if(!selects.length) {
+           return;
+        }
+        var select = $('#cart_select_input');
+        select.find('option').remove();
+        $.each(selects, function() {
+            var value = $(this).val();
+            var option = $('<option>', {
+                value: value,
+                selected: true
+            });
+            option.text(value);
+            select.append(option);
+        });
+        $('#checkout_form').submit();
     });
-
-
-
 });

@@ -10,6 +10,8 @@ use cando\link\Widget;
  * @var  $model front\models\MenuItem
  *
  */
+$menuHashOptions = [];
+$menuHashOptions[$menu->id] = $menu->name;
 $this->title = Yii::t('app', 'Edit menu item');
 $this->addBreadcrumb(Yii::t('app', 'Manage menus'), ['/front/menu/index']);
 $this->addBreadcrumb(Yii::t('app', 'Manage menu items'), ['index', 'menu_id' => $menu->id]);
@@ -18,10 +20,8 @@ $this->addBreadcrumb(Yii::t('app', 'Manage menu items'), ['index', 'menu_id' => 
     'id' => 'front_menu_item_edit_form',
 ]) ?>
    <?= $form->field($model, 'label') ?>
-   <?= $form->field($model, 'url')->widget(Widget::class, [
-
-   ]); ?>
-   <?= $form->field($model, 'parent_id') ?>
+   <?= $form->field($model, 'url')->textarea() ?>
+   <?= $form->field($model, 'parent_id')?>
    <?= $form->field($model, 'sort_order') ?>
 
    <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-sm btn-primary']) ?>

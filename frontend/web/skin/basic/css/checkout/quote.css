@@ -1,0 +1,22 @@
+
+.add-address {
+
+}
+.quote-item-table  th,
+.quote-item-table  td {
+    vertical-align: middle;
+    text-align: center;
+}
+
+.address-label {
+   width: 20px;
+   height: 20px;
+   display: block;
+   border: 1px solid #999;
+   border-radius: 50%;
+   cursor: pointer;
+   background: #ddd;
+}
+.address-input:checked + .address-label {
+    background: green;
+}

@@ -2,6 +2,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\Menu;
+use front\widgets\Menu as CodeMenu;
 use frontend\assets\basic\customer\CenterAsset;
 
 CenterAsset::register($this);
@@ -21,23 +22,14 @@ $customer = Yii::$app->user->identity;
                    <img src="<?= $this->getAssetUrl('img/yashop.png') ?>" />
                </a>
            </div>
-           <ul class="nav">
-               <li class="nav-item">
-                    <a class="nav-link" title="" href="#">首页</a>
-                </li>
-               <li class="nav-item">
-                    <a class="nav-link" title="" href="#">服装</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" title="" href="#">移动电源</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" title="" href="#">数码时尚</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" title="" href="#">家用电器</a>
-                </li>
-           </ul>
+         <?= CodeMenu::widget([
+              'code' => 'header',
+              'options' => [
+                  'class' => 'nav',
+              ],
+              'itemOptions' => ['class' => 'nav-item'],
+              'linkTemplate' => '<a class="nav-link" href="{url}">{label}</a>',
+        ])?>
            <?= $this->render('main/search') ?>
        </div>
 </header>
@@ -69,7 +61,7 @@ $customer = Yii::$app->user->identity;
                       ],
                       [
                           'label' => '收藏中心',
-                          'url'   => '#',
+                          'url'   => ['/wishlist/wishlist/index'],
                       ],
                       [
                            'label' => '我的订单',

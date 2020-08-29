@@ -57,7 +57,9 @@ class Cart extends ActiveRecord
      */
     public function getItems()
     {
-        return $this->hasMany(CartItem::class, ['cart_id' => 'id'])->inverseOf('cart');
+        return $this->hasMany(CartItem::class, ['cart_id' => 'id'])
+            ->indexBy('id')
+            ->inverseOf('cart');
     }
 
 
@@ -111,6 +113,19 @@ class Cart extends ActiveRecord
         return true;
     }
 
+
+
+
+    /**
+     * 设置 customer
+     * 
+     * @param Customer $customer 
+     */
+    public function setCustomer(Customer $customer)
+    {
+        $this->customer_id = $customer->id;
+        $this->populateRelation('customer', $customer);
+    }
 
 
     /**

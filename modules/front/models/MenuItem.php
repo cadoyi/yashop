@@ -14,6 +14,8 @@ use cando\db\ActiveRecord;
 class MenuItem extends ActiveRecord
 {
 
+    protected $_childs = [];
+
 
     /**
      * @inheritdoc
@@ -57,21 +59,13 @@ class MenuItem extends ActiveRecord
     {
         return [
            [['menu_id', 'label'], 'required'],
-           [['url'], 'validateUrl'],
+           [['url'], 'string'],
            [['label'], 'string', 'max' => 255],
            [['parent_id', 'menu_id', 'sort_order'], 'integer'],
            [['sort_order'], 'default', 'value' => 100],
         ];
     }
 
-
-    /**
-     * 验证 URL
-     */
-    public function validateUrl($attribute, $params, $validator)
-    {
-
-    }
 
 
 
@@ -90,5 +84,51 @@ class MenuItem extends ActiveRecord
 
 
 
+    /**
+     * 获取父菜单项
+     * 
+     * @return yii\db\ActiveQuery
+     */
+    public function getParent()
+    {
+        return $this->hasOne(static::class, ['id' => 'parent_id']);
+    }
+
+
+    /**
+     * 获取 menu 
+     * 
+     * @return yii\db\ActiveQuery
+     */
+    public function getMenu()
+    {
+        return $this->hasOne(Menu::class, ['id' => 'menu_id']);
+    }
+
+
+    
+    /**
+     * 增加子菜单
+     * 
+     * @param static $child 
+     */
+    public function addChild( $child )
+    {
+        $this->_childs[] = $child;
+        $child->populateRelation('parent', $this);
+        return $this;
+    }
+
+
+
+    /**
+     * 获取子菜单
+     * 
+     * @return array
+     */
+    public function childs()
+    {
+        return $this->_childs;
+    }
 
 }

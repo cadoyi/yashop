@@ -565,6 +565,9 @@ class Product extends ActiveRecord
     public function hasStock()
     {
         $hasStock = false;
+        if(empty($this->getSkuModels())) {
+            return $hasStock;
+        }
         foreach($this->getSkuModels() as $model) {
             if($model->hasStock()) {
                 $hasStock = true;

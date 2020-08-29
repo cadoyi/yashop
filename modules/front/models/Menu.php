@@ -74,6 +74,19 @@ class Menu extends ActiveRecord
 
 
     /**
+     * 根据 code 来查找菜单。
+     * 
+     * @param  string $code
+     * @return static
+     */
+    public static function findByCode($code)
+    {
+        return static::findOne(['code' => $code]);
+    }
+
+
+
+    /**
      * 获取 menu items
      * 
      * @return array
@@ -81,7 +94,9 @@ class Menu extends ActiveRecord
     public function getItems()
     {
         return $this->hasMany(MenuItem::class, ['menu_id' => 'id'])
-        ->inverseOf('menu');
+           ->orderBy(['parent_id' => SORT_ASC, 'sort_order' => SORT_ASC, 'id' => SORT_ASC ])
+           ->indexBy('id')
+           ->inverseOf('menu');
     }
 
     

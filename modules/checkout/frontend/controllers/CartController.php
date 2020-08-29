@@ -36,6 +36,27 @@ class CartController extends Controller
 
 
     /**
+     * 列出购物车中的所有条目
+     * 
+     * @return string
+     */
+    public function actionIndex()
+    {
+        $customer = $this->getCustomer();
+        $cart = $customer->getCart();
+        $filterModel = new CartItemFilter(['cart' => $cart]);
+        $dataProvider = $filterModel->search($this->request->get());
+        return $this->render('index', [
+            'customer'     => $customer,
+            'cart'         => $cart,
+            'filterModel'  => $filterModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+
+
+    /**
      * 添加到购物车
      * 
      * @return string
@@ -63,29 +84,20 @@ class CartController extends Controller
             $data['success'] = false;
             $data['message'] = 'Server error';
         }
-        return $this->asJson($data);
+        if($this->request->isAjax) {
+            return $this->asJson($data);
+        }
+        if($data['success'] === false) {
+            $this->_error($data['message']);
+            return $this->redirect(['/catalog/product/view', 'id' => $product_id]);
+        }
+        return $this->redirect(['index']);
+        
     }
 
 
 
-    /**
-     * 列出购物车中的所有条目
-     * 
-     * @return string
-     */
-    public function actionIndex()
-    {
-        $customer = $this->getCustomer();
-        $cart = $customer->getCart();
-        $filterModel = new CartItemFilter(['cart' => $cart]);
-        $dataProvider = $filterModel->search($this->request->get());
-        return $this->render('index', [
-            'customer'     => $customer,
-            'cart'         => $cart,
-            'filterModel'  => $filterModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
+
 
 
 

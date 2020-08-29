@@ -21,9 +21,14 @@ return [
             'identityCookie' => ['name' => '_identity-frontend', 'httpOnly' => true],
             'loginUrl' => ['/customer/account/login'],
             'on beforeLogin' => function( $event ) {
-                $identity = $event->identity;
-                $account = $identity->getLoginType();
-                Yii::$app->session->set('customer_account_type', $account->type);
+                $session = Yii::$app->session;
+                if(!$session->get('customer_account_type')) {
+                    $identity = $event->identity;
+                    $account = $identity->getLoginType();
+                    if($account) {
+                        $session->set('customer_account_type', $account->type);
+                    }
+                }
             }
         ],
         'session' => [

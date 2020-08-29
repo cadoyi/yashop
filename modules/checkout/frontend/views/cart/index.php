@@ -125,7 +125,7 @@ $this->title = Yii::t('app', 'Shopping cart');
 
     <div class="p-3 d-flex flex-nowrap justify-content-between">
         <a class="btn btn-sm btn-outline-primary"
-           href="#"
+           href="<?= Yii::$app->controller->getReferrerUrl() ?>"
         >
            <i class="fa fa-arrow-left"></i>
             再逛逛
@@ -134,7 +134,8 @@ $this->title = Yii::t('app', 'Shopping cart');
             <div class="d-inline-block checkout-price-total mr-3">
                 合计 &yen; <span id="checkout_show_total">0.00</span>
             </div>
-            <button  checkout-button
+            <button id="checkout_button"  
+                checkout-button
                 disabled="disabled"
                 class="btn btn-sm btn-danger"
             >
@@ -143,5 +144,11 @@ $this->title = Yii::t('app', 'Shopping cart');
             </button>
        </div>
     </div>
-    
+    <?= Html::beginForm(['/checkout/quote/add'], 'post', [
+        'class' => 'd-none',
+        'id' => 'checkout_form',
+    ]) ?>
+        <select id="cart_select_input" name="carts[]" multiple="multiple">
+        </select>
+    <?= Html::endForm() ?>
 </div>
