@@ -43,6 +43,10 @@ return [
              'configFilename' => 'sms',
              'queue' => 'queue',
         ],
+        'genid' => [
+             'class' => 'core\components\IdentityGenerator',
+             'redis' => 'redisId',
+        ],
         'formatter' => [
             'class'           => 'yii\i18n\Formatter',
             'timeZone'        => 'Asia/Shanghai',

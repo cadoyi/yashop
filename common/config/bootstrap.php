@@ -15,7 +15,7 @@ Yii::setAlias('@customer', dirname(dirname(__DIR__)) . '/modules/customer');
 Yii::setAlias('@store', dirname(dirname(__DIR__)) . '/modules/store');
 Yii::setAlias('@front', dirname(dirname(__DIR__)) . '/modules/front');
 Yii::setAlias('@review', dirname(dirname(__DIR__)). '/modules/review');
-Yii::setAlias('@order', dirname(dirname(__DIR__)) . '/modules/order');
+Yii::setAlias('@sales', dirname(dirname(__DIR__)) . '/modules/sales');
 Yii::setAlias('@checkout', dirname(dirname(__DIR__)) . '/modules/checkout');
 Yii::setAlias('@catalogsearch', dirname(dirname(__DIR__)) . '/modules/catalogsearch');
 Yii::setAlias('@wishlist', dirname(dirname(__DIR__)). '/modules/wishlist');

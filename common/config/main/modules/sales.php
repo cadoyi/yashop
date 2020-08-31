@@ -1,6 +1,6 @@
 <?php
 
 return [
-    'class' => 'order\Module',
+    'class' => 'sales\Module',
     'layoutPath' => '@app/views/layouts',
 ];

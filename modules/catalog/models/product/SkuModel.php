@@ -5,6 +5,7 @@ namespace catalog\models\product;
 use Yii;
 use yii\base\DynamicModel;
 use yii\helpers\ArrayHelper;
+use catalog\models\Product;
 
 /**
  * sku 收集器
@@ -65,6 +66,25 @@ class SkuModel extends DynamicModel
     public function hasStock()
     {
         return $this->stock > 0;
+    }
+
+
+
+    /**
+     * 减少库存
+     * 
+     * @return boolean
+     */
+    public function subStock( $qty )
+    {
+        $qty = (int) $qty;
+        $result = Product::updateAllCounters(['skus.stock' => 0 - $qty], [
+            'and', 
+            ['_id' => $this->_product->_id],
+            ['>=', 'skus.stock', $qty],
+            ['skus.sku' => $this->sku],
+        ]);
+        return true;
     }
 
 

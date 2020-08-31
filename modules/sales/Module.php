@@ -1,6 +1,6 @@
 <?php
 
-namespace order;
+namespace sales;
 
 use Yii;
 

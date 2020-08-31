@@ -14,7 +14,7 @@ $addresses = $customer->addresses;
 $this->title = Yii::t('app', 'Checkout quote');
 ?>
 <div class="quote-submitter">
-    <?= Html::beginForm(['/order/order/submit'], 'post') ?>
+    <?= Html::beginForm(['/sales/order/submit'], 'post') ?>
     <input type="hidden" name="quote_id" value="<?= (string) $quote->id?>" />
     <?php if($quote->hasRealProduct()): ?>
         <div class="px-3"><h5 class="mb-0">选择地址</h5></div>

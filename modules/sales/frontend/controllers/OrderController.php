@@ -1,6 +1,6 @@
 <?php
 
-namespace order\frontend\controllers;
+namespace sales\frontend\controllers;
 
 use Yii;
 use yii\base\UserException;
@@ -8,6 +8,8 @@ use frontend\controllers\Controller;
 use checkout\models\Quote;
 use customer\models\Customer;
 use customer\models\CustomerAddress;
+use catalog\helpers\Stock;
+use sales\models\order\Onepage;
 
 /**
  * order 控制器
@@ -34,7 +36,10 @@ class OrderController extends Controller
             }
             $quote = $this->findModel($quote_id, Quote::class, true, '_id');
             $address = $this->findModel($address_id, CustomerAddress::class, true);
-           var_dump($this->request->post());die;            
+            $onepage = new Onepage(['quote' => $quote, 'address' => $address]);
+            $order = $onepage->saveOrder();
+            $this->_success('购买成功');
+            return $this->goHome();
         } catch(UserException $e) {
             $this->_error($e->getMessage());
             return $this->goBack();

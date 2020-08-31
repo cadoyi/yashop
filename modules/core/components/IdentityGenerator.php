@@ -5,6 +5,7 @@ namespace core\components;
 use Yii;
 use yii\base\Component;
 use yii\redis\Connection;
+use yii\di\Instance;
 
 /**
  * id 生成组件

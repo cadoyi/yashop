@@ -80,7 +80,6 @@ class Product extends ActiveRecord
             'created_at',         // 添加时间
             'updated_at',         // 更新时间
             'deleted_at',         // 删除时间
-
         ];
     }
 
@@ -600,6 +599,22 @@ class Product extends ActiveRecord
     public function getImageUrl( $width = null, $height = null)
     {
         return (string) Yii::$app->storage->getUrl($this->image, $width, $height);
+    }
+
+
+
+
+    /**
+     * 减少库存.
+     * 
+     * @param  int $qty  
+     * @return boolean
+     */
+    public function subStock( $qty )
+    {
+        $qty = (int) $qty;
+        $result = static::updateAllCounters(['stock' => 0 - $qty], ['and', ['_id' => $this->_id], ['>=', 'stock', $qty]]);
+        return $result > 0;
     }
 
 }
