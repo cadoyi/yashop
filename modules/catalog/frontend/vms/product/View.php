@@ -63,4 +63,56 @@ class View extends ViewModel
 
 
 
+
+    /**
+     * 获取选项数据.
+     * 
+     * @return array
+     */
+    public function getSkusData()
+    {   
+        $data = [];
+        if($this->product->is_selectable) {
+            foreach($this->product->skus as $sku) {
+                $_data = $sku->attributes;
+                $_data['price'] = $sku->getFinalPrice();
+                $data[] = $_data;
+            }
+        }
+        return $data;
+    }
+
+
+    /**
+     * 获取选项数据.
+     * 
+     * @return array
+     */
+    public function getOptionsData()
+    {
+        $data = [];
+        if($this->product->is_selectable) {
+            foreach($this->product->options as $option) {
+                 $data[] = [
+                     'name'   => $option->name,
+                     'values' => [],
+                 ];
+            }
+        }
+        return $data;
+    }
+
+
+
+    public function getProductInfo()
+    {
+        return [
+            'id'     => $this->product->id,
+            'price'  => $this->product->getFinalPrice(),
+            'sku'    => $this->product->sku,
+        ];
+    }
+
+
+
 }

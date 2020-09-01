@@ -3,21 +3,20 @@
 namespace catalog\models\filters;
 
 use Yii;
-use cando\mongodb\ActiveFilter;
+use cando\db\ActiveFilter;
 use catalog\models\Product;
 
 /**
- * 产品过滤器
+ * 产品过滤
  *
  * @author  zhangyang <zhangyangcado@qq.com>
  */
 class ProductFilter extends ActiveFilter
 {
-    
+
     public $modelClass = Product::class;
 
-    public $isDeleted = 0;
-
+    public $filterDeleted = false;
 
 
     /**
@@ -25,8 +24,10 @@ class ProductFilter extends ActiveFilter
      */
     public function query()
     {
-        return parent::query()
-            ->andWhere(['is_deleted' => $this->isDeleted]);
+        if(!$this->filterDeleted) {
+            return parent::query()->andWhere(['is_deleted' => 0]);
+        }
+        return parent::query()->andWhere(['is_deleted' => 1]);
     }
 
 
@@ -36,7 +37,24 @@ class ProductFilter extends ActiveFilter
      */
     protected function _search( $query )
     {
+        $query->andFilterWhere([
+            'and',
+            ['id' => $this->id],
+            ['like', 'title', $this->title],
+            ['like', 'sku', $this->sku],
+            ['is_selectable' => $this->is_selectable],
+        ]);
+    }
 
+
+
+
+    /**
+     * @inheritdoc
+     */
+    public function formName()
+    {
+        return 'pf';
     }
 
 }

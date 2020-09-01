@@ -15,6 +15,10 @@ class m200814_113345_create_checkout_cart_item_table extends Migration
 
     public $cartTable = '{{%checkout_cart}}';
 
+    public $productTable = '{{%product}}';
+
+    public $productSkuTable = '{{%product_sku}}';
+
 
 
     /**
@@ -26,15 +30,16 @@ class m200814_113345_create_checkout_cart_item_table extends Migration
         $this->createTable($this->table, [
             'id'          => $this->primaryKey(),
             'cart_id'     => $this->fk()->comment('购物车 ID'),
-            'product_id'  => $this->string(32)->notNull()->comment('产品 ID'),
-            'product_sku' => $this->string()->comment('产品 SKU 选项'),
+            'product_id'  => $this->fk()->comment('产品 ID'),
+            'product_sku_id' => $this->bigFk(false)->comment('产品 SKU ID'),
             'qty'         => $this->integer()->unsigned()->notNull()->comment('购买数量'),
             'created_at'  => $this->inttime(),
             'updated_at'  => $this->inttime(),
         ], $this->tableOptions);
 
-        $this->createIndex('IDX_CHECKOUT_CART_ITEM_PRODUCT_ID', $this->table, 'product_id');
         $this->addFk($this->table, 'cart_id', $this->cartTable, 'id');
+        $this->addFk($this->table, 'product_id', $this->productTable, 'id');
+        $this->addFk($this->table, 'product_sku_id', $this->productSkuTable, 'id');
         $this->setForeignKeyChecks(true);
     }
 
@@ -45,7 +50,8 @@ class m200814_113345_create_checkout_cart_item_table extends Migration
     {
         $this->setForeignKeyChecks(false);
         $this->dropFk($this->table, 'cart_id', $this->cartTable, 'id');
-        $this->dropIndex('IDX_CHECKOUT_CART_ITEM_PRODUCT_ID', $this->table);
+        $this->dropFk($this->table, 'product_id', $this->productTable, 'id');
+        $this->dropFk($this->table, 'product_sku_id', $this->productSkuTable, 'id');
         $this->dropTable($this->table);
         $this->setForeignKeyChecks(true);
     }

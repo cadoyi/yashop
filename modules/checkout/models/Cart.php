@@ -67,16 +67,16 @@ class Cart extends ActiveRecord
     /**
      * 添加购物车条目
      * 
-     * @param Product $product 产品实例
-     * @param SkuModel $sku    sku 模型
-     * @param int  $qty        购买数量
+     * @param Product    $product     产品实例
+     * @param ProductSku $sku         sku 模型
+     * @param int       $qty          购买数量
      */
     public function addItem($product, $sku, $qty)
     {
         $newItem = null;
         foreach($this->items as $item) {
             if($item->product_id == $product->id) {
-                if($sku && $item->product_sku == $sku->sku) {
+                if($sku && $item->product_sku_id == $sku->id) {
                     $newItem = $item;
                     break;
                 }
@@ -86,7 +86,7 @@ class Cart extends ActiveRecord
             $newItem = new CartItem([
                'cart_id'     => $this->id,
                'product_id'  => $product->id,
-               'product_sku' => $sku->sku,
+               'product_sku_id' => $sku ? $sku->id : null,
                'qty'         => 0,
             ]);
         }

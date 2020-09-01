@@ -33,14 +33,14 @@ class Quote extends ActiveRecord
     public function attributes()
     {
         return [
-           '_id',
-           'customer_id',
-           'order_id',
-           'remote_ip',
-           'grand_total',
-           'qty',
-           'created_at',
-           'updated_at',
+            '_id',
+            'customer_id',
+            'order_id',
+            'remote_ip',
+            'grand_total',
+            'qty',
+            'created_at',
+            'updated_at',
         ];
     }
 

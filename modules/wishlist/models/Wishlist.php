@@ -116,7 +116,7 @@ class Wishlist extends ActiveRecord
     public function removeProduct(Product $product)
     {
         foreach($this->items as $id => $item) {
-            if($item->product_id == (string) $product->id) {
+            if($item->product_id == $product->id) {
                 $item->delete();
                 unset($this->items[$id]);
                 break;
@@ -136,9 +136,9 @@ class Wishlist extends ActiveRecord
     public function hasProduct( $product  )
     {
         if($product instanceof Product) {
-            $product_id = (string) $product->id;
+            $product_id = $product->id;
         } else {
-            $product_id = (string) $product;
+            $product_id = $product;
         }
         $items = $this->items;
         foreach($items as $item) {

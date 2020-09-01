@@ -12,11 +12,8 @@ use yii\grid\ActionColumn;
  * @var  $dataProvider yii\data\ActiveDataProvider
  * 
  */
-$this->title = Yii::t('app', 'Manage products');
+$this->title = Yii::t('app', 'Manage deleted products');
 ?>
-<div class="grid-buttons">
-    <?= Html::a(Yii::t('app', 'Add new product'), ['create'], ['class' => 'btn btn-sm btn-primary'])?>
-</div>
 <?= GridView::widget([
     'id' => 'catalog_product_grid',
     'filterModel' => $filterModel,
@@ -24,15 +21,17 @@ $this->title = Yii::t('app', 'Manage products');
     'columns' => [
         'id',
         'title',
-        'sku' => [
-            'attribute' => 'sku',
-            'header'    => 'SPU',
-        ],
+        'sku',
         'status:boolean',
         [
             'class'    => ActionColumn::class,
             'header'   => Yii::t('app', 'Action'),
-            'template' => '{update} {delete}',
+            'template' => '{restore} {delete}',
+            'buttons' => [
+                'restore' => function($action, $model, $key) {
+                    return Html::a('恢复', ['/catalog/deleted-product/restore', 'id' => $key]);
+                }
+            ],
         ],
     ],
 ])?>

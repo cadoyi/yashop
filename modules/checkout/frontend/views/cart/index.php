@@ -53,25 +53,32 @@ $this->title = Yii::t('app', 'Shopping cart');
                 'header' => '产品名',
                 'value' => function($model, $key, $index, $column) {
                     $product = $model->product;
-                    $skuModel = $model->getSkuModel();
-                    if(!$skuModel) {
-                        return '已失效';
+                    $url = $product->getImageUrl(90);
+                    if($product->is_selectable) {
+                        $productSku = $model->productSku;
+                        $url = $productSku->getImageUrl(90);
                     }
-                    $url = $skuModel->getImageUrl(90);
                     return Html::a(Html::img($url), ['/catalog/product/view', 'id' => (string) $product->id ]) . '<div>' . Html::encode($product->name) .'</div>';
                 }
             ],
             'product_sku' => [
-                'attribute' => 'product_sku',
+                'attribute' => 'product_sku_id',
                 'filter' => false,
                 'format' => 'raw',
                 'header' => '规格',
                 'value' => function($model, $key, $index, $column) {
-                    $skuModel = $model->getSkuModel();
-                    if(!$skuModel) {
-                        return '已失效';
+                    $product = $model->product;
+                    if(!$product->is_selectable) {
+                        return null;
                     }
-                    return $skuModel->sku;
+                    $productSku = $model->productSku;
+                    $value = '<ul>';
+                    $attrs = $productSku->attrs;
+                    foreach($attrs as $attr => $value) {
+                        $value .= '<li>' . $attr . ': '.$value . '</li>';
+                    }
+                    $value .= '</ul>';
+                    return $value;
                 }
             ],
             'qty' => [
@@ -79,13 +86,19 @@ $this->title = Yii::t('app', 'Shopping cart');
                 'header'    => '数量',
                 'format'    => 'raw',
                 'value'     => function($model, $key, $index, $column) {
-                    $skuModel = $model->skuModel;
+                    $product = $model->product;
+                    $max = $product->inventory->qty;
+                    if($product->is_selectable) {
+                        $productSku = $model->productSku;
+                        $max = $productSku->qty;
+                    }
+                    
                     return Html::input('number', 'qty', $model->qty, [
                        'class'        => 'qty-input',
                        'origin-value' => $model->qty,
                        'item-id'      => $key,
                        'min'          => 1,
-                       'max'          => isset($skuModel) ? $skuModel->stock : 1,
+                       'max'          => $max,
                     ]);
                 }
             ],
@@ -94,12 +107,14 @@ $this->title = Yii::t('app', 'Shopping cart');
                 'header'    => '价格',
                 'format'    => 'raw',
                 'value' => function($model, $key, $index, $column) {
-                    $content = $model->getPrice();
-                    if(is_null($content)) {
-                        $content = '已失效';
+                    $product = $model->product;
+                    if($product->is_selectable) {
+                        $productSku = $model->productSku;
+                        $price = $productSku->getFinalPrice($model->qty);
                     } else {
-                        $content = '￥' . $content;
+                        $price = $product->getFinalPrice($model->qty);
                     }
+                    $content = '￥' . $price;
                     return Html::tag('div', $content, ['class' => 'price']);
                 }
             ],

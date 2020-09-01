@@ -15,6 +15,8 @@ class m200828_022031_create_wishlist_item_table extends Migration
 
     public $wishlistTable = '{{%wishlist}}';
 
+    public $productTable = '{{%product}}';
+
 
     /**
      * {@inheritdoc}
@@ -25,12 +27,13 @@ class m200828_022031_create_wishlist_item_table extends Migration
         $this->createTable($this->table, [
             'id'          => $this->bigPk(),
             'wishlist_id' => $this->fk(),
-            'product_id'  => $this->string()->notNull()->comment('产品 ID'),
+            'product_id'  => $this->fk()->comment('产品 ID'),
             'created_at'  => $this->inttime(),
             'updated_at'  => $this->inttime(),
         ], $this->tableOptions);
 
         $this->addFk($this->table, 'wishlist_id', $this->wishlistTable, 'id');
+        $this->addFk($this->table, 'product_id', $this->productTable, 'id');
         $this->setForeignKeyChecks(true);
     }
 
@@ -41,6 +44,7 @@ class m200828_022031_create_wishlist_item_table extends Migration
     {
         $this->setForeignKeyChecks(false);
         $this->dropFk($this->table, 'wishlist_id', $this->wishlistTable, 'id');
+        $this->dropFk($this->table, 'product_id', $this->productTable, 'id');
         $this->dropTable($this->table);
         $this->setForeignKeyChecks(true);
     }

@@ -55,9 +55,11 @@ class m200727_003451_create_product_table extends Migration
             'is_hot'        => $this->boolean()->notNull()->defaultValue(0)->comment('是否热销'),
             'is_new'        => $this->boolean()->notNull()->defaultValue(0)->comment('是否新品'),
             'is_deleted'    => $this->boolean()->notNull()->defaultValue(0)->comment('是否已删除'),
+            'meta_keywords' => $this->text()->comment('Meta keywords'),
+            'meta_description' => $this->text()->comment('Meta description'),
             'created_at'    => $this->inttime(),
             'updated_at'    => $this->inttime(),
-            'deleted_at'    => $this->inttime(),
+            'deleted_at'    => $this->inttime(false),
         ], $this->tableOptions);
 
 

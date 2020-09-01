@@ -15,13 +15,13 @@ if(!Yii::$app->user->isGuest) {
     $wishlist = $customer->wishlist;
 }
 $this->registerJsVar('add_wishlist_url', Url::to(['/wishlist/wishlist/add-product']));
+$this->registerJsVar('productSkus', $self->getSkusData());
 ?>
-
 <table class="table product-desc-table">
     <colgroup>
         <col width="100px" />
         <col />
-    </colgroup>>
+    </colgroup>
     <tbody>
         <tr class="product-name">
             <td colspan="2">
@@ -71,7 +71,7 @@ $this->registerJsVar('add_wishlist_url', Url::to(['/wishlist/wishlist/add-produc
                  <td>重 量</td>
                  <td>
                   <div class="weight-value">
-                       <span><?= $product->weight ?>g</span>
+                       <span><?= $product->weight ?> <?= Html::encode($product->weight_unit) ?></span>
                   </div>                         
                  </td>
              </tr>
@@ -86,7 +86,7 @@ $this->registerJsVar('add_wishlist_url', Url::to(['/wishlist/wishlist/add-produc
                     <div class="input-group-prepend">
                          <a sub-qty class="input-group-text rounded-0" href="#">-</a>
                     </div>                                       
-                    <input id="qty_input" type="number" class="form-control qty-input" value="1" min="1" max="<?= $product->stock ?>"/>
+                    <input id="qty_input" type="number" class="form-control qty-input" value="1" min="1" max="<?= $product->getMaxStock() ?>"/>
                     <div class="input-group-append">
                        <a add-qty class="input-group-text rounded-0" href="#">+</a>
                     </div>
@@ -100,7 +100,7 @@ $this->registerJsVar('add_wishlist_url', Url::to(['/wishlist/wishlist/add-produc
             <td colspan="2">
                 <div class="wishlist-div">
                     <a id="addto_wishlist" 
-                        product-id="<?= (string) $product->id ?>"
+                        product-id="<?= $product->id ?>"
                         class="wishlist <?= (isset($wishlist) && $wishlist->hasProduct($product)) ? 'active' : ''; ?>" 
                         href="#"
                     >
@@ -145,7 +145,7 @@ $this->registerJsVar('add_wishlist_url', Url::to(['/wishlist/wishlist/add-produc
 </table>
 <div class="d-none forms">
     <?= Html::beginForm(
-        ['/checkout/cart/add', 'product_id' => (string) $product->id],
+        ['/checkout/cart/add', 'product_id' => $product->id],
         'post',
         [
             'class' => 'addcart-form',
@@ -153,8 +153,8 @@ $this->registerJsVar('add_wishlist_url', Url::to(['/wishlist/wishlist/add-produc
     ) ?>
         <select class="d-none" name="product_sku">
             <option value=""></option>
-            <?php foreach($product->skuModels as $sku): ?>
-                <option value="<?= Html::encode($sku->sku) ?>">
+            <?php foreach($product->skus as $sku): ?>
+                <option value="<?= Html::encode($sku->id) ?>">
                     <?= Html::encode($sku->sku) ?>
                 </option>
             <?php endforeach; ?>
@@ -170,8 +170,8 @@ $this->registerJsVar('add_wishlist_url', Url::to(['/wishlist/wishlist/add-produc
 ) ?>
         <select class="d-none" name="product_sku">
             <option value=""></option>
-            <?php foreach($product->skuModels as $sku): ?>
-                <option value="<?= Html::encode($sku->sku) ?>">
+            <?php foreach($product->skus as $sku): ?>
+                <option value="<?= Html::encode($sku->id) ?>">
                     <?= Html::encode($sku->sku) ?>
                 </option>
             <?php endforeach; ?>
@@ -180,12 +180,12 @@ $this->registerJsVar('add_wishlist_url', Url::to(['/wishlist/wishlist/add-produc
     <?= Html::endForm() ?>
 </div>
 
-
 <?php $this->beginScript() ?>
 <script>
-    var po = new ProductOption(<?= Json::encode([
-        'price'         => $product->finalPrice,
-        'optionsLength' => count($product->options),
-         ]) ?>, <?= Json::encode($product->options) ?>, <?= Json::encode($product->skusData) ?>);
+    var po = new ProductOption(
+        <?= Json::encode($self->getProductInfo()) ?>,
+        <?= Json::encode($self->getOptionsData())?>,
+        <?= Json::encode($self->getSkusData()) ?>
+    );
 </script>
-<?php $this->endScript() ?>
+<?php $this->endScript() ?> 

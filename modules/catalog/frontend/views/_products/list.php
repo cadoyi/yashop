@@ -46,15 +46,15 @@ use yii\bootstrap4\LinkPager;
 <?php for($i=0; $i< 20; $i++): ?>
     <?php foreach($dataProvider->getModels() as $product): ?>
         <div class="product">
-            <a class="card" href="<?= Url::to(['/catalog/product/view', 'id' => (string) $product->id]) ?>">
-                <img class="card-img-top" src="<?= Yii::$app->storage->getUrl($product->image, 400) ?>" />
+            <a class="card" href="<?= Url::to(['/catalog/product/view', 'id' => $product->id]) ?>">
+                <img class="card-img-top" src="<?= $product->getImageUrl(400) ?>" />
                 <div class="card-body p-2">
                     <div class="d-flex flex-nowrap justify-content-between py-1" style="line-height: 1.5rem;">
                         <div style="font-size: 1.2rem; color: red;">&yen; <?= $product->finalPrice ?></div>
                         <div><del>&yen; <?= $product->market_price ?></del></div>
                     </div>
                     <div><?= Html::encode($product->name) ?></div>
-                    <div class="text-right">销量: 200</div>
+                    <div class="text-right">销量: <?= $product->getSalesCount() ?></div>
                 </div>
            </a>
        </div>

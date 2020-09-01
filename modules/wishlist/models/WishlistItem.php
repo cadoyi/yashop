@@ -48,8 +48,7 @@ class WishlistItem extends ActiveRecord
     {
         return [
             [['wishlist_id', 'product_id'], 'required'],
-            [['wishlist_id'], 'integer'],
-            [['product_id'], MongoIdValidator::class],
+            [['wishlist_id', 'product_id'], 'integer'],
         ];
     }
 
@@ -115,7 +114,7 @@ class WishlistItem extends ActiveRecord
      */
     public function getProduct()
     {
-        return $this->hasOne(Product::class, ['_id' => 'product_id']);
+        return $this->hasOne(Product::class, ['id' => 'product_id']);
     }
 
 

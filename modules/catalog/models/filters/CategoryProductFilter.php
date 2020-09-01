@@ -3,7 +3,7 @@
 namespace catalog\models\filters;
 
 use Yii;
-use cando\mongodb\ActiveFilter;
+use cando\db\ActiveFilter;
 use catalog\models\Category;
 use catalog\models\Product;
 
@@ -47,11 +47,16 @@ class CategoryProductFilter extends ActiveFilter
     {
         $ids = $this->getCategoryIds();
         return parent::query()
-            ->andWhere(['on_sale' => "1"])
+            ->andWhere(['is_deleted' => 0])
+            ->andWhere(['status' => "1"])
             ->andWhere(['category_id' => $ids ]);
     }
 
 
+
+    /**
+     * @inheritdoc
+     */
     public function dataProviderConfig( $query )
     {
         return [

@@ -111,10 +111,8 @@ use common\widgets\Alert;
                          ],
                          [
                               'label' => Yii::t('app', 'Product restore'),
-                              'url' => ['/catalog/product/deleted'],
+                              'url' => ['/catalog/deleted-product/index'],
                          ]
-
-
                     ],
                 
                 ],

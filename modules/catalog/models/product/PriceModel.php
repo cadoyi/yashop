@@ -49,7 +49,7 @@ class PriceModel extends Component
         $price = $this->product->price;
         $promotePrice = $this->getPromotePrice();
         if(false === $promotePrice) {
-            return $price;
+            return $price * $qty;
         }
         $finalPrice = min($price, $promotePrice);
         return $finalPrice * $qty;

@@ -67,7 +67,7 @@ class WishlistController extends Controller
         $product_id = $this->request->post('product_id');
         $cancel = (int) $this->request->post('cancel');
         
-        $product = $this->findModel($product_id, Product::class, false, '_id');
+        $product = $this->findModel($product_id, Product::class);
         if($product === false) {
             return $this->asJson([
                 'success' => false, 

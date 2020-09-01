@@ -18,7 +18,6 @@ use checkout\models\CartItem;
  */
 class CartController extends Controller
 {
-    public $enableCsrfValidation = false;
 
 
     /**
@@ -28,9 +27,6 @@ class CartController extends Controller
      */
     public function getCustomer()
     {
-        if($this->user->isGuest) {
-            return Customer::findOne(['id' => 5]);
-        }
         return $this->identity;
     }
 
@@ -63,14 +59,23 @@ class CartController extends Controller
      */
     public function actionAdd($product_id)
     {
-        $product = $this->findModel($product_id, Product::class, true, '_id');
-        $skuName = $this->request->post('product_sku');
-        $qty = $this->request->post('qty', 1);
-        $data = [];
-        try {
-            if(($sku = $product->getSkuModel($skuName)) === null) {
-                throw new UserException('Invalid options');
+        $product = $this->findModel($product_id, Product::class);
+
+        try {        
+            if(!$product->isOnSale()) {
+                throw new \Exception('产品无法售卖');
             }
+            if($product->is_selectable) {
+                $product_sku_id = $this->request->post('product_sku');
+                $sku = $product->getSku($product_sku_id);
+                if(!$sku) {
+                    throw new \Excetpion('Invalid product sku');
+                }
+            } else {
+                $sku = null;
+            }
+            $qty = $this->request->post('qty', 1);
+            $data = [];
             $cart = $this->getCustomer()->getCart();
             $cart->addItem($product, $sku, $qty);
             $data['success'] = true;
@@ -79,7 +84,7 @@ class CartController extends Controller
             $data['message'] = $e->getMessage();
         } catch(\Exception $e) {
             $data['success'] = false;
-            $data['message'] = 'Server error';
+            $data['message'] = $e->getMessage();
         } catch(\Throwable $e) {
             $data['success'] = false;
             $data['message'] = 'Server error';
@@ -110,6 +115,10 @@ class CartController extends Controller
     public function actionRemoveItem( $id )
     {
          $item = $this->findModel($id, CartItem::class);
+         $cart = $this->getCustomer()->getCart();
+         if($item->cart_id !== $cart->id) {
+              return $this->notFound();
+         }
          $item->delete();
          $this->_success('Item is removed');
          return $this->redirect(['index']);
@@ -140,27 +149,33 @@ class CartController extends Controller
      */
     public function actionUpdateItemQty( $id )
     {
-        $data = ['success' => false];
-        $item = $this->findModel($id, CartItem::class, false);
-        if(!$item) {
-            $data['message'] = Yii::t('app', 'Item not found');
-            return $this->asJson($data);
-        }
-        $skuModel = $item->getSkuModel();
-        if(!$skuModel) {
-            $data['message'] = Yii::t('app', 'Product removed');
-            return $this->asJson($data);
-        }
-        
         $qty = $this->request->post('qty');
         if(!$qty || !is_numeric($qty) || $qty < 1 ) {
             $data['message'] = Yii::t('app', 'Invalid qty number');
             return $this->asJson($data);
         }
         $qty = (int) $qty;
-        if($skuModel->stock < $qty) {
+        $data = ['success' => false];
+        $item = $this->findModel($id, CartItem::class, false);
+        if(!$item) {
+            $data['message'] = Yii::t('app', 'Item not found');
+            return $this->asJson($data);
+        }
+        $product = $item->product;
+        if($product->is_selectable) {
+            $productSku = $item->productSku;
+            if(!$productSku) {
+                $data['message'] = Yii::t('app', 'Product sku invalid');
+                return $this->asJson($data);
+            }
+            $stock = $productSku->qty;
+        } else {
+            $stock = $product->inventory->qty;
+        }
+        $model = $product->is_selectable ? $productSku : $product;
+        if($stock < $qty) {
             $data['message'] = Yii::t('app', 'Inventory is beyond');
-            return $this->asJson($data);            
+            return $this->asJson($data);                    
         }
         $item->qty = $qty;
         $item->save();
@@ -168,7 +183,7 @@ class CartController extends Controller
             'success' => true,
             'data' => [
                 'qty'   => $item->qty,
-                'price' => $item->getPrice(),
+                'price' => $model->getFinalPrice($item->qty),
             ],
         ];
         return $this->asJson($data);

@@ -28,7 +28,7 @@ class m200727_003707_create_product_type_table extends Migration
     {
         $this->setForeignKeyChecks(false);
         $this->createTable($this->table, [
-            'id'                => $this->bigPrimaryKey(),
+            'id'                => $this->bigPrimaryKey()->unsigned(),
             'product_id'        => $this->fk()->comment('产品 ID'),
             'type_id'           => $this->fk()->comment('产品类型 ID'),
             'type_attribute_id' => $this->fk()->comment('产品类型属性 ID'),

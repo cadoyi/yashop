@@ -7,50 +7,36 @@ var swiper = new Swiper('.swiper-container', {
     autoplay: true,
 });
 
-
-
-function ProductOption(productData, options, skus) {
-    this.productData = productData;
-    this.origOptions = options;
-    this.options = null;
+function ProductOption( product, options, skus ){
+    this.options = options;
     this.skus = skus;
-    this.length = productData.optionsLength;
-    this.origPrice = productData.price;
+    this.origPrice = product.price;
+    this.productId = product.id;
+    this.productSku = product.sku;
     this.initOptions();
-    this.buildOptions();
-    this.bindEvents();
+    this.bindQtyEvents();
+    this.bindCartEvents();
 };
 ProductOption.prototype = {
     initOptions: function() {
-        if(this.options === null) {
-            var data = {};
-            var options = this.origOptions;
-            $.each(options, function(i, option) {
-                var name = option.name;
-                data[name] = {};
+        var self = this;
+        $.each(this.skus, function(i, sku) {
+            var skusplit = this.sku.split('-');
+            skusplit.shift();
+            $.each(skusplit, function(j, value) {
+                var option = self.options[j];
+                var values = option.values;
+                if($.inArray(value, values) < 0) {
+                    option.values.push(value);
+                }
             });
-            var skus = this.skus;
-            $.each(skus, function(i, sku) {
-                $.each(sku, function(n,v) {
-                    if(!(n in data)) {
-                        return;
-                    }
-                    if(!data[n][v]) {
-                       data[n][v] = {length: 0};
-                    } 
-                    data[n][v][sku.sku] = sku;
-                    data[n][v]['length'] +=1;
-                });
-            });
-            this.options = data;
-        }
+        });
+        this.buildOptions();
     },
-    buildOptions: function() {
-        var origOptions = this.origOptions;
-        var options = this.options;
-        $.each(origOptions, function(i) {
-            var name = this.name;
-            var option = options[name];
+    buildOptions: function() { // 生成选项.
+        var self = this;
+        $.each(this.options, function(i, option) {
+            var name = option.name;
             var tr = $('<tr>', { class: 'product-options'});
             var td1 = $('<td>');
             var td2 = $('<td>');
@@ -58,31 +44,45 @@ ProductOption.prototype = {
             tr.append(td1);     
             tr.append(td2);
             tr.insertBefore('tr.product-qty');
-            $.each(option, function(v, vos) {
+            $.each(option.values, function(j, value) {
                 var label = $('<label>', {
                     class: 'product-option-label'
                 });
                 var text = $('<span>');
-                text.text(v);
+                text.text(value);
                 td2.append(label);
                 var input = $('<input>', {
                     'product-option': i,
                     'type': 'radio',
                     'name': name,
-                    'value': v,
+                    'value': value,
                 });
                 label.append(input);
                 label.append(text);
+                input.on('change', function( e ) {
+                    self.changeInput(this, e);
+                });
+                $.each(self.skus, function(n, sku) {
+                    var attrs = sku.attrs;
+                    var relation = false;
+                    $.each(attrs, function(_name, _value) {
+                        if(_name == name && _value == value) {
+                            relation = true;
+                            return false;
+                        }
+                    });
+                    if(relation) {
+                        var _skus = label.data('skus') || [];
+                        _skus.push(sku);
+                        label.data('skus', _skus);
+                    }
+                });
             });
         });
-        this.bindOptionEvents();
-        this.bindQtyEvents();
     },
-    bindOptionEvents: function() {  // 绑定选项选择事件
+    changeInput: function( input, e ) {
         var self = this;
-        $('.product-option-label input[type="radio"]').on('change', function( e ) {
-            self.collectTotals();
-        });
+        self.collectTotals();
     },
     bindQtyEvents: function() {
         var self = this;
@@ -108,53 +108,32 @@ ProductOption.prototype = {
         });
         $('#qty_input').on('change', function(e) {
             self.collectTotals();
-        });
+        }); 
     },
-    collectTotals: function() {
-        var sku = this.getSku(false);
-        var qty = this.getQtyValue();
-        if(sku === false) {
-            var price = this.origPrice;
+    collectTotals: function() {  // 计算价格
+        if(this.skus.length) {
+            var sku = this.getSku(false);
+            if(sku !== false) {
+                var price = sku.finalPrice;
+            } else {
+                var price = this.origPrice;
+            }            
         } else {
-            var skuModel = false;
-            $.each(this.skus, function() {
-                if(this.sku === sku) {
-                    skuModel = this;
-                    return false;
-                }
-            });
-            var price = skuModel.finalPrice;
+            var price = this.origPrice;
         }
+        var qty = +this.getQtyInput().val();
         price = price * qty;
         $('#product_price').text(price);
     },
-    bindEvents: function() {
-        var self = this;
-        $('[tocart_button]').on('click', function( e ) {
-            stopEvent(e);
-            var form = self.prepareForm('.addcart-form');
-            if(form === false) {
-                return;
-            }
-            form.submit();
-        });
-        $('[checkout_button]').on('click', function( e ) {
-            stopEvent(e);
-            var form = self.prepareForm('.checkout-form');
-            if(form === false) {
-                return form;
-            }
-            form.submit();
-        });
-    },
-    getQtyValue: function() {
-       return $('#qty_input').val();
+    getQtyInput: function() {
+       return $('#qty_input');
     },
     getSku: function( showMessage ) {
         var options = this.options;
         var sku = [];
         var result = true;
-        $.each(options, function(name, option) {
+        $.each(options, function(ii, option) {
+            var name = option.name;
             var checked = $('input[name="'+name+'"]').filter(':checked');
             if(!checked.length) {
                 if(showMessage) {
@@ -166,32 +145,55 @@ ProductOption.prototype = {
             sku.push(checked.val());
         });
         if(result) {
-            return sku.join('-');
+            var skusku = this.productSku + '-' + sku.join('-');
+            var skuModel = false;
+            $.each(this.skus, function(_, sku) {
+                if(skusku === sku.sku) {
+                    skuModel = sku;
+                    return false; 
+                }
+            });
+            return skuModel;
         }
         return result;
     },
+    bindCartEvents: function() {
+        var self = this;
+        $('[tocart_button]').on('click', function( e ) {
+            stopEvent(e);
+            var form = self.prepareForm('.addcart-form');
+            if(form === false) {
+                return;
+            }
+            console.log(form);
+            form.submit();
+        });
+        $('[checkout_button]').on('click', function( e ) {
+            stopEvent(e);
+            var form = self.prepareForm('.checkout-form');
+            if(form === false) {
+                return form;
+            }
+            form.submit();
+        });
+    },
     prepareForm: function(form) {
-        var sku = this.getSku(true);
-        if(sku === false) {
-            return false;
-        }
-        var qty = this.getQtyValue();
-        var skuModel = false;
-        $.each(this.skus, function() {
-            if(this.sku === sku) {
-                skuModel = this;
+        if(this.skus.length) {
+            var sku = this.getSku(true);
+            if(sku === false) {
                 return false;
             }
-        });
-        if(skuModel === false) {
-            return false;
+            $(form).find('[name="product_sku"]').val(sku.id);            
+        } else {
+            $(form).find('[name="product_sku"]').remove();
         }
-        $(form).find('[name="product_sku"]').val(sku);
+        console.log($(form));
+        var qty = this.getQtyInput().val();
         $(form).find('[name="qty"]').val(qty);
         return $(form);
     }
-
 };
+
 
 jQuery(function( $ ) {
     $('#addto_wishlist').on('click', function( e ) {

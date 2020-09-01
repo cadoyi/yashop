@@ -2,6 +2,10 @@
  * 产品编辑页面
  * 
  */
+[option-wrapper] {
+    padding: 1rem;
+    background: #efefef;
+}
 .option-name > input {
     width: 120px;
     border-radius: 0;

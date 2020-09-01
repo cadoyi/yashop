@@ -1,16 +1,15 @@
 <?php
 
-namespace catalog\models\forms;
+namespace catalog\backend\models;
 
 use Yii;
-use yii\helpers\Json;
-use yii\base\DynamicModel;
-use catalog\models\Type;
-use catalog\models\TypeAttribute;
+use cando\base\DynamicModel;
+use catalog\models\ProductType;
+
 
 /**
- * type attribute form
- *
+ * 产品类型属性表单
+ * 
  * @author  zhangyang <zhangyangcado@qq.com>
  */
 class TypeAttributeForm extends DynamicModel
@@ -18,10 +17,8 @@ class TypeAttributeForm extends DynamicModel
 
     public $type;
 
-    public $product;
 
-    protected $_values;
-    protected $_labels = [];
+    public $product;
 
 
     /**
@@ -30,13 +27,8 @@ class TypeAttributeForm extends DynamicModel
     public function __construct( $options = [])
     {
         parent::__construct([], $options);
-        $this->product->setTypeAttributeForm($this);
-        if(!$this->type) {
-            $this->type = $this->product->type;
-        }
         $this->defineTypeAttributes();
     }
-
 
 
     /**
@@ -52,9 +44,7 @@ class TypeAttributeForm extends DynamicModel
             $this->addRule($name, 'required');
             $this->_labels[$name] = $attribute->name;
         }
-
     }
-
 
 
     /**
@@ -62,55 +52,20 @@ class TypeAttributeForm extends DynamicModel
      * 
      * @return array
      */
-    public function getProductTypeAttributeValues()
-    {
-        $values = $this->product->type_data;
-        if(empty($values)) {
-            $values = [];
-        }
-        return $values;
-    }
-
-
-    
-    /**
-     * 获取类型属性值。
-     * 
-     * @return array
-     */
     public function getProductTypeAttributeValue($attribute)
     {
-        $values = $this->getProductTypeAttributeValues();
-        $name = $attribute->name;
-        if(isset($values[$name])) {
-            $value = $values[$name];
-            return $value;
+        if($this->product->isNewRecord) {
+            return null;
+        }
+        $types = $this->product->productTypes;
+        $attributeId = $attribute->id;
+        if(isset($types[$attributeId])) {
+            $type = $types[$attributeId];
+            return $type->value;
         }
         return null;
-    }
+    } 
 
-
-
-    /**
-     * 属性 labels
-     * 
-     * @return array
-     */
-    public function attributeLabels()
-    {
-        return $this->_labels;
-    }
-
-
-
-
-    /**
-     * @inheritdoc
-     */
-    public function formName()
-    {
-        return 'taf';
-    }
 
 
 
@@ -154,21 +109,56 @@ class TypeAttributeForm extends DynamicModel
 
 
 
+    /**
+     * @inheritdoc
+     */
+    public function formName()
+    {
+        return 'taf';
+    }
+
 
 
     /**
-     * 获取数据.
+     * 保存
      * 
-     * @return array
+     * @return boolean
      */
-    public function getProductTypeData()
+    public function save()
     {
-        $data = [];
-        foreach($this->attributes() as $name) {
+        $productTypes = $this->product->productTypes;
+        $types = [];
+        foreach($this->attributes as $name => $value) {
             $attribute = $this->getTypeAttribute($name);
-            $data[$attribute->name] = $this->$name;
+            $id = $attribute->id;
+            if(isset($productTypes[$id])) {
+                $productType = $productTypes[$id];
+                $productType->value = $value;
+            } else {
+                $productType = new ProductType([
+                    'product'       => $this->product,
+                    'type'          => $this->type,
+                    'typeAttribute' => $attribute,
+                    'value'         => $value,
+                ]);
+            }
+            if(false === $productType->save()) {
+                throw new \Exception('Product type validate failed');
+            }
+            $types[$productType->type_attribute_id] = $productType;
         }
-        return $data;
+        $newIds = array_keys($types);
+        $oldIds = array_keys($productTypes);
+        $deletes = array_diff($oldIds, $newIds);
+        foreach($deletes as $id) {
+            $productType = $productTypes[$id];
+            $productType->delete();
+        }
+        return true;
+
     }
+
+
+
 
 }

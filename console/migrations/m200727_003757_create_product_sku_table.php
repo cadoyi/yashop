@@ -24,12 +24,12 @@ class m200727_003757_create_product_sku_table extends Migration
     {
         $this->setForeignKeyChecks(false);
         $this->createTable($this->table, [
-            'id'            => $this->bigPrimaryKey(),
+            'id'            => $this->bigPrimaryKey()->unsigned(),
             'product_id'    => $this->fk()->comment('产品 ID'),
             'sku'           => $this->string()->notNull()->unique()->comment('sku'),
             'price'         => $this->money()->notNull()->comment('价格'),
             'image'         => $this->string()->notNull()->comment('图片'),
-            'qty'           => $this->integer()->unique()->unsigned()->comment('数量'),
+            'qty'           => $this->integer()->notNull()->unsigned()->comment('数量'),
             'promote_price' => $this->money()->comment('特殊价格'),
             'attrs'         => $this->text()->notNull()->comment('属性数据'), 
             'created_at'    => $this->inttime(),

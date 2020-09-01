@@ -4,15 +4,13 @@ namespace catalog\backend\controllers;
 
 use Yii;
 use backend\controllers\Controller;
-use catalog\models\Category;
 use catalog\models\Product;
+use catalog\models\Category;
 use catalog\models\Type;
 use catalog\models\filters\ProductFilter;
+use catalog\models\filters\ProductSkuFilter;
 use catalog\backend\vms\product\SelectCategory;
-use catalog\backend\vms\product\Edit;
-use catalog\models\forms\TypeAttributeForm;
-use cando\base\DynamicModel;
-
+use catalog\backend\models\ProductForm;
 
 /**
  * 产品控制器
@@ -23,51 +21,23 @@ class ProductController extends Controller
 {
 
 
-
     /**
-     * @inheritdoc
-     */
-    public function viewModels()
-    {
-        return [
-            'create' => Edit::class,
-            'update' => Edit::class,
-        ];
-    }
-
-
-    /**
-     * 列出所有产品
+     * product list
      */
     public function actionIndex()
     {
-        $filterModel = new ProductFilter(['isDeleted' => 0]);
-        $dataProvider = $filterModel->search($this->request->get());
-        return $this->render('index', [
-            'filterModel'  => $filterModel,
-            'dataProvider' => $dataProvider,
-        ]);
+         $filterModel = new ProductFilter(['filterDeleted' => false]);
+         $dataProvider = $filterModel->search($this->request->get());
+         return $this->render('index', [
+             'filterModel'  => $filterModel,
+             'dataProvider' => $dataProvider,
+         ]);
     }
 
 
 
     /**
-     * 列出删除的产品
-     */
-    public function actionDeleted()
-    {
-        $filterModel = new ProductFilter(['isDeleted' => 1 ]);
-        $dataProvider = $filterModel->search($this->request->get());
-        return $this->render('deleted', [
-            'filterModel'  => $filterModel,
-            'dataProvider' => $dataProvider,
-        ]); 
-    }
-
-
-
-    /**
-     * 添加产品
+     * add new product
      */
     public function actionCreate($category_id = null, $type_id = null)
     {
@@ -88,116 +58,84 @@ class ProductController extends Controller
             return $this->redirect(['create']);
         }
 
-        $product = new Product();
-        $product->category_id = $category->id;
-        $product->type_id = $type_id;
-        $product->insertMode();
-        $typeAttributeForm = new TypeAttributeForm([
-            'type'    => $type,
-            'product' => $product,
+        $product = new Product([
+            'category' => $category,
+            'type'     => $type,
         ]);
 
-        if($product->loadForm($this->request->post()) && $product->saveForm()) {
+        $product->loadDefaultValues();
+
+        $form = new ProductForm([
+            'product'  => $product,
+            'type'     => $type,
+            'category' => $category,
+        ]);
+        if($form->load($this->request->post()) && $form->save()) {
             $this->_success('Product saved');
             return $this->redirect(['index']);
         }
         return $this->render('edit', [
-           'category'          => $category,
-           'product'           => $product,
-           'type'              => $type,
-           'typeAttributeForm' => $typeAttributeForm,
+            'model' => $form,
         ]);
     }
 
 
 
     /**
-     * 更新产品
+     * update product
      * 
-     * @param  string $id  产品的 id
+     * @param  int $id 产品 ID
      */
     public function actionUpdate( $id )
     {
-        $product = $this->findProduct($id);
+        $product = $this->findProduct($id, true);
         $product->updateMode();
-        $typeAttributeForm = new TypeAttributeForm([
-            'type'    => $product->type,
-            'product' => $product,  
+        $form = new ProductForm([
+            'product'  => $product,
+            'type'     => $product->type,
+            'category' => $product->category,
         ]);
-        $category = $product->category;
-        $type = $product->type;
-
-        if($product->loadForm($this->request->post()) && $product->saveForm()) {
+        if($form->load($this->request->post()) && $form->save()) {
             $this->_success('Product saved');
             return $this->redirect(['index']);
         }
+        $filterModel = new ProductSkuFilter(['product' => $product]);
+        $dataProvider = $filterModel->search($this->request->get());
         return $this->render('edit', [
-           'category'          => $category,
-           'product'           => $product,
-           'type'              => $type,
-           'typeAttributeForm' => $typeAttributeForm,
+            'model'        => $form,
+            'filterModel'  => $filterModel,
+            'dataProvider' => $dataProvider,
         ]);
     }
 
 
-
-
     /**
-     * 虚拟产品
+     * delete product
      * 
-     * @param  string $id 产品 ID
+     * @param  int  $id  产品 ID
      */
     public function actionDelete( $id )
     {
-        $product = $this->findProduct($id, Product::class);
-        $product->virtualDelete();
-        $this->_success('Product deleted');
+        $product = $this->findProduct($id, false);
+        if($product && !$product->is_deleted) {
+            $product->virtualDelete();     
+        }
+        $this->_success('Product removed');
         return $this->redirect(['index']);
     }
 
 
 
     /**
-     * 将删除的产品进行恢复.
+     * 查找产品.
      * 
-     * @param  string  $id  产品 ID
+     * @param  int $id    产品 ID
+     * @param  boolean $throw 是否抛出异常
+     * @return  Product
      */
-    public function actionRestore( $id )
+    public function findProduct($id, $throw = true)
     {
-        $product = $this->findProduct($id, Product::class);
-        $product->is_deleted = 0;
-        $product->save();
-        $this->_success('Product restored');
-        return $this->redirect(['index']);
-    }
-
-
-
-
-    /**
-     * 真实删除
-     * 
-     * @param  string $id  产品 ID
-     */
-    public function actionRemove( $id )
-    {
-        $product = $this->findProduct($id, Product::class);
-        $product->delete();
-        $this->_success('Product deleted');
-        return $this->redirect(['index']);
-    }
-
-
-
-
-    
-
-    /**
-     * @inheritdoc
-     */
-    public function findProduct($id, $throw = true, $field = '_id')
-    {
-        return $this->findModel($id, Product::class, $throw, $field);
+        return $this->findModel($id, Product::class, $throw);
     }
 
 

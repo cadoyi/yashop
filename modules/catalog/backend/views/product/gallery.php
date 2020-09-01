@@ -6,6 +6,7 @@ use yii\helpers\Json;
 <?php 
 /**
  * @var  $this yii\web\View
+ * @var  $model  catalog\backend\models\ProductForm
  * @var  $product catalog\models\Product
  * @var  $form  yii\bootstrap4\ActiveForm
  * 
@@ -14,10 +15,9 @@ $formName = $product->formName();
 ?>
 <div id="product_gallery">
     <div class="d-none">
-    <?= $form->field($product, 'galleries[]')->dropDownList($self->getGalleryHashOptions(), [
-        'multiple' => true,
-        'value' => $product->galleries,
-    ]) ?>
+        <?= $form->field($model->galleryForm, 'galleries[]')->dropDownList($model->galleryForm->hashOptions(), [
+            'multiple' => true,
+        ]) ?>
     </div>
     <input class="d-none" type="file" id="product_gallery_fileinput" multiple />
     <label id="product_gallery_drop_zone" class="previews border" for="product_gallery_fileinput">
@@ -32,6 +32,11 @@ $formName = $product->formName();
 </style>
 <?php $this->beginScript() ?>
 <script>
+    $('#galleryform-galleries').find('option').each(function() {
+        if(this.value) {
+            $(this).prop('selected', true);
+        }
+    });
     $.uploader('#product_gallery', {
         'url': '<?= Url::to(['/core/file/upload', 'id' => 'catalog/product/gallery'])?>',
         'dropZone': $('#product_gallery_drop_zone'),
@@ -44,7 +49,8 @@ $formName = $product->formName();
                     'selected': true
                 });
                 option.text(data.url);
-                $('#product-galleries').append(option);
+                $('#galleryform-galleries').append(option);
+                option.prop('selected', true);
             },
             error: function(file_id, message) {
                 alert(message);
@@ -52,13 +58,13 @@ $formName = $product->formName();
             remove: function(file_id) {
                 var preview = this.find('[' + file_id +']');
                 var src = preview.find('img').attr('src');
-                $('#product-galleries').find('option').each(function() {
+                $('#galleryform-galleries').find('option').each(function() {
                     if($(this).text() === src ) {
                         $(this).remove();
                     }
                 });
             },
-            previews: <?= $self->getPreviewsJson() ?>
+            previews: <?= $model->galleryForm->getPreviewsJson() ?>
         }
     });
 </script>

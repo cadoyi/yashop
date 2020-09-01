@@ -10,7 +10,8 @@
 .grid-view .glyphicon-trash {
     background: #e07968;
     color: #fff;
-    padding: 0 .5rem;    
+    padding: 0 .5rem;
+    white-space: nowrap;
 }
 .grid-view .glyphicon-trash::after {
     content: "删除";
@@ -19,6 +20,7 @@
     background: #21a940;
     color: #fff;
     padding: 0 .5rem;
+    white-space: nowrap;
 }
 .grid-view .glyphicon-pencil::after {
     content: "编辑";

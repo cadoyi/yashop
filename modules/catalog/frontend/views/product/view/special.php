@@ -8,13 +8,19 @@ use yii\helpers\Url;
  * @var  $product catalog\models\Product
  * 
  */
+$type = $product->type;
+$attributes = $type->activedTypeAttributes;
+$productTypes = $product->productTypes;
 ?>
 <table class="table table-hover table-bordered">
     <tbody>
-    <?php foreach($product->type_data as $label => $value): ?>
+    <?php foreach($attributes as $attribute): ?>
+        <?php $productType = $productTypes[$attribute->id] ?? null; ?>
+        <?php if(!$productType):  continue; endif; ?>
+
         <tr>
-            <th><?= Html::encode($label) ?></th>
-            
+            <th><?= Html::encode($attribute->name) ?></th>
+            <?php $value = $productType->value; ?>
             <?php if(is_array($value)): ?>
                 <td>
                     <ul class="m-0 list-unstyled">
