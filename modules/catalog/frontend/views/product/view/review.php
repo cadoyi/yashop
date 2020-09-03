@@ -10,7 +10,6 @@ use yii\widgets\Pjax;
  * @var  $product catalog\models\Product
  */
 ?>
-<?php /*
 <?php Pjax::begin(['id' => 'product_review_pjax']) ?>
 <div id="product_review_content">
     <div id="reviews">
@@ -53,4 +52,3 @@ use yii\widgets\Pjax;
 </div>
 <?php Pjax::end() ?>
 
-*/ ?>

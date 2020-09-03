@@ -65,10 +65,10 @@ class ReviewFilter extends ActiveFilter
     {
         $query->andFilterWhere([
             'and',
-            ['customer_id' => $this->customer_id],
-            ['product_id'  => $this->product_id],
-            ['order_id'    => $this->order_id],
-            ['score'       => $this->score],
+            ['customer_id' => (string) $this->customer_id],
+            ['product_id'  => (string)  $this->product_id],
+            ['order_id'    => (string) $this->order_id],
+            ['score'       => (string) $this->score],
         ]);
     }
 

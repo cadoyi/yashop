@@ -16,8 +16,7 @@ ViewAsset::register($this);
  */
 $this->title = $product->name;
 $viewOptions = [ 'product' => $product, 'self' => $self ];
-//$reviewOptions = array_merge($viewOptions, ['filterModel' => $filterModel, 'dataProvider' => $dataProvider]);
-$reviewOptions = $viewOptions;
+$reviewOptions = array_merge($viewOptions, ['filterModel' => $filterModel, 'dataProvider' => $dataProvider]);
 ?>
 <div id="product_view" class="product-view border-top pt-3">
     <div class="container-fluid">

@@ -70,7 +70,7 @@ class Review extends ActiveRecord
             [['customer_id', 'product_id', 'order_id', 'score'], 'required'],
             [['customer_id', 'order_id'], 'integer'],
             [['score'], 'integer', 'min' => 1, 'max' => 5],
-            [['product_id'], 'string', 'max' => 64],
+            [['product_id'], 'integer'],
             [['customer_nickname', 'customer_avatar'], 'string', 'max' => 255],
             [['content', 'addition_content'], 'string'],
             [['product_sku', 'images', 'addition_images'], 'safe'],

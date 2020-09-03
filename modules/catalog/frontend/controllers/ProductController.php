@@ -38,12 +38,12 @@ class ProductController extends Controller
     public function actionView( $id )
     {
         $product = $this->findModel($id, Product::class);
-        //$filterModel = new ReviewFilter(['product_id' => $product->id]);
-        //$dataProvider = $filterModel->search($this->request->get(), '');
+        $filterModel = new ReviewFilter(['product_id' => $product->id]);
+        $dataProvider = $filterModel->search($this->request->get(), '');
         return $this->render('view', [
             'product'      => $product,
-          //  'filterModel'  => $filterModel,
-           // 'dataProvider' => $dataProvider,
+            'filterModel'  => $filterModel,
+            'dataProvider' => $dataProvider,
         ]);
     }
 
