@@ -6,7 +6,7 @@ use Yii;
 use yii\base\Component;
 use yii\base\UserException;
 use catalog\models\Product;
-use catalog\models\product\SkuModel;
+use catalog\models\ProductSku;
 
 /**
  * 库存组件
@@ -25,29 +25,12 @@ class Stock extends Component
      * @param  int    $qty    库存数
      * @return boolean
      */
-    public static function check($product, $sku, $qty = 1)
+    public static function check(Product $product, $productSku, $qty = 1)
     {
-        if(!($product instanceof Product)) {
-            $product = Product::findOne(['_id' => (string) $product]);
+        if(isset($productSku)) {
+            return $productSku->qty >= $qty;
         }
-        if(!$product || !$product->on_sale) {
-            throw new UserException('Product not exists!');
-        }
-        if(!$product->hasStock()) {
-            throw new UserException('Product instock');
-        }
-        if($sku instanceof SkuModel) {
-            $sku = $sku->sku;
-        }
-        $skuModel = $product->getSkuModel($sku);
-        if(is_null($skuModel)) {
-            throw new UserException('Product instock');
-        }
-        if($skuModel->stock < $qty) {
-            throw new UserException('Product stock invalid');
-        }
-        $skuModel = ($skuModel instanceof Product) ? null : $skuModel; 
-        return [$product, $skuModel, $qty];
+        return $product->qty >= $qty;
     }
 
 

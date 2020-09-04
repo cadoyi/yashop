@@ -15,12 +15,12 @@ $this->title = Yii::t('app', 'Checkout quote');
 ?>
 <div class="quote-submitter">
     <?= Html::beginForm(['/sales/order/submit'], 'post') ?>
-    <input type="hidden" name="quote_id" value="<?= (string) $quote->id?>" />
+    <input type="hidden" name="quote_id" value="<?= $quote->id ?>" />
     <?php if($quote->hasRealProduct()): ?>
         <div class="px-3"><h5 class="mb-0">选择地址</h5></div>
         <div id="address_bar" class="address-bar d-flex overflow-auto p-3">
             <?php foreach($addresses as $address): ?>
-            <div class="card m-1" style="width: 320px;min-width: 320px; max-width: 320px;">
+            <div class="card m-1 address-card" style="width: 320px;min-width: 320px; max-width: 320px;">
                 <div class="card-header d-flex flex-nowrap justify-content-arround">
                     <div class="mr-2">
                         <input id="address_id_<?= $address->id ?>" class="d-none address-input" type="radio" name="address_id" value="<?= $address->id ?>" />
@@ -69,24 +69,40 @@ $this->title = Yii::t('app', 'Checkout quote');
             <tbody>
                 <?php foreach($quote->items as $item): ?>
                     <?php $product = $item->product; ?>
-                    <?php $skuModel = $item->getSkuModel() ?>
+                    <?php $productSku = $item->productSku ?>
                     <tr>
                         <td>
-                            <a href="<?= Url::to(['/catalog/product/view', 'id' => (string) $product->id ])?>">
-                                <img src="<?= $skuModel->getImageUrl(200)?>" />
+                            <a href="<?= Url::to(['/catalog/product/view', 'id' => $product->id ])?>">
+                                <?php if($productSku): ?>
+                                <img src="<?= $productSku->getImageUrl(200)?>" />
+                                <?php else: ?>
+                                    <img src="<?= $product->getImageUrl(200)?>" />
+                                <?php endif; ?>
                             </a>
                         </td>
                         <td>
                             <?= Html::encode($product->name) ?>
                         </td>
                         <td>
-                            <?= Html::encode($skuModel->sku) ?>
+
+                            <?php if($productSku): ?>
+                                <ul class="list-unstyled">
+                                    <?php foreach($productSku->attrs as $attrName => $attrValue ): ?>
+                                        <li>
+                                            <span><?= Html::encode($attrName) ?>: </span>
+                                            <span><?= Html::encode($attrValue) ?></span>
+                                        </li>
+                                    <?php endforeach; ?>
+                                </ul>    
+                            <?php else: ?>
+                                &nbsp;
+                            <?php endif; ?>
                         </td>
                         <td>
                             <?= Html::encode($item->qty) ?>
                         </td>
                         <td>
-                            &yen; <?= Html::encode($skuModel->getFinalPrice($item->qty)) ?>
+                            &yen; <?= Html::encode($item->getGrandTotal()) ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -126,7 +142,7 @@ $this->title = Yii::t('app', 'Checkout quote');
     </div>
     <div class="form-group d-flex align-items-center justify-content-end p-3">
         <div class="mr-3">
-            <span>共 <?= $quote->qty ?> 件产品, 合计 &yen; <?= $quote->grand_total ?></span>
+            <span>共 <?= $quote->product_count ?> 类 <?= $quote->qty?> 件产品, 合计 &yen; <?= $quote->grand_total ?></span>
         </div>
         <div>
             <?= Html::submitButton('提交订单', [

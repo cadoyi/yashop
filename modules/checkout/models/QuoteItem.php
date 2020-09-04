@@ -4,9 +4,9 @@ namespace checkout\models;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
-use cando\mongodb\ActiveRecord;
+use cando\db\ActiveRecord;
 use catalog\models\Product;
-use yii\mongodb\validators\MongoIdValidator;
+use catalog\models\ProductSku;
 
 /**
  * 报价项目
@@ -20,27 +20,9 @@ class QuoteItem extends ActiveRecord
     /**
      * @inheritdoc
      */
-    public static function collectionName()
+    public static function tableName()
     {
-        return 'checkout_quote_item';
-    }
-
-
-
-    /**
-     * @inheritdoc
-     */
-    public function attributes()
-    {
-        return [
-           '_id',
-           'quote_id',
-           'product_id',
-           'product_sku',
-           'qty',
-           'created_at',
-           'updated_at',
-        ];
+        return '{{%checkout_quote_item}}';
     }
 
 
@@ -66,9 +48,7 @@ class QuoteItem extends ActiveRecord
     {
         return [
             [['quote_id', 'product_id', 'qty'], 'required'],
-            [['quote_id', 'product_id'], MongoIdValidator::class],
-            [[ 'product_sku'], 'string'],
-            [['qty'], 'integer'],
+            [['quote_id', 'product_id', 'qty', 'product_sku_id'], 'integer'],
         ];
     }
 
@@ -104,7 +84,7 @@ class QuoteItem extends ActiveRecord
      */
     public function getQuote()
     {
-        return $this->hasOne(Quote::class, ['_id' => 'quote_id']);
+        return $this->hasOne(Quote::class, ['id' => 'quote_id']);
     }
 
 
@@ -116,7 +96,7 @@ class QuoteItem extends ActiveRecord
      */
     public function getProduct()
     {
-        return $this->hasOne(Product::class, ['_id' => 'product_id']);
+        return $this->hasOne(Product::class, ['id' => 'product_id']);
     }
 
 
@@ -134,21 +114,47 @@ class QuoteItem extends ActiveRecord
 
 
 
+
     /**
-     * 获取 sku 模型
+     * 获取产品 SKU
      * 
-     * @return SkuModel
+     * @return yii\db\ActiveQuery
      */
-    public function getSkuModel()
+    public function getProductSku()
     {
-        if(!($product = $this->product)) {
-            return null;
+        return $this->hasOne(ProductSku::class, ['id' => 'product_sku_id']);
+    }
+
+
+
+    /**
+     * 设置产品 Sku
+     * 
+     * @param ProductSku $productSku 
+     */
+    public function setProductSku(ProductSku $productSku)
+    {
+        $this->product_sku_id = $productSku->id;
+        $this->populateRelation('productSku', $productSku);
+    }
+
+
+
+
+    /**
+     * 获取总价
+     * 
+     * @return string
+     */
+    public function getGrandTotal()
+    {
+        $qty = $this->qty;
+        $product = $this->product;
+        $productSku = $this->productSku;
+        if($productSku instanceof ProductSku) {
+            return $productSku->getFinalPrice($qty);
         }
-        if($this->product_sku) {
-            $skuModel = $this->product->getSkuModel($this->product_sku);
-            return $skuModel;
-        }
-        return $product;
+        return $product->getFinalPrice($qty);
     }
 
 }

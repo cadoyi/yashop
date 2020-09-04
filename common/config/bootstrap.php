@@ -19,6 +19,7 @@ Yii::setAlias('@sales', dirname(dirname(__DIR__)) . '/modules/sales');
 Yii::setAlias('@checkout', dirname(dirname(__DIR__)) . '/modules/checkout');
 Yii::setAlias('@catalogsearch', dirname(dirname(__DIR__)) . '/modules/catalogsearch');
 Yii::setAlias('@wishlist', dirname(dirname(__DIR__)). '/modules/wishlist');
+Yii::setAlias('@payment', dirname(dirname(__DIR__)) . '/modules/payment');
 
 Yii::setAlias('@media', dirname(dirname(__DIR__)) . '/media');
 Yii::setAlias('@mediaUrl', '/media');

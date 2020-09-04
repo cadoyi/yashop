@@ -7,6 +7,7 @@ use yii\behaviors\TimestampBehavior;
 use yii\web\IdentityInterface;
 use cando\db\ActiveRecord;
 use checkout\models\Cart;
+use checkout\models\Quote;
 use wishlist\models\Wishlist;
 
 /**
@@ -26,6 +27,7 @@ class Customer extends ActiveRecord implements IdentityInterface
     protected $_loginType;
     protected $_cart;
     protected $_wishlist;
+    protected $_quote;
     
 
 
@@ -386,6 +388,26 @@ class Customer extends ActiveRecord implements IdentityInterface
             $this->_wishlist = $wishlist;          
         }
         return $this->_wishlist;
+    }
+
+
+
+    /**
+     * 获取 customer quote
+     * 
+     * @return checkout\models\Quote
+     */
+    public function getQuote()
+    {
+        if(!$this->_quote) {
+            $quote = Quote::findByCustomer($this);
+            if(!$quote) {
+                $quote = new Quote(['customer' => $this]);
+                $quote->save();
+            }
+            $this->_quote = $quote;
+        }
+        return $this->_quote;
     }
 
 

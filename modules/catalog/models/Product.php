@@ -395,6 +395,18 @@ class Product extends ActiveRecord
 
 
     /**
+     * 获取库存数量.
+     * 
+     * @return int
+     */
+    public function getQty()
+    {
+        return $this->inventory->qty;
+    }
+
+
+
+    /**
      * 获取价格模型
      * 
      * @return PriceModel

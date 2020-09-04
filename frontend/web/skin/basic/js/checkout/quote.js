@@ -3,7 +3,15 @@
  * 
  */
 jQuery(function( $ ) {
-    
+    (function() {
+        if($('#address_bar').length > 0 && $('.address-card').length > 0) {
+            var address = $('.address-card').get(0);
+            var label = $(address).find('.address-label');
+            if(label.length) {
+                label.trigger('click');
+            }  
+        }
+    })();
     $('#submit_order').on('click', function( e ) {
         var addressBar = $('#address_bar');
         if(addressBar.length) {

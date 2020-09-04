@@ -6,6 +6,7 @@ use Yii;
 use yii\base\UserException;
 use frontend\controllers\Controller;
 use catalog\models\Product;
+use catalog\models\ProductSku;
 use checkout\models\Quote;
 use checkout\models\Cart;
 use checkout\helpers\QuoteHelper;
@@ -18,8 +19,6 @@ use checkout\helpers\QuoteHelper;
  */
 class QuoteController extends Controller
 {
-
-    protected $_quote;
 
 
     /**
@@ -49,8 +48,8 @@ class QuoteController extends Controller
     public function actionIndex()
     {
         $customer = $this->identity;
-        $quote = $this->getQuote();
-        if(is_null($quote)) {
+        $quote = $customer->getQuote();
+        if(is_null($quote) || empty($quote->items)) {
             return $this->goBack();
         }
         $quote->collectTotals();
@@ -70,10 +69,12 @@ class QuoteController extends Controller
     {
         $itemIds = $this->request->post('carts');
         $customer = $this->identity;
-        $quote = QuoteHelper::createQuote($customer);
         $cart = $customer->getCart();
         $_items = $cart->items;
+        $trans = Quote::getDb()->beginTransaction();
         try {
+            $quote = $customer->getQuote();
+            $quote->truncate();
             $items = [];
             foreach($itemIds as $itemId) {
                 if(!isset($_items[$itemId])) {
@@ -84,16 +85,20 @@ class QuoteController extends Controller
             }
             foreach($items as $item) {
                 $quote->addItem($item);
+                $item->delete();
             }
             $quote->collectTotals();
             $quote->save();
-            $this->session->set('quote_id', (string) $quote->id);
+            $trans->commit();
         } catch(UserException $e) {
+            $trans->rollBack();
             $this->_error($e->getMessage());
             return $this->redirect(['/checkout/cart/index']);
+        } catch(\Throwable $e) {
+            $trans->rollBack();
+            throw $e;
         }
         return $this->redirect(['index']);
-
     }
 
 
@@ -105,45 +110,39 @@ class QuoteController extends Controller
      */
     public function actionAddProduct($product_id)
     {
-        $product = $this->findModel($product_id, Product::class, true, '_id');
-        $productSku = $this->request->post('product_sku');
-        $qty = $this->request->post('qty');
+        $qty = $this->request->post('qty', 1);
+        $product = $this->findModel($product_id, Product::class, false);
+        $productSku = null;
+        if($product->is_selectable) {
+            $productSkuId = $this->request->post('product_sku');
+            if(!$productSkuId) {
+                $this->_error('Invalid request');
+                return $this->goBack();
+            }
+            $productSku = $this->findModel($productSkuId, ProductSku::class, false);
+            if(!$productSku) {
+                $this->_error('不可用的产品选项');
+                return $this->goBack();
+            }
+        }
         $customer = $this->identity;
-        $quote = QuoteHelper::createQuote($customer);
+        $trans = Quote::getDb()->beginTransaction();
         try {
+            $quote = $customer->getQuote();
+            $quote->truncate();
             $quote->addProduct($product, $productSku, $qty);
             $quote->collectTotals();
             $quote->save();
-            $this->session->set('quote_id', (string) $quote->id);
+            $trans->commit();
         } catch(UserException $e) {
+            $trans->rollBack();
             $this->_error($e->getMessage());
-            return $this->redirect(['/checkout/cart/index']);
+            return $this->goBack();
+        } catch(\Throwable $e) {
+            $trans->rollBack();
+            throw $e;
         }
         return $this->redirect(['index']);
-    }
-
-
-
-    /**
-     * 获取 quote
-     * 
-     * @return Quote
-     */
-    public function getQuote()
-    {
-        $quote_id = $this->session->get('quote_id');
-        $customer = $this->identity;
-        $quote = Quote::findOne($quote_id);
-        if(is_null($quote)) {
-            return null;
-        }
-        $quote->remote_ip = $this->request->getUserIP();
-        if($quote->customer_id != $customer->id) {
-            return null;
-        }
-        $quote->setCustomer($customer);
-        $quote->save();        
-        return $quote;
     }
 
 

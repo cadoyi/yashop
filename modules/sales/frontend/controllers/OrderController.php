@@ -34,7 +34,7 @@ class OrderController extends Controller
             if(!$quote_id || !$address_id || !$paymethod) {
                 throw new UserException('Invalid request');
             }
-            $quote = $this->findModel($quote_id, Quote::class, true, '_id');
+            $quote = $this->findModel($quote_id, Quote::class);
             $address = $this->findModel($address_id, CustomerAddress::class, true);
             $onepage = new Onepage(['quote' => $quote, 'address' => $address]);
             $order = $onepage->saveOrder();

@@ -138,6 +138,7 @@ class ProductSku extends ActiveRecord
 
 
 
+
     /**
      * 获取图片 URL
      * 

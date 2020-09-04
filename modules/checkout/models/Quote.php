@@ -4,9 +4,11 @@ namespace checkout\models;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
-use cando\mongodb\ActiveRecord;
+use yii\behaviors\AttributeBehavior;
+use cando\db\ActiveRecord;
 use customer\models\Customer;
 use catalog\models\Product;
+use catalog\models\ProductSku;
 use catalog\helpers\Stock;
 
 /**
@@ -21,27 +23,9 @@ class Quote extends ActiveRecord
     /**
      * @inheritdoc
      */
-    public static function collectionName()
+    public static function tableName()
     {
-        return 'checkout_quote';
-    }
-
-
-    /**
-     * @inheritdoc
-     */
-    public function attributes()
-    {
-        return [
-            '_id',
-            'customer_id',
-            'order_id',
-            'remote_ip',
-            'grand_total',
-            'qty',
-            'created_at',
-            'updated_at',
-        ];
+        return '{{%checkout_quote}}';
     }
 
 
@@ -55,6 +39,16 @@ class Quote extends ActiveRecord
             'timestamp' => [
                 'class' => TimestampBehavior::class,
             ],
+            'remote_ip' => [
+                'class' => AttributeBehavior::class,
+                'attributes' => [
+                    self::EVENT_BEFORE_INSERT => ['remote_ip'],
+                    self::EVENT_BEFORE_UPDATE => ['remote_ip'],
+                ],
+                'value' => function( $event ) {
+                    return Yii::$app->request->getUserIP();
+                }
+            ],
         ]);
     }
 
@@ -67,7 +61,7 @@ class Quote extends ActiveRecord
     {
         return [
             [['customer_id'], 'required'],
-            [['customer_id', 'order_id'], 'integer'],
+            [['customer_id'], 'integer'],
         ];
     }
 
@@ -78,7 +72,12 @@ class Quote extends ActiveRecord
      */
     public function labels()
     {
-        return [];
+        return [
+           'customer_id'   => 'Customer',
+           'product_count' => 'Product count',
+           'grand_total'   => 'Grand total',
+           'qty'           => 'Inventory number',
+        ];
     }
 
 
@@ -109,13 +108,31 @@ class Quote extends ActiveRecord
 
 
     /**
+     * 根据 customer 来查找
+     * 
+     * @param  Customer|int $customer 
+     * @return $this
+     */
+    public static function findByCustomer(Customer $customer)
+    {
+        $quote = static::findOne(['customer_id' => $customer->id]);
+        if($quote) {
+            $quote->setCustomer($customer);
+        }
+        return $quote;
+    }
+
+
+
+    /**
      * 获取 quote items
      * 
      * @return yii\mongodb\ActiveQuery
      */
     public function getItems()
     {
-        return $this->hasMany(QuoteItem::class, ['quote_id' => '_id'])
+        return $this->hasMany(QuoteItem::class, ['quote_id' => 'id'])
+            ->indexBy('id')
             ->inverseOf('quote');
     }
 
@@ -126,18 +143,27 @@ class Quote extends ActiveRecord
      * 
      * @param Item $item 
      */
-    public function addItem( $item )
+    public function addItem( $cartItem )
     {
-        $quoteItem = new QuoteItem(['quote' => $this]);
-        list($product, $skuModel, $qty) = Stock::check($item->product_id, $item->product_sku, $item->qty);
-        $quoteItem->product_id  = $product->id;
-        $quoteItem->product_sku = $skuModel ? $skuModel->sku : null;
-        $quoteItem->qty         = $item->qty;
-        $result                 = $quoteItem->save();
-        if($this->isRelationPopulated('items')) {
-            $this->items[] = $quoteItem;
+        $product    = $cartItem->product;
+        $productSku = $cartItem->productSku;
+        $qty        = $cartItem->qty;
+        return $this->addProduct($product, $productSku, $qty);
+    }
+
+
+
+    /**
+     * 删除所有 item
+     */
+    public function truncate()
+    {
+        foreach($this->items as $item) {
+            $item->delete();
         }
-        return $quoteItem;
+        $this->qty = 0;
+        $this->product_count = 0;
+        $this->grand_total = 0;
     }
 
 
@@ -146,20 +172,26 @@ class Quote extends ActiveRecord
     /**
      * 添加产品
      * 
-     * @param Product $product  产品
-     * @param string  $skuModel  skuMode
-     * @param int     $qty      库存数量
+     * @param Product     $product    产品
+     * @param ProductSku  $productSku 产品 SKU 模型
+     * @param int          $qty       库存数量
      */
-    public function addProduct($product, $skuModel, $qty)
+    public function addProduct(Product $product, $productSku, $qty)
     {
+        if(!Stock::check($product, $productSku, $qty)) {
+            throw new \Exception('产品库存不足!');
+        }
         $quoteItem = new QuoteItem(['quote' => $this]);
-        list($product, $skuModel, $qty) = Stock::check($product, $skuModel, $qty);
-        $quoteItem->product_id   = $product->id;
-        $quoteItem->product_sku  = $skuModel ? $skuModel->sku : null;
-        $quoteItem->qty          = $qty;
-        $result                  = $quoteItem->save();
+        $quoteItem->setProduct($product);
+        if($productSku instanceof ProductSku) {
+            $quoteItem->setProductSku($productSku);
+        }
+        $quoteItem->qty = $qty;
+        $quoteItem->save();
         if($this->isRelationPopulated('items')) {
-            $this->items[] = $quoteItem;
+            $items = $this->items;
+            $items[$quoteItem->id] = $quoteItem;
+            $this->populateRelation('items', $items);
         }
         return $quoteItem;
     }
@@ -171,14 +203,13 @@ class Quote extends ActiveRecord
      */
     public function collectTotals()
     {
-        $items = $this->items;
         $this->qty = 0;
         $this->grand_total = 0;
-        foreach($items as $item) {
-            $product = $item->product;
-            $skuModel = $item->getSkuModel();
+        $this->product_count = 0;
+        foreach($this->items as $item) {
             $this->qty += $item->qty;
-            $this->grand_total += $skuModel->getFinalPrice($item->qty);
+            $this->grand_total += $item->getGrandTotal();
+            $this->product_count++;
         }
     }
 

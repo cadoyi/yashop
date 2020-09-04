@@ -4,7 +4,7 @@ namespace sales\models;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
-use sales\models\db\ActiveRecord;
+use cando\db\ActiveRecord;
 
 
 /**
@@ -14,25 +14,30 @@ use sales\models\db\ActiveRecord;
  */
 class Order extends ActiveRecord
 {
- 
+
+
     /**
      * @inheritdoc
      */
-    public static function shardingConfig()
+    public static function tableName()
     {
-        return [
-            'dbName'      => 'db',
-            'dbCount'     => 1,
-            'tableName'   => 'sales_order',
-            'tableCount'  => 1,
-            'key'         => 'increment_id',
-            'keyValue'    => function( $keyvalue ) {
-                $id = (string) $keyvalue;
-                $len = strlen($id);
-                return $len <= 6 ? $id : substr($id, $len - 6);
-            }
-        ];
+        return '{{%sales_order}}';
     }
+
+ 
+    
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return array_merge(parent::behaviors(), [
+            'timestamp' => [
+                 'class' => TimestampBehavior::class,
+            ],
+        ]);
+    }
+
 
 
     /**
@@ -44,22 +49,6 @@ class Order extends ActiveRecord
             $this->increment_id = Yii::$app->genid->newOrderNumber($this->_getTableName(), $this->customer_id);
         }
     }
-
-
-
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return array_merge(parent::behaviors(), [
-           'timestamp' => [
-               'class' => TimestampBehavior::class,
-           ],
-        ]);
-    }
-
-
 
 
 
