@@ -3,16 +3,16 @@
 namespace sales\models;
 
 use Yii;
-use yii\behaviors\TimestampBehavior;
-use cando\db\ActiveRecord;
+use sales\models\db\OrderActiveRecord;
+use store\models\Store;
 
 
 /**
  * 订单表
- * 
- * @author zhangyang <zhangyangcado@qq.com>
+ *
+ * @author  zhangyang <zhangyangcado@qq.com>
  */
-class Order extends ActiveRecord
+class Order extends OrderActiveRecord
 {
 
 
@@ -24,29 +24,126 @@ class Order extends ActiveRecord
         return '{{%sales_order}}';
     }
 
- 
+
+
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [];
+    }
+
+
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'increment_id' => '订单号',
+            'grand_total'  => '支付金额',
+            'customer_nickname' => Yii::t('app', 'Nickname'),
+            'status'       => '订单状态',
+        ];
+    }
+
+
+
+    /**
+     * 获取 paid id
+     * 
+     * @return string
+     */
+    public function getOrderPaid()
+    {
+        return $this->hasOne(OrderPaid::class, ['id' => 'paid_order_id']);
+    }
+
+
+
+
+    /**
+     * 设置 paid
+     * 
+     * @param OrderPaid $paid
+     */
+    public function setOrderPaid(OrderPaid $paid)
+    {
+        $this->paid_order_id = $paid->id;
+        $this->paid_increment_id = $paid->increment_id;
+        $this->populateRelation('paid', $paid);
+    }
+
+
+
+    /**
+     * 将订单状态写入到状态历史表中去.
+     * 
+     * @param string $status 订单状态.
+     */
+    public function addStatusToHistory($comment = null)
+    {
+        $history = new OrderStatusHistory(['order' => $this]);
+        $history->status = $this->status;
+        if(is_null($comment)) {
+            $comments = static::statusComments();
+            if(isset($comments[$history->status])) {
+                $comment = $comments[$history->status];
+            }
+        }
+        $history->comment = $comment;
+        $history->save();
+    }
+
+
+
+    /**
+     * 更改为交易处理状态.
+     * 
+     * @return boolean
+     */
+    public function process()
+    {
+        if($this->status === static::STATUS_PROCESSING) {
+            return true;
+        }
+        $this->status = static::STATUS_PROCESSING;
+        $this->save();
+        $this->addStatusToHistory('支付成功');
+        return true;
+    }
+
+
+    
+    /**
+     * 交易关闭.
+     * 
+     * @return boolean
+     */
+    public function close()
+    {
+        if($this->status === static::STATUS_CLOSED) {
+            return true;
+        }
+        $this->status = static::STATUS_CLOSED;
+        $this->save();
+        $this->addStatusToHistory('交易关闭');
+        return true;
+    }
+
+
+
     
     /**
      * @inheritdoc
      */
-    public function behaviors()
+    public function afterSave($insert, $changedAttributes)
     {
-        return array_merge(parent::behaviors(), [
-            'timestamp' => [
-                 'class' => TimestampBehavior::class,
-            ],
-        ]);
-    }
-
-
-
-    /**
-     * 生成 increment id
-     */
-    public function generateIncrementId()
-    {
-        if($this->isNewRecord && $this->customer_id && !$this->increment_id) {
-            $this->increment_id = Yii::$app->genid->newOrderNumber($this->_getTableName(), $this->customer_id);
+        parent::afterSave($insert, $changedAttributes);
+        if($insert) {
+            $this->addStatusToHistory();
         }
     }
 
@@ -54,78 +151,79 @@ class Order extends ActiveRecord
 
 
     /**
-     * 设置 cusotmer, 这个要在保存之前调用.
+     * 生成 increment_id
      * 
-     * @param Customer $customer 
+     * @param  string $prefix 前缀
      */
-    public function setCustomer(Customer $customer)
+    public function generateIncrementId($prefix, $sequence)
     {
-         $this->customer_id = $customer->id;
-         $this->customer_group_id = $customer->group_id;
-         $this->populateRelation('customer', $customer);
-         $this->generateIncrementId();
+        $this->increment_id = $this->_generateIncrementId($prefix, $sequence);
+    }
+
+
+    
+    /**
+     * 是否已经支付.
+     * 
+     * @return boolean 
+     */
+    public function isPaided()
+    {
+        return $this->orderPaid->status === self::STATUS_PROCESSING;
+    }
+
+
+
+
+    /**
+     * 获取 store
+     * 
+     * @return yii\db\ActiveQuery
+     */
+    public function getStore()
+    {
+        return $this->hasOne(Store::class, ['id' => 'store_id']);
     }
 
 
 
     /**
-     * 获取 customer 实例.
+     * 获取地址
      * 
-     * @return Customer
+     * @return yii\db\ActiveQuery
      */
-    public function getCustomer()
+    public function getAddress()
     {
-        return $this->hasOne(Customer::class, ['id' => 'customer_id']);
+        return $this->hasOne(OrderAddress::class, ['increment_id' => 'increment_id'])
+            ->inverseOf('order');
+    }
+
+
+
+    
+    /**
+     * 获取 order items
+     * 
+     * @return yii\db\ActiveQuery
+     */
+    public function getItems()
+    {
+        return $this->hasMany(OrderItem::class, ['increment_id' => 'increment_id'])
+            ->inverseOf('order');
     }
 
 
 
     /**
-     * 添加订单历史
+     * 获取状态历史
      * 
-     * @param string $comment
-     * @param string $status  订单状态
+     * @return array
      */
-    public function addStatusHistoryComment($comment, $status = null)
+    public function getStatusHistories()
     {
-        if(is_null($status)) {
-            $status = $this->status;
-        }
-        $history = new OrderStatusHistory([
-            'increment_id'        => $this->increment_id,
-            'amount_increment_id' => $this->amount_increment_id,
-            'status' => is_null($status) ? 'pending' : $status,
-            'comment' => $comment,
-        ]);
-        $history->save();
-        return $history;
+        return $this->hasMany(OrderStatusHistory::class, ['increment_id' => 'increment_id'])
+            ->inverseOf('order');
     }
 
-
-
-    /**
-     * 同步到 store 订单
-     * 
-     * @return boolean
-     */
-    public function syncToStore()
-    {
-        $store = OrderStore::find()
-            ->andWhere(['store_id' => $this->store_id])
-            ->andWhere(['increment_id' => $this->increment_id])
-            ->one();
-        if(!$store) {
-            $store = new OrderStore([
-                'store_id'            => $this->store_id,
-                'increment_id'        => $this->increment_id,
-                'amount_increment_id' => $this->amount_increment_id,
-            ]);
-        }
-        foreach($this->attributes() as $attribute) {
-            $store->$attribute = $this->$attribute;
-        }
-        $store->save();
-    }
 
 }
-

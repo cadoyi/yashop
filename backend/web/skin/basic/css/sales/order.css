@@ -1,0 +1,17 @@
+
+.order-info .card {
+    margin: .5rem 0;
+    padding: 0;
+    border-radius: 0;
+}
+.order-info .card .card-header {
+    padding: .25rem .5rem;
+    background: #dee2e6;
+}
+.order-info .card .card-body {
+    padding: 0;
+}
+.order-info .card .card-body .table {
+    margin: 0;
+    font-size: .9rem;
+}

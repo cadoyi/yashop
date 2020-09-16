@@ -5,11 +5,10 @@ namespace sales\frontend\controllers;
 use Yii;
 use yii\base\UserException;
 use frontend\controllers\Controller;
-use checkout\models\Quote;
-use customer\models\Customer;
-use customer\models\CustomerAddress;
-use catalog\helpers\Stock;
-use sales\models\order\Onepage;
+use sales\models\order\Submitter;
+use sales\models\OrderPaid;
+use payment\helpers\MethodHelper;
+
 
 /**
  * order 控制器
@@ -20,6 +19,22 @@ class OrderController extends Controller
 {
 
 
+    public function access()
+    {
+        return [
+            'rules' => [
+                 [
+                     'allow' => false,
+                     'roles' => ['?'],
+                 ],
+                 [
+                      'allow' => true,
+                 ],
+            ],
+        ];
+    }
+
+
     /**
      * 提交订单
      * 
@@ -27,24 +42,53 @@ class OrderController extends Controller
      */
     public function actionSubmit()
     {
-        $quote_id = $this->request->post('quote_id');
-        $address_id = $this->request->post('address_id');
-        $paymethod = $this->request->post('payment_method');
+        $customer   = $this->identity;
+        $submitter = new Submitter([
+            'customer' => $customer,
+        ]);
+
+        $submitter->load($this->request->post(), '');
+
         try {
-            if(!$quote_id || !$address_id || !$paymethod) {
-                throw new UserException('Invalid request');
+            if(!$submitter->validate()) {
+                 throw new UserException('Invalid request');
             }
-            $quote = $this->findModel($quote_id, Quote::class);
-            $address = $this->findModel($address_id, CustomerAddress::class, true);
-            $onepage = new Onepage(['quote' => $quote, 'address' => $address]);
-            $order = $onepage->saveOrder();
-            $this->_success('购买成功');
-            return $this->goHome();
+            $order = $submitter->saveOrder();
+            $this->session->set('last_order_increment_id', $order->increment_id);
+            $payMethod = $order->method;
+            $url = MethodHelper::getPayUrl($payMethod);
+            return $this->redirect($url);
         } catch(UserException $e) {
+            throw $e;
             $this->_error($e->getMessage());
             return $this->goBack();
         }
 
     }
+
+
+
+    /**
+     * 支付成功页面.
+     * 
+     * @return string
+     */
+    public function actionSuccess()
+    {
+        $increment_id = $this->session->get('last_paid_increment_id', false);
+        if(!$increment_id) {
+            return $this->notFound();
+        }
+        $this->session->remove('last_paid_increment_id');
+        $orderPaid = OrderPaid::findOne(['increment_id' => $increment_id]);
+        if($orderPaid->customer_id != $this->user->id) {
+            return $this->notFound();
+        }
+        return $this->render('success', ['orderPaid' => $orderPaid]);
+    }
+
+
+
+
 
 }

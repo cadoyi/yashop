@@ -62,6 +62,8 @@ class Quote extends ActiveRecord
         return [
             [['customer_id'], 'required'],
             [['customer_id'], 'integer'],
+            [['is_virtual'], 'boolean'],
+            [['is_virtual'], 'default', 'value' => 1],
         ];
     }
 
@@ -161,9 +163,10 @@ class Quote extends ActiveRecord
         foreach($this->items as $item) {
             $item->delete();
         }
-        $this->qty = 0;
+        $this->qty           = 0;
         $this->product_count = 0;
-        $this->grand_total = 0;
+        $this->grand_total   = 0;
+        $this->is_virtual    = 1;
     }
 
 
@@ -203,13 +206,18 @@ class Quote extends ActiveRecord
      */
     public function collectTotals()
     {
-        $this->qty = 0;
-        $this->grand_total = 0;
+        $this->qty           = 0;
+        $this->grand_total   = 0;
         $this->product_count = 0;
+        $this->is_virtual    = 1;
         foreach($this->items as $item) {
-            $this->qty += $item->qty;
-            $this->grand_total += $item->getGrandTotal();
+            $this->qty          += $item->qty;
+            $this->grand_total  += $item->getGrandTotal();
             $this->product_count++;
+            if(!$item->is_virtual) {
+                $this->is_virtual = 0;
+                break;
+            }
         }
     }
 
@@ -223,13 +231,8 @@ class Quote extends ActiveRecord
      */
     public function hasRealProduct()
     {
-        foreach($this->items as $item) {
-            $product = $item->product;
-            if(!$product->is_virtual) {
-                return true;
-            }
-        }
-        return false;
+        $this->collectTotals();
+        return !$this->is_virtual;
     }
 
 }

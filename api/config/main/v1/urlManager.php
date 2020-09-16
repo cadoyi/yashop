@@ -13,6 +13,12 @@ return [
        'class' => 'yii\rest\UrlRule',
     ],
     'rules' => [
-        ['controller' => 'v1/index', 'patterns' => ['GET' => 'index'] ],
+        [
+            'prefix'       => 'v1',
+            'controller'   => ['indices' => 'v1/index'],
+            'patterns'     => [
+                'GET,HEAD' => 'index',
+            ], 
+        ],
     ],
 ];

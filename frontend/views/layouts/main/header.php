@@ -50,16 +50,16 @@ $customer = Yii::$app->user->identity;
                                   </span>
                                 <?php endif; ?>
                              </a>
-                             <a class="dropdown-item" href="#">
+                             <a class="dropdown-item" href="<?= Url::to(['/sales/customer-order/list'])?>">
                                   <i class="fa fa-money"></i>
                                   &nbsp; <?= Yii::t('app', 'Orders center')?>
                              </a>
-                             <a class="dropdown-item" href="<?= Url::to(['/customer/center/dashboard'])?>">
+                             <a class="dropdown-item" href="<?= Url::to(['/sales/customer-order/pending'])?>">
                                  <i class="fa fa-credit-card"></i>
                                   &nbsp; <?= Yii::t('app', 'Pending orders') ?>
                                   <span class="badge badge-danger">4</span>
                              </a>
-                             <a class="dropdown-item" href="#">
+                             <a class="dropdown-item" href="<?= Url::to(['/sales/customer-order/complete'])?>">
                                  <i class="fa fa-truck"></i>
                                  &nbsp; <?= Yii::t('app', 'Shipping orders')?>
                                  <span class="badge badge-danger">36</span>

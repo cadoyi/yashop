@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4f33b24cbae453edb0ecae396fa51c7c",
+    "content-hash": "3b6aa7517934843d54b43f2ed8c32b06",
     "packages": [
         {
             "name": "adbario/php-dot-notation",
@@ -56,23 +56,21 @@
             "time": "2019-01-01T23:59:15+00:00"
         },
         {
-            "name": "alibabacloud/client",
-            "version": "1.5.29",
+            "name": "alibabacloud/tea",
+            "version": "3.1.16",
             "source": {
                 "type": "git",
-                "url": "https://github.com/aliyun/openapi-sdk-php-client.git",
-                "reference": "2d0137828ef5c44664dcb8cc90eac4f545dd3301"
+                "url": "https://github.com/aliyun/tea-php.git",
+                "reference": "f95e1940ac5140679f23698685bd56ca9c2b2c4a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aliyun/openapi-sdk-php-client/zipball/2d0137828ef5c44664dcb8cc90eac4f545dd3301",
-                "reference": "2d0137828ef5c44664dcb8cc90eac4f545dd3301",
+                "url": "https://api.github.com/repos/aliyun/tea-php/zipball/f95e1940ac5140679f23698685bd56ca9c2b2c4a",
+                "reference": "f95e1940ac5140679f23698685bd56ca9c2b2c4a",
                 "shasum": ""
             },
             "require": {
                 "adbario/php-dot-notation": "^2.2",
-                "clagiordano/weblibs-configmanager": "^1.0",
-                "danielstjules/stringy": "^3.1",
                 "ext-curl": "*",
                 "ext-json": "*",
                 "ext-libxml": "*",
@@ -80,22 +78,11 @@
                 "ext-openssl": "*",
                 "ext-simplexml": "*",
                 "ext-xmlwriter": "*",
-                "guzzlehttp/guzzle": "^6.3|^7.0",
-                "mtdowling/jmespath.php": "^2.5",
+                "guzzlehttp/guzzle": "^6.3",
                 "php": ">=5.5"
             },
             "require-dev": {
-                "composer/composer": "^1.8",
-                "drupal/coder": "^8.3",
-                "ext-dom": "*",
-                "ext-pcre": "*",
-                "ext-sockets": "*",
-                "ext-spl": "*",
-                "league/climate": "^3.2.4",
-                "mikey179/vfsstream": "^1.6",
-                "monolog/monolog": "^1.24",
-                "phpunit/phpunit": "^5.7.27",
-                "psr/cache": "^1.0",
+                "phpunit/phpunit": "^4.8.35|^5.4.3",
                 "symfony/dotenv": "^3.4",
                 "symfony/var-dumper": "^3.4"
             },
@@ -105,11 +92,8 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "AlibabaCloud\\Client\\": "src"
-                },
-                "files": [
-                    "src/Functions.php"
-                ]
+                    "AlibabaCloud\\Tea\\": "src"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -122,42 +106,44 @@
                     "homepage": "http://www.alibabacloud.com"
                 }
             ],
-            "description": "Alibaba Cloud Client for PHP - Use Alibaba Cloud in your PHP project",
+            "description": "Client of Tea for PHP",
             "homepage": "https://www.alibabacloud.com/",
             "keywords": [
-                "alibaba",
                 "alibabacloud",
-                "aliyun",
                 "client",
                 "cloud",
-                "library",
-                "sdk",
-                "tool"
+                "tea"
             ],
-            "time": "2020-08-03T06:19:07+00:00"
+            "time": "2020-08-31T01:49:32+00:00"
         },
         {
-            "name": "alibabacloud/smsintl",
-            "version": "1.8.429",
+            "name": "alibabacloud/tea-fileform",
+            "version": "0.3.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/alibabacloud-sdk-php/smsintl.git",
-                "reference": "ca2d4b56bf75ab89bb67ba9a76d7e6b595e6d37c"
+                "url": "https://github.com/alibabacloud-sdk-php/tea-fileform.git",
+                "reference": "f1a51c99c808fc24a31000b3975aa02c212cfe64"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/alibabacloud-sdk-php/smsintl/zipball/ca2d4b56bf75ab89bb67ba9a76d7e6b595e6d37c",
-                "reference": "ca2d4b56bf75ab89bb67ba9a76d7e6b595e6d37c",
+                "url": "https://api.github.com/repos/alibabacloud-sdk-php/tea-fileform/zipball/f1a51c99c808fc24a31000b3975aa02c212cfe64",
+                "reference": "f1a51c99c808fc24a31000b3975aa02c212cfe64",
                 "shasum": ""
             },
             "require": {
-                "alibabacloud/client": "^1.5",
-                "php": ">=5.5"
+                "adbario/php-dot-notation": "^2.2",
+                "alibabacloud/tea": "^3.0",
+                "guzzlehttp/guzzle": "^6.5",
+                "php": ">5.5"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8.35|^5.4.3",
+                "symfony/var-dumper": "^5.0"
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "AlibabaCloud\\SmsIntl\\": ""
+                    "AlibabaCloud\\Tea\\FileForm\\": "src"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -167,22 +153,70 @@
             "authors": [
                 {
                     "name": "Alibaba Cloud SDK",
-                    "email": "sdk-team@alibabacloud.com",
-                    "homepage": "http://www.alibabacloud.com"
+                    "email": "sdk-team@alibabacloud.com"
                 }
             ],
-            "description": "Alibaba Cloud SmsIntl SDK for PHP",
-            "homepage": "https://www.alibabacloud.com/",
-            "keywords": [
-                "alibaba",
-                "alibabacloud",
-                "aliyun",
-                "cloud",
-                "library",
-                "sdk",
-                "smsintl"
+            "description": "Alibaba Cloud Tea File Library for PHP",
+            "time": "2020-03-25T09:51:10+00:00"
+        },
+        {
+            "name": "alipaysdk/easysdk",
+            "version": "2.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/alipay/alipay-easysdk.git",
+                "reference": "a28b655a914bd210750c05890a9b5a35a043d034"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/alipay/alipay-easysdk/zipball/a28b655a914bd210750c05890a9b5a35a043d034",
+                "reference": "a28b655a914bd210750c05890a9b5a35a043d034",
+                "shasum": ""
+            },
+            "require": {
+                "adbario/php-dot-notation": "^2.2",
+                "alibabacloud/tea": "^3.1",
+                "alibabacloud/tea-fileform": "^0.3.2",
+                "danielstjules/stringy": "^3.1",
+                "ext-ctype": "*",
+                "ext-curl": "*",
+                "ext-dom": "*",
+                "ext-fileinfo": "*",
+                "ext-json": "*",
+                "ext-libxml": "*",
+                "ext-mbstring": "*",
+                "ext-openssl": "*",
+                "ext-simplexml": "*",
+                "ext-xmlwriter": "*",
+                "guzzlehttp/guzzle": ">=6.3",
+                "mtdowling/jmespath.php": "^2.4",
+                "php": ">=7.0",
+                "pimple/pimple": "^3.0",
+                "psr/log": "^1.1",
+                "songshenzong/support": "^2.0",
+                "xin/container": "^2.0.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Alipay\\EasySDK\\": "php/src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
             ],
-            "time": "2019-05-30T04:55:12+00:00"
+            "authors": [
+                {
+                    "name": "junying.wjy",
+                    "email": "junying.wjy@antfin.com"
+                }
+            ],
+            "description": "支付宝官方 Alipay Easy SDK",
+            "time": "2020-07-07T09:42:28+00:00"
         },
         {
             "name": "aliyuncs/oss-sdk-php",
@@ -230,7 +264,7 @@
             "version": "v3.4.1",
             "source": {
                 "type": "git",
-                "url": "git@github.com:twbs/bootstrap.git",
+                "url": "https://github.com/twbs/bootstrap.git",
                 "reference": "68b0d231a13201eb14acd3dc84e51543d16e5f7e"
             },
             "dist": {
@@ -272,7 +306,7 @@
             "version": "3.4.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/jquery/jquery-dist.git",
+                "url": "git@github.com:jquery/jquery-dist.git",
                 "reference": "15bc73803f76bc53b654b9fdbbbc096f56d7c03d"
             },
             "dist": {
@@ -428,54 +462,6 @@
                 "markdown-extra"
             ],
             "time": "2018-03-26T11:24:36+00:00"
-        },
-        {
-            "name": "clagiordano/weblibs-configmanager",
-            "version": "v1.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/clagiordano/weblibs-configmanager.git",
-                "reference": "ecf584f5b3a27929175ff0abdba52f0131bef795"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/clagiordano/weblibs-configmanager/zipball/ecf584f5b3a27929175ff0abdba52f0131bef795",
-                "reference": "ecf584f5b3a27929175ff0abdba52f0131bef795",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4"
-            },
-            "require-dev": {
-                "clagiordano/phpunit-result-printer": "^1",
-                "phpunit/phpunit": "^4.8"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "clagiordano\\weblibs\\configmanager\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "LGPL-3.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "Claudio Giordano",
-                    "email": "claudio.giordano@autistici.org",
-                    "role": "Developer"
-                }
-            ],
-            "description": "weblibs-configmanager is a tool library for easily read and access to php config array file and direct read/write configuration file / object",
-            "keywords": [
-                "clagiordano",
-                "configuration",
-                "manager",
-                "tool",
-                "weblibs"
-            ],
-            "time": "2020-07-20T20:39:25+00:00"
         },
         {
             "name": "danielstjules/stringy",
@@ -702,44 +688,37 @@
         },
         {
             "name": "guzzlehttp/guzzle",
-            "version": "7.0.1",
+            "version": "6.5.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "2d9d3c186a6637a43193e66b097c50e4451eaab2"
+                "reference": "aab4ebd862aa7d04f01a4b51849d657db56d882e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/2d9d3c186a6637a43193e66b097c50e4451eaab2",
-                "reference": "2d9d3c186a6637a43193e66b097c50e4451eaab2",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/aab4ebd862aa7d04f01a4b51849d657db56d882e",
+                "reference": "aab4ebd862aa7d04f01a4b51849d657db56d882e",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "guzzlehttp/promises": "^1.0",
                 "guzzlehttp/psr7": "^1.6.1",
-                "php": "^7.2.5",
-                "psr/http-client": "^1.0"
-            },
-            "provide": {
-                "psr/http-client-implementation": "1.0"
+                "php": ">=5.5",
+                "symfony/polyfill-intl-idn": "^1.11"
             },
             "require-dev": {
-                "ergebnis/composer-normalize": "^2.0",
                 "ext-curl": "*",
-                "php-http/client-integration-tests": "dev-phpunit8",
-                "phpunit/phpunit": "^8.5.5",
+                "phpunit/phpunit": "^4.8.35 || ^5.7 || ^6.4 || ^7.0",
                 "psr/log": "^1.1"
             },
             "suggest": {
-                "ext-curl": "Required for CURL handler support",
-                "ext-intl": "Required for Internationalized Domain Name (IDN) support",
                 "psr/log": "Required for using the Log middleware"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "7.0-dev"
+                    "dev-master": "6.5-dev"
                 }
             },
             "autoload": {
@@ -759,11 +738,6 @@
                     "name": "Michael Dowling",
                     "email": "mtdowling@gmail.com",
                     "homepage": "https://github.com/mtdowling"
-                },
-                {
-                    "name": "Márk Sági-Kazár",
-                    "email": "mark.sagikazar@gmail.com",
-                    "homepage": "https://sagikazarmark.hu"
                 }
             ],
             "description": "Guzzle is a PHP HTTP client library",
@@ -774,12 +748,10 @@
                 "framework",
                 "http",
                 "http client",
-                "psr-18",
-                "psr-7",
                 "rest",
                 "web service"
             ],
-            "time": "2020-06-27T10:33:25+00:00"
+            "time": "2020-04-18T10:38:46+00:00"
         },
         {
             "name": "guzzlehttp/promises",
@@ -1047,25 +1019,25 @@
         },
         {
             "name": "mtdowling/jmespath.php",
-            "version": "2.5.0",
+            "version": "2.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jmespath/jmespath.php.git",
-                "reference": "52168cb9472de06979613d365c7f1ab8798be895"
+                "reference": "42dae2cbd13154083ca6d70099692fef8ca84bfb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jmespath/jmespath.php/zipball/52168cb9472de06979613d365c7f1ab8798be895",
-                "reference": "52168cb9472de06979613d365c7f1ab8798be895",
+                "url": "https://api.github.com/repos/jmespath/jmespath.php/zipball/42dae2cbd13154083ca6d70099692fef8ca84bfb",
+                "reference": "42dae2cbd13154083ca6d70099692fef8ca84bfb",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.4.0",
-                "symfony/polyfill-mbstring": "^1.4"
+                "php": "^5.4 || ^7.0 || ^8.0",
+                "symfony/polyfill-mbstring": "^1.17"
             },
             "require-dev": {
-                "composer/xdebug-handler": "^1.2",
-                "phpunit/phpunit": "^4.8.36|^7.5.15"
+                "composer/xdebug-handler": "^1.4",
+                "phpunit/phpunit": "^4.8.36 || ^7.5.15"
             },
             "bin": [
                 "bin/jp.php"
@@ -1073,7 +1045,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.5-dev"
+                    "dev-master": "2.6-dev"
                 }
             },
             "autoload": {
@@ -1100,7 +1072,7 @@
                 "json",
                 "jsonpath"
             ],
-            "time": "2019-12-30T18:03:34+00:00"
+            "time": "2020-07-31T21:01:56+00:00"
         },
         {
             "name": "npm-asset/bootstrap",
@@ -1115,22 +1087,71 @@
             ]
         },
         {
-            "name": "psr/http-client",
-            "version": "1.0.1",
+            "name": "pimple/pimple",
+            "version": "v3.3.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/php-fig/http-client.git",
-                "reference": "2dfb5f6c5eff0e91e20e913f8c5452ed95b86621"
+                "url": "https://github.com/silexphp/Pimple.git",
+                "reference": "e55d12f9d6a0e7f9c85992b73df1267f46279930"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/http-client/zipball/2dfb5f6c5eff0e91e20e913f8c5452ed95b86621",
-                "reference": "2dfb5f6c5eff0e91e20e913f8c5452ed95b86621",
+                "url": "https://api.github.com/repos/silexphp/Pimple/zipball/e55d12f9d6a0e7f9c85992b73df1267f46279930",
+                "reference": "e55d12f9d6a0e7f9c85992b73df1267f46279930",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.0 || ^8.0",
-                "psr/http-message": "^1.0"
+                "php": "^7.2.5",
+                "psr/container": "^1.0"
+            },
+            "require-dev": {
+                "symfony/phpunit-bridge": "^3.4|^4.4|^5.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.3.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Pimple": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                }
+            ],
+            "description": "Pimple, a simple Dependency Injection Container",
+            "homepage": "https://pimple.symfony.com",
+            "keywords": [
+                "container",
+                "dependency injection"
+            ],
+            "time": "2020-03-03T09:12:48+00:00"
+        },
+        {
+            "name": "psr/container",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/container.git",
+                "reference": "b7ce3b176482dbbc1245ebf52b181af44c2cf55f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/container/zipball/b7ce3b176482dbbc1245ebf52b181af44c2cf55f",
+                "reference": "b7ce3b176482dbbc1245ebf52b181af44c2cf55f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
             },
             "type": "library",
             "extra": {
@@ -1140,7 +1161,7 @@
             },
             "autoload": {
                 "psr-4": {
-                    "Psr\\Http\\Client\\": "src/"
+                    "Psr\\Container\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -1153,15 +1174,16 @@
                     "homepage": "http://www.php-fig.org/"
                 }
             ],
-            "description": "Common interface for HTTP clients",
-            "homepage": "https://github.com/php-fig/http-client",
+            "description": "Common Container Interface (PHP FIG PSR-11)",
+            "homepage": "https://github.com/php-fig/container",
             "keywords": [
-                "http",
-                "http-client",
-                "psr",
-                "psr-18"
+                "PSR-11",
+                "container",
+                "container-interface",
+                "container-interop",
+                "psr"
             ],
-            "time": "2020-06-29T06:28:15+00:00"
+            "time": "2017-02-14T16:28:37+00:00"
         },
         {
             "name": "psr/http-message",
@@ -1214,6 +1236,53 @@
             "time": "2016-08-06T14:39:51+00:00"
         },
         {
+            "name": "psr/log",
+            "version": "1.1.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/log.git",
+                "reference": "0f73288fd15629204f9d42b7055f72dacbe811fc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/0f73288fd15629204f9d42b7055f72dacbe811fc",
+                "reference": "0f73288fd15629204f9d42b7055f72dacbe811fc",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Log\\": "Psr/Log/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for logging libraries",
+            "homepage": "https://github.com/php-fig/log",
+            "keywords": [
+                "log",
+                "psr",
+                "psr-3"
+            ],
+            "time": "2020-03-23T09:12:05+00:00"
+        },
+        {
             "name": "ralouphie/getallheaders",
             "version": "3.0.3",
             "source": {
@@ -1252,6 +1321,71 @@
             ],
             "description": "A polyfill for getallheaders.",
             "time": "2019-03-08T08:55:37+00:00"
+        },
+        {
+            "name": "songshenzong/support",
+            "version": "2.0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/songshenzong/support.git",
+                "reference": "34973c04ffcf226e503f1c3a69d30ac49f7621f6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/songshenzong/support/zipball/34973c04ffcf226e503f1c3a69d30ac49f7621f6",
+                "reference": "34973c04ffcf226e503f1c3a69d30ac49f7621f6",
+                "shasum": ""
+            },
+            "require": {
+                "danielstjules/stringy": "^3.1",
+                "ext-json": "*",
+                "ext-simplexml": "*",
+                "ext-xml": "*",
+                "php": ">=5.5"
+            },
+            "require-dev": {
+                "laravel/framework": "^5.8",
+                "phpunit/phpunit": "^4.8.35|^5.4.3"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Songshenzong\\Support\\StringsServiceProvider"
+                    ],
+                    "aliases": {
+                        "Strings": "Songshenzong\\Support\\StringsFacade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Songshenzong\\Support\\": "src/"
+                },
+                "files": [
+                    "src/StringsHelpers.php",
+                    "src/BashEchoHelpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Songshenzong",
+                    "email": "i@songshenzong.com"
+                }
+            ],
+            "description": "The Songshenzong Support package.",
+            "homepage": "http://songshenzong.com",
+            "keywords": [
+                "laravel",
+                "support",
+                "tools",
+                "web"
+            ],
+            "time": "2019-08-29T01:59:12+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -1438,16 +1572,16 @@
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.13.1",
+            "version": "v1.18.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "7b4aab9743c30be783b73de055d24a39cf4b954f"
+                "reference": "a6977d63bf9a0ad4c65cd352709e230876f9904a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/7b4aab9743c30be783b73de055d24a39cf4b954f",
-                "reference": "7b4aab9743c30be783b73de055d24a39cf4b954f",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/a6977d63bf9a0ad4c65cd352709e230876f9904a",
+                "reference": "a6977d63bf9a0ad4c65cd352709e230876f9904a",
                 "shasum": ""
             },
             "require": {
@@ -1459,7 +1593,11 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.13-dev"
+                    "dev-master": "1.18-dev"
+                },
+                "thanks": {
+                    "name": "symfony/polyfill",
+                    "url": "https://github.com/symfony/polyfill"
                 }
             },
             "autoload": {
@@ -1493,7 +1631,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2019-11-27T14:18:11+00:00"
+            "time": "2020-07-14T12:35:20+00:00"
         },
         {
             "name": "symfony/polyfill-php72",
@@ -1598,6 +1736,80 @@
             "description": "Symfony Process Component",
             "homepage": "https://symfony.com",
             "time": "2020-05-30T20:06:45+00:00"
+        },
+        {
+            "name": "xin/container",
+            "version": "2.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://gitee.com/liuxiaojinla/php-container",
+                "reference": "97bb67f87dd851545938a1f2fe0ffbd379e3ff81"
+            },
+            "require": {
+                "ext-ctype": "*",
+                "ext-iconv": "*",
+                "ext-json": "*",
+                "ext-libxml": "*",
+                "ext-mbstring": "*",
+                "ext-openssl": "*",
+                "ext-simplexml": "*",
+                "psr/container": "^1.0",
+                "xin/helper": "^1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "xin\\container\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "晋",
+                    "email": "657306123@qq.com"
+                }
+            ],
+            "description": "严格基于PSR11规范实现基础的容器和依赖注入",
+            "time": "2019-10-21T03:51:25+00:00"
+        },
+        {
+            "name": "xin/helper",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://gitee.com/liuxiaojinla/php-helper",
+                "reference": "02a58132dae2aea2d1c0b8e66f55125969224747"
+            },
+            "require": {
+                "ext-ctype": "*",
+                "ext-iconv": "*",
+                "ext-json": "*",
+                "ext-libxml": "*",
+                "ext-mbstring": "*",
+                "ext-openssl": "*",
+                "ext-simplexml": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "xin\\helper\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "晋",
+                    "email": "1540175452@qq.com"
+                }
+            ],
+            "description": "PHP项目日常开发必备基础库，数组工具类、字符串工具类、数字工具类、函数工具类、服务器工具类、加密工具类",
+            "time": "2019-06-22T08:28:23+00:00"
         },
         {
             "name": "xxtime/flysystem-aliyun-oss",
@@ -3752,55 +3964,6 @@
             ],
             "abandoned": true,
             "time": "2018-08-09T05:50:03+00:00"
-        },
-        {
-            "name": "psr/container",
-            "version": "1.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-fig/container.git",
-                "reference": "b7ce3b176482dbbc1245ebf52b181af44c2cf55f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/container/zipball/b7ce3b176482dbbc1245ebf52b181af44c2cf55f",
-                "reference": "b7ce3b176482dbbc1245ebf52b181af44c2cf55f",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Psr\\Container\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "PHP-FIG",
-                    "homepage": "http://www.php-fig.org/"
-                }
-            ],
-            "description": "Common Container Interface (PHP FIG PSR-11)",
-            "homepage": "https://github.com/php-fig/container",
-            "keywords": [
-                "PSR-11",
-                "container",
-                "container-interface",
-                "container-interop",
-                "psr"
-            ],
-            "time": "2017-02-14T16:28:37+00:00"
         },
         {
             "name": "psr/event-dispatcher",

@@ -127,6 +127,25 @@ class ProductSku extends ActiveRecord
 
 
     /**
+     * 扣库存.
+     * 
+     * @param  int $qty  库存数目
+     * @return boolean
+     */
+    public function decrQty( $qty )
+    {
+        $qty = (int) $qty;
+        $result = static::updateAllCounters(['qty' => 0 - $qty], [
+            'and',
+            ['id' => $this->id],
+            ['>=', 'qty', $qty],
+        ]);
+        return $result > 0;
+    }
+
+
+
+    /**
      * 获取最终价格.
      * 
      * @return string

@@ -22,7 +22,7 @@ jQuery(function( $ ) {
                 return;
             }
         }
-        var methodInput = $('input[name="payment_method"]').filter(':checked');
+        var methodInput = $('input[name="method"]').filter(':checked');
         if(!methodInput.length) {
             alert('请选择付款方式');
             stopEvent(e);

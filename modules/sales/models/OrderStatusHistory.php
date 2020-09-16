@@ -3,52 +3,72 @@
 namespace sales\models;
 
 use Yii;
-use yii\behaviors\TimestampBehavior;
-use sales\models\db\ActiveRecord;
+use sales\models\Order;
+use sales\models\db\ItemActiveRecord;
 
 
 /**
- * order status history
+ * 订单状态历史
  *
  * @author  zhangyang <zhangyangcado@qq.com>
  */
-class OrderStatusHistory extends ActiveRecord
+class OrderStatusHistory extends ItemActiveRecord
 {
 
 
     /**
      * @inheritdoc
      */
-    public static function shardingConfig()
+    public static function tableName()
     {
-        return [
-            'dbName'     => 'db',
-            'dbCount'    => 1,
-            'tableName'  => 'sales_order_status_history',
-            'tableCount' => 1,
-            'key'        => 'increment_id',
-            'keyValue'   => function( $keyvalue ) {
-                $id = (string) $keyvalue;
-                $len = strlen($id);
-                return $len <= 6 ? $id : substr($id, $len - 6);
-            }
-        ];
+        return '{{%sales_order_status_history}}';
     }
-    
+
 
 
     /**
      * @inheritdoc
      */
-    public function behaviors()
+    public function rules()
     {
-        return array_merge(parent::behaviors(), [
-           'timestamp' => [
-               'class' => TimestampBehavior::class,
-           ],
-        ]);
+        return [];
     }
 
 
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [];
+    }
+
+
+
+
+    /**
+     * 获取订单
+     * 
+     * @return sales\models\Order
+     */
+    public function getOrder()
+    {
+        return $this->hasOne(Order::class, ['increment_id' => 'increment_id']);
+    }
+
+
+
+    /**
+     * 获取状态文本
+     * 
+     * @return string
+     */
+    public function getStatusText()
+    {
+        $options = Order::statusHashOptions();
+        $status = $this->status;
+        return $options[$status];
+    }
 
 }

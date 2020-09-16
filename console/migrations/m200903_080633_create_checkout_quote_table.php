@@ -29,6 +29,7 @@ class m200903_080633_create_checkout_quote_table extends Migration
             'grand_total' => $this->money()->notNull()->defaultValue(0)->comment('总价'),
             'product_count' => $this->integer()->unsigned()->notNull()->defaultValue(0)->comment('总产品数'),
             'qty'         => $this->integer()->unsigned()->notNull()->defaultValue(0)->comment('总库存数量'),
+            'is_virtual'  => $this->boolean()->notNull()->comment('是否为虚拟产品'),
             'remote_ip'   => $this->string(15)->comment('远程 IP'),
             'created_at'  => $this->inttime(),
             'updated_at'  => $this->inttime(),

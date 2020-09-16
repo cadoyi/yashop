@@ -109,6 +109,7 @@ class QuoteItem extends ActiveRecord
     public function setProduct( Product $product )
     {
         $this->product_id = $product->id;
+        $this->is_virtual = $product->is_virtual;
         $this->populateRelation('product', $product);
     }
 
@@ -148,8 +149,8 @@ class QuoteItem extends ActiveRecord
      */
     public function getGrandTotal()
     {
-        $qty = $this->qty;
-        $product = $this->product;
+        $qty        = $this->qty;
+        $product    = $this->product;
         $productSku = $this->productSku;
         if($productSku instanceof ProductSku) {
             return $productSku->getFinalPrice($qty);

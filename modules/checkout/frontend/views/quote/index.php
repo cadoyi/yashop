@@ -122,7 +122,7 @@ $this->title = Yii::t('app', 'Checkout quote');
                 <tr>
                     <td>
                         <label>
-                            <input type="radio" name="payment_method" value="alipay" />
+                            <input type="radio" name="method" value="alipay" />
                             支付宝
                         </label>
                     </td>
@@ -131,7 +131,7 @@ $this->title = Yii::t('app', 'Checkout quote');
                 <tr>
                     <td>
                         <label>
-                            <input type="radio" name="payment_method" value="wxpay" />
+                            <input type="radio" name="method" value="wxpay" />
                             微信
                         </label>
                     </td>

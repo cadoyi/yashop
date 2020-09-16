@@ -33,6 +33,7 @@ class m200903_081353_create_checkout_quote_item_table extends Migration
             'product_id'     => $this->fk()->comment('Product ID'),
             'product_sku_id' => $this->bigFk(false)->comment('产品 SKU ID'),
             'qty'            => $this->integer()->unsigned()->notNull()->comment('产品数量'),
+            'is_virtual'     => $this->boolean()->notNull()->comment('是否为虚拟产品'),
             'created_at'     => $this->inttime(),
             'updated_at'     => $this->inttime(),
         ], $this->tableOptions);

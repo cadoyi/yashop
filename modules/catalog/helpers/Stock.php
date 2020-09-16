@@ -35,4 +35,26 @@ class Stock extends Component
 
 
 
+    /**
+     * 扣除库存
+     * 
+     * @param  Product $product        产品
+     * @param  ProductSku  $productSku 产品 SKU
+     * @param  int  $qty               扣除数量
+     */
+    public static function decr(Product $product, $productSku, $qty)
+    {
+        if(isset($productSku)) {
+             $result = $productSku->decrQty($qty);
+        } else {
+             $result = $product->decrQty($qty);
+        }
+        if(!$result) {
+            throw new UserException('产品库存不足!');
+        }
+        return $result;
+    }
+
+
+
 }

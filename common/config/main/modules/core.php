@@ -1,4 +1,6 @@
 <?php
+
+Yii::setAlias('@core', '@modules/core');
 /**
  * core 模块
  * 

@@ -65,7 +65,7 @@ $customer = Yii::$app->user->identity;
                       ],
                       [
                            'label' => '我的订单',
-                           'url'   => ['/customer/order/index'],
+                           'url'   => ['/sales/customer-order/list'],
                       ],
                       [
                           'label' => '退出登录',

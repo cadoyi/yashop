@@ -407,6 +407,19 @@ class Product extends ActiveRecord
 
 
     /**
+     * 扣除库存.
+     * 
+     * @param  int  $qty  库存
+     * @return boolean
+     */
+    public function decrQty( $qty )
+    {
+        return $this->inventory->decrQty($qty);
+    }
+
+
+
+    /**
      * 获取价格模型
      * 
      * @return PriceModel

@@ -1,4 +1,5 @@
 <?php
+Yii::setAlias('@checkout', '@modules/checkout');
 
 return [
     'class' => 'checkout\Module',

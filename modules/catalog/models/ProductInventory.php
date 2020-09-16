@@ -90,4 +90,21 @@ class ProductInventory extends ActiveRecord
     }
 
 
+
+    /**
+     * 扣库存.
+     * 
+     * @param  int $qty  库存数目
+     * @return boolean
+     */
+    public function decrQty( $qty )
+    {
+        $result = static::updateAllCounters(['qty' => (int) $qty],  [
+            'and',
+            ['id' => $this->id],
+            ['>=', 'qty', $qty],
+        ]);
+        return $result > 0;
+    }
+
 }

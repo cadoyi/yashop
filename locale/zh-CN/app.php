@@ -247,6 +247,7 @@ return [
     'Manage suppliers'  => '管理供货商',
     'Manage stores'     => '管理店铺',
     'Manage products'   => '管理产品',
+    'Manage orders'     => '管理订单',
     'Manage deleted products' => '管理已删除的产品',
     'Manage article tags' => '管理文章标签',
     'Manage product types' => '管理产品类型',
@@ -269,6 +270,7 @@ return [
     /****************** OOOOOOOOOOOOOOO ************************/
     'Operation' => '操作',
     'On sale'   => '上架',
+    'Order'     => '订单',
     'Oauth account' => 'Oauth 账户',
     'Oauth accounts' => 'Oauth 账户',
     'Orders center'  => '订单中心',
@@ -361,6 +363,7 @@ return [
     'Street' => '街道',
     'Stock'  => '库存',
     'Store'  => '店铺',
+    'Sales'  => '销售',
     'Status' => '状态',
     'Supplier' => '供货商',
     'Suppliers' => '供货商',

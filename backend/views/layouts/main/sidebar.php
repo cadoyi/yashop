@@ -117,6 +117,17 @@ use common\widgets\Alert;
                 
                 ],
                 [
+                     'label' => Yii::t('app', 'Sales'),
+                     'url'  => '#',
+                     'icon' => 'folder',
+                     'items' => [
+                         [
+                             'label' => Yii::t('app', 'Order'),
+                             'url'  => ['/sales/order/index'],
+                         ],
+                     ],
+                ],
+                [
                     'label' => Yii::t('app', 'Frontend'),
                     'url' => '#',
                     'icon' => 'desktop',
