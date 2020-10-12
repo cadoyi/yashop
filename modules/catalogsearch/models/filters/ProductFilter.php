@@ -63,7 +63,7 @@ class ProductFilter extends Model
      */
     public function search( $params, $formName = null )
     {
-        $query = Product::find()->andWhere(['on_sale' => "1"]);
+        $query = Product::find()->andWhere(['status' => "1"]);
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [

@@ -53,6 +53,10 @@
             "url": "https://asset-packagist.org"
         },
         {
+            "type": "composer",
+            "url": "https://mirrors.aliyun.com/composer/"
+        },
+        {
             "type": "vcs",
             "url": "git@github.com:cadoyi/yii2-cando.git"
         }
