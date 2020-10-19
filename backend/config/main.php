@@ -8,6 +8,7 @@ $params = array_merge(
 
 return [
     'id' => 'app-backend',
+    'name' => 'Yashop 后台管理',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
@@ -55,7 +56,7 @@ return [
         'view' => [
             'class' => 'backend\components\View',
             'baseAsset' => 'backend\assets\basic\AssetBundle',
-            //'theme' => require __DIR__ . '/main/theme.php',
+            'theme' => require __DIR__ . '/main/theme.php',
         ],
     ],
     'params' => $params,
