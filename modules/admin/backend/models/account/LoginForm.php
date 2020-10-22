@@ -180,7 +180,7 @@ class LoginForm extends Model
     public function validateUsername($attribute)
     {
         if($this->user === null) {
-            $this->addError($attribute, Yii::t('app', '{attribute} not exists'), ['attribute' => $attribute]);
+            $this->addError($attribute, Yii::t('app', '{attribute} incorrent', ['attribute' => $this->getAttributeLabel($attribute)]));
         }
     }
 
@@ -195,7 +195,7 @@ class LoginForm extends Model
     {
         $user = $this->user;
         if($user && !$user->validatePassword($this->$attribute)) {
-            $this->addError($attribute, Yii::t('app', '{attribute} incorrent', ['attribute' => $attribute]));
+            $this->addError($attribute, Yii::t('app', '{attribute} incorrent', ['attribute' => $this->getAttributeLabel($attribute)]));
         }
     }
 

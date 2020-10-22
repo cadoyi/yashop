@@ -51,6 +51,14 @@ return [
                 ],
                 'footer' => [
                      'fields' => [
+                         'icp' => [
+                             'type' => 'text',
+                             'defaultValue' => '京ICP 12345678',
+                             'validators' => [
+                                 ['required'],
+                                 ['string', 'max' => 255],
+                             ],
+                         ],
                          'test' => [
                              'visible' => true,
                              'type' => 'select',

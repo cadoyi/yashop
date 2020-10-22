@@ -3,6 +3,7 @@
 namespace admin\backend\controllers;
 
 use Yii;
+use yii\helpers\Url;
 use yii\captcha\CaptchaAction;
 use backend\controllers\Controller;
 use admin\models\User;
@@ -55,20 +56,20 @@ class AccountController extends Controller
     public function verbs()
     {
         return [
-           'logout' => ['post'],
+           'logout'     => ['post'],
+           'login-post' => ['post'],
         ];
     }
 
-    
+
+
     /**
-     * 视图模型
-     * 
-     * @return array
+     * @inheritdoc
      */
-    public function viewModels()
+    public function ajax()
     {
         return [
-            'login' => LoginView::class,
+            'login-post',
         ];
     }
 
@@ -85,15 +86,31 @@ class AccountController extends Controller
             return $this->goBack();
         }
         $model = new LoginForm();
-        if($model->load($this->request->post()) && $model->login()) {
-            $this->_success('Login successful');
-            $this->log('User login: {nickname}', [
-                'nickname' => $this->identity->nickname,
-            ]);
-            return $this->goBack();
-        }
         return $this->render('login', ['model' => $model]);
+    }
 
+
+    /**
+     * 登录表单
+     */
+    public function actionLoginPost()
+    {
+        $model = new LoginForm();
+        try {
+            if($model->load($this->request->post()) && $model->login()) {
+                $this->log('User login: {nickname}', [
+                    'nickname' => $this->identity->nickname,
+                ]);
+                return $this->success([
+                    'url' => Yii::$app->homeUrl,
+                ]);
+            }
+            return $this->error($model, [
+                'captcha'    => $model->canDisplayCaptcha(),
+            ]);
+        } catch(\Exception | \Throwable $e) {
+            return $this->error($e->getMessage());
+        }
     }
 
 

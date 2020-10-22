@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use Yii;
+use yii\base\Model;
 
 /**
  * 后台控制器
@@ -69,5 +70,59 @@ class Controller extends \cando\web\Controller
 
 
     
+    /**
+     * 错误的 json 返回.
+     * 
+     * @param  string|Model $message 
+     * @param  array  $data  附加的数据
+     * @return string
+     */
+    protected function error( $message, $data = [])
+    {
+        if($message instanceof Model) {
+            $messages = $message->getFirstErrors();
+            $message = reset($messages);
+        } elseif($message instanceof \Throwable) {
+            $message = $message->getMessage();
+        } elseif(is_array($message)) {
+            $message = reset($message);
+        }
+        $_data = [
+            'error'   => 1,
+            'message' => $message,
+            'data'    => $data,
+        ];
+        return $this->asJson($_data);
+    }
+
+    
+    /**
+     * 正确的 json 返回.
+     * 
+     * @param  array  $data 附加的数据
+     * @return string
+     */
+    protected function success($data = [])
+    {
+        $_data = [
+            'error'   => 0,
+            'message' => 'OK',
+            'data'    => $data,
+        ];
+        return $this->asJson($_data);
+    }
+
+
+
+    /**
+     * @inheritdoc
+     */
+    public function render($view, $params = [])
+    {
+        if($this->request->isAjax && $this->request->get('_pjax')) {
+            return parent::renderPartial($view, $params);
+        }
+        return parent::render($view, $params);
+    }
 
 }

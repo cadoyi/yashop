@@ -1,0 +1,17 @@
+body {
+    background: #009688;
+}
+
+.layui-form {
+    width: 300px;
+    background: #fff;
+    padding: 1.5rem;
+    padding-top: 3rem;
+    border-radius: 4px;
+    margin: 3rem auto;
+    box-sizing: border-box;
+}
+
+.captcha-div img {
+    cursor: pointer;
+}
