@@ -40,14 +40,14 @@ class AccountController extends Controller
 
 
     /**
-     * 登录
+     * 密码登录
      */
     public function actionLogin()
     {
         if(!$this->user->isGuest) {
             return $this->goBack();
         }
-        $this->layout = 'login';
+        $this->layout = 'account';
         $model = new LoginForm();
 
         if($model->load($this->request->post()) && $model->login()) {
@@ -56,6 +56,28 @@ class AccountController extends Controller
         }
 
         return $this->render('login', [
+            'model' => $model,
+        ]);
+    }
+
+
+    /**
+     * 验证码登录
+     */
+    public function actionLoginCode()
+    {
+        if(!$this->user->isGuest) {
+            return $this->goBack();
+        }
+        $this->layout = 'account';
+        $model = new LoginForm();
+
+        if($model->load($this->request->post()) && $model->login()) {
+            $this->_success('Login successful');
+            return $this->goHome();
+        }
+
+        return $this->render('login-code', [
             'model' => $model,
         ]);
     }

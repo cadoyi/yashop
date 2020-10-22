@@ -6,30 +6,21 @@ use Yii;
 
 
 
-
 /**
- * base asset bundle
+ * layout asset bundle
  *
  * @author  zhangyang <zhangyangcado@qq.com>
  */
 class AssetBundle extends \frontend\assets\AssetBundle
 {
 
-    public $basePath = '@webroot/skin/basic';
+    public $js = [];
 
-    public $baseUrl = '@web/skin/basic';
+    public $css = [];
 
-    
-    public $js = [
-        'js/scripts.js',
-    ];
 
-    public $css = [
-       'css/styles.css',
-    ];
-    
     public $depends = [
-        AppAsset::class,
+        LayoutAsset::class,
     ];
 
 }

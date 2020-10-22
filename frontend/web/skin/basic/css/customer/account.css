@@ -1,0 +1,59 @@
+
+.login {
+    padding-top: 5rem;
+    padding-right: 2rem;
+}
+.login .form-control {
+    border-radius: 0 !important;
+}
+.login .wrapper {
+    width: 350px;
+    border-radius: 5px;
+    padding: 1rem 2rem;
+}
+.login .wrapper .nav-tabs {
+    border-bottom: 0;
+}
+.login .wrapper .nav-item {
+   padding-left: 0;
+   padding-right: 0;
+   border: 0;
+}
+.login .wrapper .nav-item > a {
+    border: 0;
+    text-align: center;
+}
+.login .wrapper .nav-item > a.active {
+    border-bottom: 2px solid #00cccc;
+}
+
+.login .input-group-text {
+    width: 3rem;
+    padding-left: 0;
+    padding-right: 0;
+    text-align: center;
+    background: #00cccc;
+    color: #fff;
+}
+.login .input-group-text .fa {
+    display: inline-block;
+    width: 3rem;
+    text-align: center;
+}
+.login .btn-submit {
+    background:#00cccc;
+    color: #fff;
+}
+.login .wechat-login {
+    font-size: .8rem;
+}
+.login .wechat-login .fa {
+    color: #28a745;
+}
+.login .actions {
+    font-size: .8rem;
+}
+#loginform-code-image {
+    border: 1px solid #ddd;
+    cursor: pointer;
+}

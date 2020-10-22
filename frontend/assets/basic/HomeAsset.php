@@ -3,22 +3,27 @@
 namespace frontend\assets\basic;
 
 use Yii;
+use frontend\assets\lib\SwiperAsset;
 
 /**
- * home asset
+ * 主页
  *
  * @author  zhangyang <zhangyangcado@qq.com>
  */
 class HomeAsset extends AssetBundle
 {
-
     public $css = [
-        'css/site/home.css',
+       'css/home.css',
     ];
 
 
     public $js = [
-       'js/site/home.js',
+        'js/home.js',
+    ];
+
+    public $depends = [
+        AssetBundle::class,
+        SwiperAsset::class,
     ];
 
 }

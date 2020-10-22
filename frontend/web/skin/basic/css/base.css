@@ -1,0 +1,57 @@
+/**
+ * reload css
+ */
+a {
+    color: inherit;
+    text-decoration: none;
+    background: transparent;
+}
+a:hover,
+a:active,
+a:focus {
+    color: inherit;
+    text-decoration: none;
+}
+
+
+
+
+/**
+ * base css
+ */
+.link-white {
+    color: #eee !important;
+}
+.link-white a {
+    color: #eee !important;
+}
+.link-white a:hover {
+    color: #fff !important;
+}
+.link-dark {
+    color: #333 !important;
+}
+.link-dark a {
+    color: #333 !important;
+}
+.link-dark a:hover {
+    color: #000 !important;
+}
+
+
+.child-rounded-0  .btn,
+.child-rounded-0 .form-control {
+    border-radius: 0 !important;
+}
+
+
+.btn-dlv {
+    color: #f1f1f1;
+    background-color: #009688;
+    border-color: #009688;
+}
+.btn-dlv:hover {
+    color: #fff;
+    background-color: #008677;
+    border-color: #008577;
+}

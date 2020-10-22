@@ -1,7 +1,6 @@
 <?php 
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\bootstrap4\Breadcrumbs;
 ?>
 <?php 
 /**
@@ -12,19 +11,10 @@ use yii\bootstrap4\Breadcrumbs;
  * 
  */
 ?>
-<?php $this->beginContent('@frontend/views/layouts/base.php') ?>
+<?php $this->beginContent(__DIR__ . '/base.php') ?>
   <?= $this->render('main/header') ?>
-  <main class="location d-flex flex-nowrap">
-     <div class="breadcrumbs-head">当前位置 : </div>
-     <div class="flex-grow-1">
-          <?= Breadcrumbs::widget([
-              'id'    => 'breadcrumbs', 
-              'links' => $this->getBreadcrumbs(),
-          ])?>
-     </div>
-  </main>
-  <main class="page-content container-fluid p-0">
-       <?= $content ?>
+  <main class="container-fluid content">
+      <?= $content ?>
   </main>
   <?= $this->render('main/footer') ?>
 <?php $this->endContent() ?>

@@ -23,7 +23,7 @@ class Model extends \yii\base\Model
 
     protected $_isPhone;
 
-
+    protected $_account = false;
 
 
     /**
@@ -119,5 +119,18 @@ class Model extends \yii\base\Model
     }
 
 
+    /**
+     * 获取账户
+     * 
+     * @return string
+     */
+    public function getAccount()
+    {
+        if($this->_account === false) {
+            $this->_account = $this->findUsername()->one();
+        }
+        return $this->_account;
+    }
 
+    
 }

@@ -3,6 +3,7 @@
 namespace frontend\assets\basic;
 
 use Yii;
+use frontend\assets\AssetBundle;
 
 /**
  * layout asset
@@ -12,13 +13,18 @@ use Yii;
 class LayoutAsset extends AssetBundle
 {
 
-    public $js = [
-       'js/layout.js',
+    public $css = [
+        'css/layout.css',
     ];
 
 
-    public $css = [
-        'css/layout.css',
+    public $js = [
+        'js/layout.js',
+    ];
+
+
+    public $depends = [
+        BaseAsset::class,
     ];
 
 }

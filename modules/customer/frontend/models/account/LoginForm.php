@@ -35,7 +35,7 @@ class LoginForm extends Model
     public $remember = 1;
 
 
-    protected $_account = false;
+
 
     protected $_counter;
 
@@ -116,20 +116,6 @@ class LoginForm extends Model
     }
 
 
-
-
-    /**
-     * 获取账户
-     * 
-     * @return string
-     */
-    public function getAccount()
-    {
-        if($this->_account === false) {
-            $this->_account = $this->findUsername()->one();
-        }
-        return $this->_account;
-    }
 
 
     /**

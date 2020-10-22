@@ -1,0 +1,12 @@
+
+.account-header .navbar {
+    height: 80px;
+}
+.account-header .navbar a {
+    color: #21a399;
+    font-weight: 600;
+    font-family: sans-serif;
+    font-size: 1.5rem;
+    margin-left: 2rem;
+}
+

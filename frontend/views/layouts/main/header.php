@@ -1,107 +1,72 @@
 <?php 
 use yii\helpers\Html;
 use yii\helpers\Url;
-use front\widgets\Menu;
 ?>
 <?php 
 /**
- * @var  $this yii\web\View
+ * main layout header 
  *
+ * @var  $this yii\web\View
  * 
  */
-$customer = Yii::$app->user->identity;
 ?>
-<header class="page-head">
-     <div class="title-bar d-flex justify-content-between">
-         <div class="d-flex flex-nowrap">
-             <a href="<?= Yii::$app->homeUrl ?>">
-                <?= Yii::t('app', 'Welcome visite {name} shop', [
-                   'name' => 'yashop',
-                ])?>
-             </a> 
-             | 
-             <?php if(Yii::$app->user->isGuest): ?>
-                 <a href="<?= Url::to(['/customer/account/login']) ?>">
-                     <i class="fa fa-sign-in"></i> <?= Yii::t('app', 'Login')?>
-                 </a>
-             <?php else: ?>
-                <ul class="nav customer-nav">
-                   <li class="nav-item dropdown">
-                       <a class="nav-link dropdown-toggle" 
-                          data-toggle="dropdown" 
-                          href="#"
-                       >
-                          <?= Html::encode($customer->nickname) ?>
-                       </a>
-                        <div class="dropdown-menu">
-                             <div class="dropdown-item text-center border-bottom">
-                                 嗨! &lt;<?= Html::encode($customer->nickname) ?>&gt;
-                             </div>
-                             <a class="dropdown-item" href="<?= Url::to(['/customer/center/dashboard'])?>">
-                                 <i class="fa fa-user-circle"></i>
-                                  &nbsp; <?= Yii::t('app', 'Customer center')?>
-                             </a>
-                             <a class="dropdown-item" href="<?= Url::to(['/wishlist/wishlist/index'])?>">
-                                 <i class="fa fa-heartbeat"></i>
-                                 &nbsp; <?= Yii::t('app', 'My favorite')?>
-                                 <?php if($count = (int) $customer->wishlist->item_count): ?>
-                                 <span class="badge badge-danger">
-                                  <?= (int) $customer->wishlist->item_count; ?>
-                                  </span>
-                                <?php endif; ?>
-                             </a>
-                             <a class="dropdown-item" href="<?= Url::to(['/sales/customer-order/list'])?>">
-                                  <i class="fa fa-money"></i>
-                                  &nbsp; <?= Yii::t('app', 'Orders center')?>
-                             </a>
-                             <a class="dropdown-item" href="<?= Url::to(['/sales/customer-order/pending'])?>">
-                                 <i class="fa fa-credit-card"></i>
-                                  &nbsp; <?= Yii::t('app', 'Pending orders') ?>
-                                  <span class="badge badge-danger">4</span>
-                             </a>
-                             <a class="dropdown-item" href="<?= Url::to(['/sales/customer-order/complete'])?>">
-                                 <i class="fa fa-truck"></i>
-                                 &nbsp; <?= Yii::t('app', 'Shipping orders')?>
-                                 <span class="badge badge-danger">36</span>
-                             </a>
-                       
-                             <div class="dropdown-item last-dropdown-item d-flex flex-nowrap py-2">
-                                 <a class="flex-grow-1 bind-account" href="<?= Url::to(['/customer/center/bind'])?>">
-                                     <?= Yii::t('app', 'Bind other accounts') ?>
-                                 </a>
-                                 <a class="flex-grow-1 text-center" 
-                                     href="<?= Url::to(['/customer/account/logout'])?>"
-                                     data-method="post"
-                                     data-confirm="<?= Yii::t('app', 'Please confirm')?>"
-                                  ><?= Yii::t('app', 'Logout') ?></a>
-                             </div>
-                        </div>
-                    </li>
-                </ul>
-             <?php endif; ?>
-         </div>
-         <div>
-              <a href="<?= Url::to(['/checkout/cart/index']) ?>">
-                  <i class="fa fa-shopping-cart"></i> 
-                  <?= Yii::t('app', 'Shopping cart') ?>
-              </a>
-         </div>
-     </div>
-     <!-- 这部分在用户中心里也会显示 -->
-     <div class="menu-bar d-flex align-items-center">
-         <div class="logo-wrap mr-auto">
-             <a href="<?= Yii::$app->homeUrl ?>">
-                 <img src="<?= $this->getAssetUrl('img/yashop.png') ?>" />
-             </a>
-         </div>
-         <?= Menu::widget([
-              'code' => 'header',
-              'options' => [
-                  'class' => 'nav',
-              ],
-              'itemOptions' => ['class' => 'nav-item'],
-              'linkTemplate' => '<a class="nav-link" href="{url}">{label}</a>',
-        ])?>
-         <?= $this->render('search') ?>
-     </div>
+<header class="header">
+    <nav class="navbar navbar-light navbar-expand">
+      <a class="navbar-brand" href="<?= Yii::$app->homeUrl ?>">Yashop</a>
+      <div class="collapse navbar-collapse link-white">
+        <ul class="navbar-nav mr-auto">
+            <?php if(Yii::$app->user->isGuest): ?>
+            <li class="nav-item">
+              <a class="nav-link login" 
+                 href="<?= Url::to(['/customer/account/login'])?>">登录</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link register" href="<?= Url::to(['/customer/account/register'])?>">注册</a>
+            </li>
+            <?php else: ?>
+              <li class="nav-item dropdown login-menus">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  我的用户名
+                  </a>
+                <div class="dropdown-menu  link-dark" aria-labelledby="navbarDropdown">
+                  <div class="dropdown-item d-flex flex-nowrap">
+                      <div class="" style="width: 60px;">
+                           <img class="rounded-circle" width="60" height="60" src="<?= $this->getAssetUrl('img/ph.svg') ?>" />
+                      </div>
+                      <div class="flex-grow-1 d-flex justify-content-end align-self-start">
+                          <a class="logout-link" 
+                             href="<?= Url::to(['/customer/account/logout'])?>"
+                             data-method="post"
+                             data-confirm="确定要退出登录吗 ?"
+                          >
+                             退出
+                          </a>
+                      </div>
+                  </div>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="#">帐号管理</a>
+                  <a class="dropdown-item" href="#">我的订单</a>
+                </div>
+              </li>
+            <?php endif; ?>
+            <li class="nav-item">
+              <a class="nav-link appd" href="#">APP 下载</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav navbar-nav2">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">购物车</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">我的收藏</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">联系客服</a>
+            </li>          
+            <li class="nav-item">
+              <a class="nav-link" href="#">免费开店</a>
+            </li>
+        </ul>
+      </div>
+    </nav>
 </header>

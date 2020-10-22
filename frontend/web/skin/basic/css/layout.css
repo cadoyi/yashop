@@ -1,105 +1,133 @@
-html,
-body {
+html, body {
     height: 100%;
-    overflow-x: hidden;
+    height: 100vh; 
 }
-
 body {
-    overflow-x: auto;
-    font-size: 14px;
+    min-width: 991px;
 }
 
 
-
-.body-wrapper {
-    min-width: 992px;
-    overflow-x: auto;
-}
-.page-head .title-bar {
-    background-color: #555;
-    color: #ddd;
-    font-size: .9rem;
-    padding: .5rem 1rem;
-}
-.page-head .title-bar a {
-    color: #ddd;
-    padding: 0 .5rem;
-}
-.page-head .title-bar a:hover {
-    text-decoration: none;
+/**************************************************************************/
+/************************* header *****************************************/
+/**************************************************************************/
+header.header > .navbar {
+    background: #009688;
     color: #fff;
+    height: 50px;
+    font-size: .9rem;
 }
-.page-head .menu-bar {
-    padding: 1rem;
+header.header .navbar-brand {
+    width: 8rem;
+    text-align: center;
+    color: #eee !important;
+    font-weight: 900;
 }
-.menu-bar .logo-wrap > a {
-    display: block;
+header.header .navbar-brand:hover {
+    color: #fff !important;
+}
+header.header .navbar-nav .nav-link {
+    padding: 0 .5rem;
+    text-align: center;
+    line-height: 40px;
+}
+
+header.header .navbar-nav2 .nav-link,
+header.header .navbar-nav .nav-link.appd {
+    width: 100px;
+}
+
+
+
+header.header .login-menus {
+    text-align: center;
+}
+header.header .login-menus .dropdown-menu {
+   border-radius: 0 !important;
+}
+header.header .login-menus .dropdown-item:active,
+header.header .login-menus .dropdown-item.active {
+    background: transparent;
+} 
+
+header.header .login-menus .logout-link {
+    color: #fd5151 !important;
+    font-size: .9rem;
+}
+
+
+
+
+/**************************************************************************/
+/*************************** main *****************************************/
+/**************************************************************************/
+main.content {
+    min-height: calc(100vh - 50px);
+}
+
+
+
+
+
+/**************************************************************************/
+/************************* footer *****************************************/
+/**************************************************************************/
+.footer {
+    border-top: 1px solid #ddd;
+    background: #e9ecef;
+    padding: 0 1rem;
+}
+.footer .service-bar {
+    text-align: center;
+    padding: 1rem 0;
+}
+.footer .service-bar .fa {
+    font-size: 2rem;
     padding: .5rem;
-    margin-left: 2rem;
 }
-.menu-bar .logo-wrap > a > img {
-    display: inline-block;
-    width: 80%;
+.footer .service-bar .fa.fa-heartbeat {
+    color: #fd5151;
 }
-.menu-bar .nav {
-    margin-left: 1rem;
-    margin-right: 1rem;
+.footer .service-bar .fa.fa-internet-explorer {
+    color: #007bff;
 }
-.menu-bar .nav  a { 
-    color: #333;
+.footer .service-bar .fa.fa-ra {
+    color: #009688;
 }
-
-.page-content {
-    min-height: 100vh;
-    min-width: 992px;
-}
-.search-form  .btn[type="submit"] {
-    white-space: nowrap;
+.footer .service-bar [title] {
+    font-size: 1.2rem;
+    font-weight: 600;
 }
 
-.page-head .customer-nav .dropdown-menu {
-    border-radius: 0;
-    font-size: 15px;
-    min-width: 15rem;
-    background-color: #f1f1f1;
-}
-.page-head .customer-nav .dropdown-menu .dropdown-item {
-    padding: .5rem 1rem;
-}
-.page-head .dropdown-item.active, .dropdown-item:active {
-    background-color: #fff;
-    color: #000;
-}
-.page-head .customer-nav .dropdown-menu .last-dropdown-item {
+
+.footer .link-bar {
     border-top: 1px solid #ccc;
-    font-size: 14px;
+    padding: 2rem;
 }
-.page-head .customer-nav .dropdown-menu .last-dropdown-item a {
-    color: #bd2130;
+.footer .link-bar ul {
+    list-style: none;
+    padding-left: 2rem;
+    font-size: .8rem;
 }
-.page-head .customer-nav .dropdown-menu .last-dropdown-item .bind-account {
-    color: #d39e00;
+.footer .link-bar ul a {
+    color: #555;
+    line-height: 1.5rem;
 }
-.page-head .customer-nav .dropdown-menu a {
-    color: #000;
-    position: relative;
-}
-.page-head .customer-nav .dropdown-menu a > .badge {
-    position: absolute;
-    right: 1rem;
+.footer .link-bar [title] {
+    padding-left: 2rem;
+    padding-bottom: .5rem;
 }
 
-/**
- * breadcrumbs
- */
-.breadcrumbs-head {
-    padding: 0.75rem 0 0.75rem 1rem;
-    margin-bottom: 0;
-}
-.breadcrumb {
-    background: #fff;
-    margin-bottom: 0;
-}
-.breadcrumb a {
-    color: #555;
+
+
+
+
+
+
+
+
+.footer .bottom-bar {
+    text-align: center;
+    font-size: .7rem;
+    border-top: 1px solid #ccc;
+    padding: .5rem 0;
 }

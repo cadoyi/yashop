@@ -12,10 +12,8 @@ use Yii;
 class AssetBundle extends \cando\web\AssetBundle
 {
 
-    public $basePath = '@webroot';
+    public $basePath = '@webroot/skin/basic';
 
-    public $baseUrl = '@web';
-
-
+    public $baseUrl = '@web/skin/basic';
 
 }

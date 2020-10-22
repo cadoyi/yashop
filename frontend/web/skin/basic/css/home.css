@@ -1,0 +1,91 @@
+/**************************************************************************/
+/************************* search *****************************************/
+/**************************************************************************/
+section.search {
+    height: 9rem;
+}
+section.search input.form-control {
+    width: 25rem;
+}
+section.search .input-col {
+    position: relative;
+}
+section.search .input-col > .switch-bar {
+    position: absolute;
+    top: 0;
+    transform: translate(0, -100%);
+}
+section.search .input-col > .switch-bar a {
+    font-size: .8rem;
+    margin-right: .5rem;
+    color: #555;
+    padding: .15rem .5rem;
+}
+section.search .input-col > .switch-bar a.active {
+    background: #009688;
+    color: #fff;
+}
+
+
+
+
+/**************************************************************************/
+/************************* hot-products  **********************************/
+/**************************************************************************/
+.hot-products {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+.product {
+    padding: .5rem;
+    width: 16rem;
+}
+.product a {
+    color: #555;
+}
+.product a:hover {
+    text-decoration: none;
+}
+.product .fa-star-o {
+    color: #cc9e18;
+}
+.product .card-img-top {
+    padding: 0 .5rem;
+}
+.product .card-img-top > img {
+    width: 100%;
+}
+.product .card-body {
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+}
+.product .name {
+    height: 3rem;
+    line-height: 1.5rem;
+    overflow: hidden;
+}
+.product .counters {
+    padding: .25rem 0;
+    font-size: .8rem;
+}
+.product .prices {
+    line-height: 1.8rem;
+}
+.product [price] {
+    color: #fd5151;
+    font-size: 1rem;
+    margin-right: .5rem;
+}
+.product [old-price] {
+    color: #999;
+    font-size: .8rem;
+    vertical-align: bottom;
+    text-decoration: line-through;
+}
+
+
+
+
+
+
