@@ -11,32 +11,11 @@ use yii\helpers\Url;
  */
 $inputValue = (array) $render->inputValue;
 ?>
-<div class="layui-form-item">
-    <label class="layui-form-label">
-        <?= Html::encode($field->trans('label')) ?>
-    </label>
-    <div class="layui-input-block">
-        <select 
-            name="<?= $render->inputName ?>" 
-            lay-verify="required"
-            lay-search
-            <?php if($field->multiple): ?>
-            multiple 
-            lay-ignore 
-            style="width: 100%; border:1px solid #ddd;height: 100px;resize: vertical;color: #555;"
-            <?php endif; ?>
-        >
-            <?php if(!$field->multiple): ?>
-                <option value=""></option>
-            <?php endif; ?>
-            <?php foreach($field->selectItems as $value => $label): ?>
-                <option 
-                    value="<?= Html::encode($value) ?>"
-                    <?php if(in_array($value, $inputValue)): ?>
-                        selected
-                    <?php endif; ?>
-                ><?= Html::encode($field->t($label)) ?></option>
-            <?php endforeach; ?>
-      </select>
-    </div>
-</div>
+<?= $form->field($field->model, 'value')
+   ->dropDownList($field->selectItems, array_merge($field->options, [
+       'id'     => $render->inputId,
+       'name'   => $render->inputName,
+       'value'  => $render->inputValue,
+       'prompt' => '',
+   ])) 
+?>

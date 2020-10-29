@@ -7,13 +7,13 @@
 return [
     'tabs' => [
         'general' => [
-            'label' => 'General',
+            'label' => 'General settings',
         ],
         'customer' => [
-            'label' => 'Customer',
+            'label' => 'Customer settings',
         ],
         'admin' => [
-            'label' => 'Admin',
+            'label' => 'Admin settings',
         ],
     ],
     'sections' => [

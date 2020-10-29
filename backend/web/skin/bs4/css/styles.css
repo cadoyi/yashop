@@ -1,0 +1,18 @@
+.btn-molv {
+    color: #eee;
+    background-color: #009688;
+    border-color: #009688;
+}
+.btn-molv:hover {
+    color: #fff;
+}
+.btn {
+    border-radius: 0;
+}
+.btn-sm, 
+.btn-group-sm > .btn {
+    border-radius: 0;
+}
+.form-control {
+    border-radius: 0;
+}

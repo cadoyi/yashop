@@ -54,9 +54,9 @@ return [
             'linkAssets' => true,
         ],
         'view' => [
-            'class' => 'backend\components\View',
-            'baseAsset' => 'backend\assets\basic\AssetBundle',
-            'theme' => require __DIR__ . '/main/theme.php',
+            'class'     => 'backend\components\View',
+            'baseAsset' => 'backend\assets\bs4\AssetBundle',
+            'theme'     => require __DIR__ . '/main/theme.php',
         ],
     ],
     'params' => $params,

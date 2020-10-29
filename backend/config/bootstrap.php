@@ -1,4 +1,4 @@
 <?php
 
-Yii::setAlias('@themePath', '@backend/themes/layui');
-Yii::setAlias('@themeSkin', '@backend/web/skin/layui');
+Yii::setAlias('@themePath', '@backend/themes/bs4');
+Yii::setAlias('@themeSkin', '/skin/bs4');

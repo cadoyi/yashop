@@ -1,0 +1,104 @@
+
+.config-menu {
+    padding: 0;
+    padding-top: 2rem;
+    list-style: none;
+    width: 150px;
+    box-shadow: 1px -1px 3px 0px #d6c7c7;
+}
+.config-menu > li > ul {
+    display: none;
+}
+.config-menu > li.open > ul {
+    display: block;
+}
+
+.config-menu > li > a > .fa {
+    position: absolute;
+    right: 0;
+    line-height: 2rem;
+    width: 2rem;
+    text-align: center;
+}
+.config-menu > li > a >.fa-caret-left {
+    display: inline-block;
+}
+.config-menu > li > a > .fa-caret-down {
+    display: none;
+}
+
+.config-menu > li.open > a >.fa-caret-left {
+    display: none;
+}
+.config-menu > li.open > a > .fa-caret-down {
+    display: inline-block;
+}
+
+.config-menu > li > ul .fa {
+    display: none !important;
+}
+
+.config-menu ul {
+    list-style: none;
+    padding-left: 0;
+    background-color: #d8dbde;
+    border-top: 1px solid #d2cbcb;
+}
+.config-menu a {
+    display: block;
+    line-height: 2rem;
+    padding-left: 1rem;
+    color: #555;
+    position: relative;
+    font-size: .8rem;
+}
+.config-menu > li > ul > li.active > a {
+    background: #51c3b9;
+    color: #fff;
+}
+.config-menu a:hover {
+    background: #35a99d;
+    color: #fff;
+}
+
+.config-form .btn {
+    border-radius: 0;
+}
+
+.fieldset {
+    border: 1px solid #ddd;
+    margin-bottom: .5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+.fieldset .fieldset-title h2 {
+    font-size: 1rem;
+    line-height: 2rem;
+    margin-bottom: 0;
+    cursor: pointer;
+    padding-left: 2rem;
+    position: relative;
+}
+.fieldset .fieldset-title h2::before {
+    display: inline-block;
+    font-family: "FontAwesome";
+    font-size: .8rem;
+    content: "\f078";
+    width: 2rem;
+    text-align: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    line-height: 2rem;
+}
+.fieldset.collapsed .fieldset-title h2::before {
+    content: "\f054";
+}
+
+.fieldset .fieldset-body {
+    display: block;
+    border-top: 1px solid #ddd;
+    padding: .5rem;
+}
+.fieldset.collapsed .fieldset-body {
+    display: none;
+}

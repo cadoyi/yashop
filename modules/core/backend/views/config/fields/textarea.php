@@ -10,16 +10,9 @@ use yii\helpers\Url;
  * @var  $field Field
  */
 ?>
-<div class="layui-form-item">
-    <label class="layui-form-label">
-        <?= Html::encode($field->trans('label')) ?>
-    </label>
-    <div class="layui-input-block">
-        <textarea 
-            id="<?= $render->inputId ?>"
-            name="<?= $render->inputName ?>" 
-            placeholder="请输入内容" 
-            class="layui-textarea"
-        ><?= Html::encode($render->inputValue) ?></textarea>
-    </div>
-</div>
+<?= $form->field($field->model, 'value')->textarea([
+    'id'    => $render->inputId,
+    'name'  => $render->inputName,
+    'value' => $render->inputValue,
+]) ?>
+

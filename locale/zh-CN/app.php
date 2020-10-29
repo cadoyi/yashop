@@ -12,6 +12,7 @@ return [
     'Author'   => '作者',
     'Area'     => '区域',
     'Address'  => '地址',
+    'Admin settings' => '管理员设置',
     'Account info' => '账户信息',
     'Author email' => '作者邮箱',
     'Article category' => '文章分类',
@@ -110,6 +111,7 @@ return [
     'Customer login'  => '客户登录',
     'Category saved' => '分类已保存',
     'Category name'  => '分类名',
+    'Customer settings' => '客户设置',
     "Create new category" => "新建分类",
     'Confirm password' => '确认密码',
     'Captcha retry count' => '验证码尝试次数',
@@ -178,6 +180,7 @@ return [
     /****************** GGGGGGGGGGGGGGG ************************/
     'Gender' => '性别',
     'General' => '通用',
+    'General settings' => '通用设置',
     /****************** HHHHHHHHHHHHHHH ************************/
     'Header' => '头部',
     'Home page' => '首页',
