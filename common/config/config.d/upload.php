@@ -4,7 +4,7 @@ return [
     // id  => config
     'storage' => 'storage',
     'paths' => [
-        'admin/user/avatar' => [
+        'admin-user-avatar' => [
             'type'       => 'image',
             'path'       => 'admin/user/avatar',
             'validators' => [
@@ -12,7 +12,7 @@ return [
                 ['image', 'extensions' => ['jpg', 'png', 'jpeg', 'gif']],
             ],
         ],
-        'customer/customer/avatar' => [
+        'customer-customer-avatar' => [
             'type'       => 'image',
             'path'       => 'customer/customer/avatar',
             'validators' => [
@@ -20,21 +20,21 @@ return [
                 ['image', 'extensions' => ['jpg', 'png', 'jpeg', 'gif']],
             ],
         ],
-        'catalog/brand/logo' => [
+        'catalog-brand-logo' => [
             'type' => 'image',
             'path' => 'catalog/brand/logo',
             'validators' => [
                 ['image', 'extensions' => ['jpg', 'png', 'jpeg', 'gif']],
             ],
         ],
-        'catalog/product/image' => [
+        'catalog-product-image' => [
             'type' => 'image',
             'path' => 'catalog/product/image',
             'validators' => [
                 ['image', 'extensions' => ['jpg', 'png', 'jpeg', 'gif']],
             ],
         ],
-        'catalog/product/images' => [
+        'catalog-product-images' => [
             'type'  => 'image',
             'path'  => 'catalog/product/images',
             'level' => 2,
@@ -42,7 +42,7 @@ return [
                 ['image', 'extensions' => ['jpg', 'png', 'jpeg', 'gif']],
             ],
         ],
-        'catalog/product/gallery' => [
+        'catalog-product-gallery' => [
             'type'  => 'image',
             'path'  => 'catalog/product/gallery',
             'level' => 2,
@@ -50,7 +50,7 @@ return [
                 ['image', 'extensions' => ['jpg', 'png', 'jpeg', 'gif']],
             ],
         ],
-        'store/store/logo' => [
+        'store-store-logo' => [
             'type' => 'image',
             'path' => 'store/store/logo',
             'validators' => [

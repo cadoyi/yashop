@@ -2,6 +2,12 @@
  * helper css
  */
 .d-flex { display: -ms-flex !important; display: flex !important; }
+.flex-grow-0 { -ms-flex-positive: 0 !important; flex-grow: 0 !important; }
+.flex-grow-1 { -ms-flex-positive: 1 !important; flex-grow: 1 !important; }
+.flex-shrink-0 { -ms-flex-negative: 0 !important; flex-shrink: 0 !important; }
+.flex-shrink-1 { -ms-flex-negative: 1 !important; flex-shrink: 1 !important; }
+.flex-nowrap {-ms-flex-wrap: nowrap !important; flex-wrap: nowrap !important;}
+.flex-wrap {-ms-flex-wrap: wrap !important; flex-wrap: wrap !important;}
 
 
 .border { border: 1px solid #ddd !important; }
@@ -16,6 +22,9 @@
 .border-bottom-0 { border-bottom: 0 !important; }
 
 .text-center { text-align: center !important; }
+.text-right { text-align: right !important; }
+.text-left { text-align: left !important; }
+
 .text-white { color: #fff !important; }
 .text-light { color: #ddd !important; }
 
@@ -122,3 +131,58 @@
 .my-3 { margin-top: 1rem !important; margin-bottom: 1rem !important; }
 .my-4 { margin-top: 1.5rem !important; margin-bottom: 1.5rem !important; }
 .my-5 { margin-top: 3rem !important; margin-bottom: 3rem !important; }
+
+
+
+/***********************************************************************/
+/* layui reboot                                                        */
+/***********************************************************************/
+.layui-bg-white {
+    background-color: #fff !important;
+    border-right: 1px solid #ddd;
+}
+.layui-bg-white a {
+    color: #555 !important;
+    border-top: 1px solid #e6e6e6;
+}
+.layui-bg-white .layui-nav-itemed>.layui-nav-child {
+    background-color: #eee !important;
+    box-shadow: inset 2px 1px 1px 0px #ddd;
+}
+.layui-bg-white .layui-nav-itemed>.layui-nav-child a {
+    border: 0 !important;
+}
+
+
+
+.layui-bg-white.layui-nav-tree .layui-nav-item a:hover {
+    background-color: #ccc !important;
+}
+
+.layui-bg-white.layui-nav .layui-nav-more {
+    border-color: #999 transparent transparent;
+}
+
+.layui-bg-white.layui-nav .layui-nav-mored, 
+.layui-bg-white .layui-nav-itemed>a .layui-nav-more {
+    border-color: transparent transparent #777;
+}
+
+.layui-bg-white.layui-nav-tree .layui-nav-child dd.layui-this, 
+.layui-bg-white.layui-nav-tree .layui-nav-child dd.layui-this a, 
+.layui-bg-white.layui-nav-tree .layui-this, 
+.layui-bg-white.layui-nav-tree .layui-this>a, 
+.layui-bg-white.layui-nav-tree .layui-this>a:hover {
+    background-color: #e6e6e6;
+    box-shadow: inset 0px 1px 0px 1px #e4e0e0;
+}
+
+
+
+
+
+
+
+
+
+

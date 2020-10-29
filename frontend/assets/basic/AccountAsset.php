@@ -13,7 +13,7 @@ class AccountAsset extends AssetBundle
 {
 
     public $js = [
-        'js/account.js',
+        //'js/account.js',
     ];
 
     public $css = [

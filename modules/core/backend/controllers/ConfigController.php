@@ -35,15 +35,27 @@ class ConfigController extends Controller
     }
 
 
+
+
     /**
      * @inheritdoc
      */
-    public function viewModels()
+    public function ajax()
+    {
+         return [
+             'save',
+         ];
+    }
+
+
+
+    /**
+     * @inheritdoc
+     */
+    public function verbs()
     {
         return [
-           'edit' => [
-               'class' => Edit::class,
-           ],
+            'save' => ['post'],
         ];
     }
 
@@ -56,15 +68,38 @@ class ConfigController extends Controller
      */
     public function actionEdit($section = null)
     {
-        $config = Yii::$app->config->getSystemConfig();
+        $config = Yii::$app->config->system();
         $section = $config->activeSection($section);
         if(!$section) {
             return $this->notFound();
         }
-        if($section->load($this->request->post()) && $section->save()) {
-            $this->session->setFlash('success', Yii::t('app', 'Config saved'));
-            return $this->refresh();
-        }
         return $this->render('edit', ['section' => $section]);
+    }
+
+
+
+
+    /**
+     * 保存。
+     * 
+     * @param  string $section section 名称
+     * @return json
+     */
+    public function actionSave( $section )
+    {
+        $config = Yii::$app->config->system();
+        $section = $config->activeSection($section);
+        if(!$section) {
+            return $this->error('页面已经过期！请刷新重试！');
+        }
+        try {
+            if($section->load($this->request->post()) && $section->save()) {
+                return $this->success();
+            }
+            return $this->error('验证出错', $section->getErrors()); 
+        } catch(\Exception | \Throwable $e) {
+            return $this->error($e->getMessage());
+        }
+
     }
 }

@@ -33,8 +33,12 @@ class Config extends Component
     public function init()
     {
         parent::init();
-        $this->config = Yii::$app->config->getConfig(self::CONFIG_FILE_NAME);
-        $this->path   = $this->config->getConfig(['paths', $this->id]);
+        $this->id = strtr($this->id, ['/' => '-']);
+        $this->config = Yii::$app->config->getUpload({
+            'type' => 'file',
+            'filename' => static::CONFIG_FILE_NAME,
+        });
+        $this->path   = $this->config->getNode(['paths.'. $this->id]);
     }
 
 

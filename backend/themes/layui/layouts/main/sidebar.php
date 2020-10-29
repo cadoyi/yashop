@@ -82,6 +82,11 @@ use yii\widgets\Menu;
                 [
                      'label' => '发布商品',
                 ],
+                [
+                    'label' => Yii::t('app', 'System config'),
+                    'url' => ['/core/config/edit'],
+                    'icon' => 'cog',
+                ],
            ],
       ])?>
     </div>

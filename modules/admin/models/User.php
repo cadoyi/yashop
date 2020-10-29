@@ -294,5 +294,44 @@ class User extends ActiveRecord implements IdentityInterface
         return true;
     }
 
+
+
+    /**
+     * @inheritdoc
+     */
+    public function fields()
+    {
+        $fields = parent::fields();
+        unset($fields['auth_key'], $fields['password_hash']);
+        $fields['created_at'] = function() {
+            return $this->asDatetime('created_at');
+        };
+        $fields['updated_at'] = function() {
+            return $this->asDatetime('updated_at');
+        };
+        $fields['is_active'] = function() {
+            return $this->isActiveText;
+        };
+        $fields['avatar'] = function() {
+            return (string) Yii::$app->storage->getUrl($this->avatar, 36);
+        };
+        return $fields;
+    }
+
+
+
+    /**
+     * is active 文本
+     * 
+     * @return string
+     */
+    public function getIsActiveText()
+    {
+        if($this->is_active) {
+            return '已启用';
+        }
+        return '已禁用';
+    }
+
     
 }

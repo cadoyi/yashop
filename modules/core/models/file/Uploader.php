@@ -34,7 +34,7 @@ class Uploader extends Component
      */
     public function __construct( $id, $config = [])
     {
-        $this->id = $id;
+        $this->id = strtr($id, ['/' => '-']);
         $this->_config = new Config(['id' => $id]);
         parent::__construct($config);
     }

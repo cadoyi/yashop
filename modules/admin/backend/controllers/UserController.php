@@ -22,13 +22,21 @@ class UserController extends Controller
      */
     public function actionIndex()
     {
-        $filterModel = new UserFilter();
-        $dataProvider = $filterModel->search($this->request->get());
+        return $this->render('index');
+    }
 
-        return $this->render('index', [
-            'filterModel'  => $filterModel,
-            'dataProvider' => $dataProvider,
-        ]);
+
+
+    /**
+     * layui 请求的数据。
+     * 
+     * @return json
+     */
+    public function actionData()
+    {
+        $filterModel = new UserFilter();
+        $dataProvider = $filterModel->search($this->request->get(), '');
+        return $this->serialize($dataProvider);
     }
 
 

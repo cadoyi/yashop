@@ -27,7 +27,9 @@
         "xxtime/flysystem-aliyun-oss": "^1.5",
         "yiisoft/yii2-mongodb": "^2.1",
         "yiisoft/yii2-httpclient": "^2.0",
-        "alipaysdk/easysdk": "^2.0"
+        "alipaysdk/easysdk": "^2.0",
+        "alibabacloud/client": "^1.5",
+        "alibabacloud/smsintl": "^1.8"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

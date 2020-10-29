@@ -57,3 +57,96 @@
     border: 1px solid #ddd;
     cursor: pointer;
 }
+
+
+
+.register .register-form {
+    max-width: 450px;
+    margin-left: 5rem;
+    margin-top: 3rem;
+}
+.register label {
+    white-space: nowrap;
+}
+.register .register-form .form-group .invalid-feedback {
+    display: block;
+    font-size: .7rem;
+}
+.register .register-form .form-group {
+    min-height: 61px;
+}
+.register .register-form .form-control {
+    border-radius: 0 !important;
+}
+.register .register-form .btn {
+    border-radius: 0 !important;
+    padding-left: 3rem;
+    padding-right: 3rem;
+}
+.register .register-form .btn.sendcode {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+.register #register-code {
+    border-right: 0 !important;
+}
+.register #register-code-image {
+    border: 1px solid #ddd;
+    border-left: 0;
+    cursor: pointer;
+}
+.register .was-validated .form-control:invalid + img, 
+.register .form-control.is-invalid + img {
+   border-color: #dc3545 !important;
+}
+.register .agreement label {
+    font-size: .7rem;
+    line-height: 1.5rem;
+    position: relative;
+    top: -2px;
+}
+.register .agreement a {
+    color: #007bff;
+}
+.register .agreement [type="checkbox"] {
+    cursor: pointer;
+}
+
+
+.register-password .username-input {
+    border: 0 !important;
+    background: transparent !important;
+    color: red;
+}
+
+.register-done .wrapper {
+    margin-left: 5rem;
+    margin-top: 5rem;
+    width: 450px;
+}
+.register-done .wrapper .wel {
+    font-weight: 600;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+.register-done .wrapper .reb {
+    font-size: .9rem;
+    padding-bottom: 1rem;
+}
+.register-done .wrapper .reb > b {
+    font-size: 1.1rem;
+    color: #fd5151;
+}
+
+.register-done .wrapper .wg {
+    color: #777;
+}
+.register-done .wrapper .wg .downtime {
+    font-size: 1.2rem;
+    color: #fd5151;
+    font-weight: 600;
+}
+.register-done .wrapper .wg > a {
+    color: #007bff;
+    font-size: .9rem;
+}

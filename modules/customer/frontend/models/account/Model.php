@@ -15,6 +15,7 @@ use customer\models\types\Email;
  */
 class Model extends \yii\base\Model
 {
+    const SESSION_KEY = 'MODEL';
 
     public $username;
 
@@ -132,5 +133,89 @@ class Model extends \yii\base\Model
         return $this->_account;
     }
 
+
+
     
+
+    /**
+     * 获取保存的 session 数据。
+     * 
+     * @return array
+     */
+    public function getSessionData()
+    {
+        $data = Yii::$app->session->get(static::SESSION_KEY, []);
+        $time = $data['expire'] ?? 0;
+        if(time() >= $time) {
+            Yii::$app->session->remove(static::SESSION_KEY);
+            return [];
+        }
+        return $data;
+    }
+
+
+
+    /**
+     * 获取过期时间。
+     * 
+     * @return int 单位为秒。
+     */
+    public function getExpire()
+    {
+        return 300;
+    }
+
+
+
+    /**
+     * 保存验证码。
+     * 
+     * @param  string $code 验证码
+     * @return array
+     */
+    public function saveSessionData( $code, $params = [])
+    {
+         $data = [
+             'code'   => $code,
+             'expire' => time() + $this->getExpire(),
+             'data'   => $params,
+         ];
+         Yii::$app->session->set(static::SESSION_KEY, $data);
+    }
+
+
+
+
+    /**
+     * 生成 code
+     * 
+     * @return int
+     */
+    public function generateCode($length = 6)
+    {
+        $str = mt_rand(1, 9);
+        while($length > 1) {
+            $str .= mt_rand(0,9);
+            $length--;
+        }
+        return $str;
+    }
+
+
+
+    /**
+     * 验证发送的验证码。
+     * 
+     * @param  string $code  验证码
+     * @return boolean
+     */
+    public function validateCode( $code )
+    {
+        $data = $this->getSessionData();
+        $savedCode = (int) ($data['code'] ?? 0);
+        return ($savedCode === (int) $code);
+    }
+
+
+ 
 }

@@ -62,9 +62,9 @@ $this->title = Yii::t('app', 'Login');
                           <span class="input-group-text">
                               <i class="fa fa-envelope-open"></i>
                           </span>
-                    </div>{input}</div><div><button class="btn btn-submit text-nowrap rounded-0">发送验证码</button></div></div>{error}'
-                ])->passwordInput([
-                    'placeholder' => '请输入密码',
+                    </div>{input}</div><div><button id="sendcode" class="btn btn-submit text-nowrap rounded-0">发送验证码</button></div></div>{error}'
+                ])->textInput([
+                    'placeholder' => '验证码',
                 ])->label('') ?>
 
                 <div class="form-group">
@@ -87,3 +87,43 @@ $this->title = Yii::t('app', 'Login');
         </div>
     </div>
 </div>
+<?php $this->beginScript() ?>
+<script>
+    $('#sendcode').on('click', function( e ) {
+        e.preventDefault();
+        e.stopPropagation();
+        var self = $(this);
+        self.attr('disabled', 'disabled').text('发送中...');
+        var input = $('#logincodeform-username');
+        var username = input.val();
+        if(!username) {
+            alert('请输入用户名');
+            return;
+        }
+        var url = '<?= Url::to(['/customer/account/send-login-code']) ?>';
+        $.post(url, {username: username}).then(function( res ) {
+            if(res.error) {
+                if(res.error === 2) {
+                    $.each(res.data, function(k,m) {
+                        alert(m);
+                        self.removeAttr('disabled').text('发送验证码');
+                        return false;
+                    });
+                    self.removeAttr('disabled').text('发送验证码');
+                    return;
+                }
+                self.removeAttr('disabled').text('发送验证码');
+                alert(res.message);
+                return;
+            }
+            downtime(60, function(t) {
+                self.attr('disabled', 'disabled').text('重新发送（' + t +'）');
+                if(t == 0) {
+                    self.removeAttr('disabled').text('发送验证码');
+                }
+            });
+        });
+
+    });
+</script>
+<?php $this->endScript() ?>

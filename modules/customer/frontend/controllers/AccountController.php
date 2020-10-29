@@ -5,8 +5,14 @@ namespace customer\frontend\controllers;
 use Yii;
 use frontend\controllers\Controller;
 use customer\frontend\models\account\LoginForm;
+use customer\frontend\models\account\LoginCodeForm;
+
 use customer\frontend\models\account\RegisterForm;
+use customer\frontend\models\account\RegisterCodeForm;
+use customer\frontend\models\account\RegisterPasswordForm;
+use customer\frontend\models\account\RegisterDoneForm;
 use customer\frontend\models\account\SendRegisterCodeForm;
+
 use customer\frontend\models\account\ForgotPasswordForm;
 use customer\frontend\models\account\PasswordForm;
 use customer\models\Customer;
@@ -61,6 +67,7 @@ class AccountController extends Controller
     }
 
 
+
     /**
      * 验证码登录
      */
@@ -70,17 +77,43 @@ class AccountController extends Controller
             return $this->goBack();
         }
         $this->layout = 'account';
-        $model = new LoginForm();
-
+        $model = new LoginCodeForm([
+            'scenario' => LoginCodeForm::SCENARIO_CODE,
+        ]);
         if($model->load($this->request->post()) && $model->login()) {
             $this->_success('Login successful');
             return $this->goHome();
         }
-
         return $this->render('login-code', [
             'model' => $model,
         ]);
     }
+
+
+
+    /**
+     * 发送登录验证码。
+     */
+    public function actionSendLoginCode()
+    {
+        if(!$this->user->isGuest) {
+            return $this->error('页面已经过期！请刷新本页面！');
+        }
+        $model = new LoginCodeForm([
+            'username' => $this->request->post('username'),
+        ]);
+        if(!$model->validate()) {
+            return $this->error($model);
+        }
+        try {
+            $model->sendCode();
+        } catch(\Exception | \Throwable $e) {
+            return $this->error($e);
+        }
+        return $this->success();
+    }
+
+
 
 
 
@@ -99,8 +132,13 @@ class AccountController extends Controller
 
 
 
+
+
+
+
+
     /**
-     * 注册用户
+     * 注册用户 [填写帐号]
      *
      * @param  string $type 注册类型
      *    email
@@ -108,14 +146,12 @@ class AccountController extends Controller
      */
     public function actionRegister()
     {
-        $this->layout = 'login';
+        $this->layout = 'account';
         $form = new RegisterForm();
  
-        if($form->load($this->request->post()) && $form->register()) {
-            $customer = $form->getCustomer();
-            $this->user->login($customer);
-            $this->_success('Customer registered');
-            return $this->goHome();
+        if($form->load($this->request->post()) && $form->validate()) {
+            $form->saveUsername();
+            return $this->redirect(['register-code']);
         }
         return $this->render('register', [
             'model' => $form,
@@ -126,81 +162,97 @@ class AccountController extends Controller
 
 
     /**
-     * 发送注册码
-     * 
-     * @param  string $username 用户名
+     * 注册用户 [验证帐号]
      */
-    public function actionSendRegisterCode( $username )
+    public function actionRegisterCode()
     {
-        $form = new SendRegisterCodeForm(['username' => $username]);
-        if(!$form->validate()) {
-            $error = $form->getErrorMessage();
-            return $this->asJson([
-                'success' => false,
-                'message' => $error,
-            ]);
+        $this->layout = 'account';
+        $form = new RegisterCodeForm();
+        if(!$form->username) {
+            return $this->redirect(['register']);
+        }
+        if($form->load($this->request->post()) && $form->validate()) {
+            $form->setIsValidated();
+            return $this->redirect(['register-password']);
+        }
+
+        return $this->render('register-code', [
+            'model' => $form,
+        ]);
+    }
+
+
+
+
+    /**
+     * 注册用户 ajax 发送验证码.
+     */
+    public function actionSendRegisterCode()
+    {
+        if(!$this->user->isGuest) {
+            return $this->error('页面已经过期！请刷新本页面！');
+        }
+        $model = new SendRegisterCodeForm([
+            'username' => $this->request->post('username'),
+        ]);
+        if(!$model->validate()) {
+            return $this->error($model);
         }
         try {
-            $code = $form->send();
-            Yii::$app->session->set('register_code', [
-                'code' => $code,
-                'time' => time(),
-                'username' => $username,
-            ]);
-            $data = [
-                'success' => true,
-                'username' => $username,
-            ];
-        } catch(\Exception $e) {
-            $data['success'] = false;
-            $data['message'] = $e->getMessage();
-        } catch(\Throwable $e) {
-            $data['success'] = false;
-            $data['message'] = $e->getMessage();
+            $model->sendCode();
+        } catch(\Exception | \Throwable $e) {
+            return $this->error($e);
         }
-        return $this->asJson($data);
+        return $this->success();
     }
 
 
 
     /**
-     * 发送忘记密码的验证码
-     * 
-     * @return string
+     * 注册用户 [填写密码]
      */
-    public function actionSendForgotPasswordCode()
+    public function actionRegisterPassword()
     {
-        $form = new ForgotPasswordForm();
-        $form->load($this->request->post(), '');
-        if(!$form->validate()) {
-           $data = ['success' => false, 'message' => $form->getErrorMessage()];
-           return $this->asJson($data);
+        $this->layout = 'account';
+        $form = new RegisterPasswordForm();
+        if(!$form->username) {
+            return $this->redirect(['register']);
         }
-        if(!$form->isUsernameExist()) {
-            $data['success'] = true;
-            return $this->asJson($data);
+        if(!$form->isValidated()) {
+            return $this->redirect(['register-code']);
         }
-        try {
-            $code = $form->send();
-            Yii::$app->session->set('customer_forgot_code', [
-                'code' => $code,
-                'time' => time(),
-                'username' => $form->username,
-            ]);
-            $data = [
-                'success' => true,
-                'username' => $form->username,
-            ];
-            return $this->asJson($data);
-        } catch(\Exception $e) {
-            $data['success'] = false;
-            $data['message'] = $e->getMessage();
-        } catch(\Throwable $e) {
-            $data['success'] = false;
-            $data['message'] = $e->getMessage();
+
+        if($form->load($this->request->post()) && $form->register()) {
+            return $this->redirect(['register-done']);
         }
-        return $this->asJson($data);
+
+        return $this->render('register-password', [
+            'model' => $form,
+        ]);
     }
+
+
+    
+    /**
+     * 注册用户 [注册成功]
+     */
+    public function actionRegisterDone()
+    {
+        $this->layout = 'account';
+        $form = new RegisterDoneForm();
+        if(!$form->isRegistered()) {
+            return $this->redirect(['register']);
+        }
+        $form->clear();
+        return $this->render('register-done', [
+            'model' => $form,
+        ]);
+    }
+
+
+
+
+
 
 
 
@@ -212,6 +264,10 @@ class AccountController extends Controller
      */
     public function actionForgotPassword()
     {
+        if(!$this->user->isGuest) {
+            return $this->notFound();
+        }
+
         $form = new ForgotPasswordForm();
         $form->scenario = ForgotPasswordForm::SCENARIO_ACCOUNT_CODE;
         if($form->load($this->request->post()) && $form->validate()) {
@@ -222,6 +278,7 @@ class AccountController extends Controller
             'model' => $form,
         ]);
     }
+
 
 
 

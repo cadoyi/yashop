@@ -3,6 +3,7 @@
 namespace customer\frontend\models\account;
 
 use Yii;
+use customer\jobs\LoginEmail;
 
 /**
  * 验证码登录
@@ -12,7 +13,9 @@ use Yii;
 class LoginCodeForm extends Model
 {
 
-    const SESSION_KEY = 'login-code';
+    const SESSION_KEY = 'loginCode';
+
+    const SCENARIO_CODE = 'code';
 
     public $code;
 
@@ -24,10 +27,36 @@ class LoginCodeForm extends Model
     public function rules()
     {
         return array_merge(parent::rules(), [
-            ['code', 'required'],
-            ['code', 'validateCode', 'skipOnError' => true],
-            [['username'], 'validateAccount', 'skipOnError' => true], 
+            ['code', 'required', 'on' => static::SCENARIO_CODE ],
+            ['code', function($attribute) {
+                if(!$this->validateCode($this->$attribute)) {
+                    $this->addError($attribute, '验证码已经过期！');   
+                }
+            }, 'skipOnError' => true, 'on' => static::SCENARIO_CODE],
+            [['code'], function($attribute) {
+                $params = $this->getSessionData();
+                $data = $params['data'] ?? [];
+                $username = $data['username'] ?? false;
+                if($username !== $this->username) {
+                    return $this->addError('code', '验证码已过期');
+                }
+            }, 'on' => static::SCENARIO_CODE], 
         ]);
+    }
+
+
+
+    /**
+     * @inheritdoc
+     */
+    public function scenarios()
+    {
+        $scenarios = parent::scenarios();
+        $scenarios[static::SCENARIO_CODE] = [
+           'code',
+           'username',
+        ];
+        return $scenarios;
     }
 
 
@@ -45,72 +74,6 @@ class LoginCodeForm extends Model
 
 
     /**
-     * 获取 session 数据.
-     * 
-     * @return array
-     */
-    public function getSessionData()
-    {
-        $data = Yii::$app->session->get(static::SESSION_KEY, []);
-        $time = $data['time'] ?? 0;
-        if(time() - $time > 300) {
-            $data['code'] = false;
-        }
-        return $data;
-    }
-
-
-
-    /**
-     * 发送验证码.
-     */
-    public function sendCode()
-    {
-        if($this->isEmail()) {
-            
-        }
-    }
-
-
-
-    /**
-     * 验证验证码
-     * 
-     * @param  string $attribute 属性名
-     */
-    public function validateCode($attribute)
-    {
-        $code = $this->$attribute;
-        $params = $this->getSessionData();
-        $_code = $params['code'] ?? false;
-        if($code !== $_code) {
-            $this->addError($attribute, '验证码已过期!');
-        }
-    }
-
-
-
-    /**
-     * 验证账户
-     * 
-     * @param  string $attribute 属性名
-     */
-    public function validateAccount($attribute)
-    {
-        $account = $this->account;
-        if(!$account) {
-            return $this->addError($attribute, '用户不存在!');
-        }
-        $params = $this->getSessionData();
-        $username = $params['username'] ?? false;
-        if($username !== $this->username) {
-            return $this->addError('code', '验证码已过期');
-        }
-
-    }
-
-
-    /**
      * 登录用户
      * 
      * @return boolean
@@ -125,6 +88,95 @@ class LoginCodeForm extends Model
         return Yii::$app->user->login($customer, $time);
     }
 
+
+
+    /**
+     * 是否可以发送。
+     * 
+     * @return boolean
+     */
+    public function canSend()
+    {
+        $data = $this->getSessionData();
+        if(!empty($data)) {
+            $time = $data['expire'] ?? 0;
+            if($time === 0) {
+                return true;
+            }
+            return time() - ($time - $this->getExpire()) > 60;             
+        }
+        return true;
+    }
+
+
+
+    /**
+     * 是否已经达到发送上线。
+     * 
+     * @return boolean
+     */
+    public function reachedMax()
+    {
+        return false;
+    }
+
+
+
+
+    /**
+     * 发送验证码
+     */
+    public function sendCode()
+    {
+        if($this->reachedMax()) {
+            throw new \Exception('验证码已经到达最大发送限额！');
+        }
+
+        if(!$this->canSend()) {
+            throw new \Exception('每次发送验证码需要间隔 60 秒！');
+        }
+        if($this->isEmail()) {
+            $this->sendEmailCode();
+        } else {
+            $this->sendPhoneCode();
+        } 
+    }
+
+
+
+    /**
+     * 发送邮件验证码
+     * 
+     * @return boolean
+     */
+    public function sendEmailCode()
+    {
+        $code = $this->generateCode();
+        $this->saveSessionData($code, [
+             'username' => $this->username,
+        ]);
+        $message = new LoginEmail([
+            'email' => $this->username,
+            'code'  => $code,
+        ]);
+        Yii::$app->queue->push($message);
+    }
+
+
+
+    /**
+     * 发送手机验证码。
+     * 
+     * @return boolean
+     */
+    public function sendPhoneCode()
+    {
+        $code = $this->generateCode();
+        $this->saveSessionData($code, [
+             'username' => $this->username,
+        ]);
+        throw new \Exception('暂时不支持发送手机验证码！');
+    }
 
 
 }

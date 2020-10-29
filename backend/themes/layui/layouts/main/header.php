@@ -1,11 +1,12 @@
 <?php 
 use yii\helpers\Html;
 use yii\helpers\Url;
+
 ?>
 <div class="layui-header">
-    <div class="layui-logo">
+    <a class="layui-logo" href="<?= Yii::$app->homeUrl ?>">
          <?= Html::encode(Yii::$app->name) ?>      
-    </div>
+    </a>
 
     <ul class="layui-nav layui-layout-left">
       <li class="layui-nav-item"><a href="">控制台</a></li>

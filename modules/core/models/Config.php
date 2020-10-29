@@ -174,4 +174,20 @@ class Config extends ActiveRecord
     }
 
 
+
+
+    /**
+     * 查询所有。
+     * 
+     * @return array
+     */
+    public static function all()
+    {
+        return static::find()
+            ->indexBy('path')
+            ->tableCache()
+            ->all();
+    }
+
+
 }

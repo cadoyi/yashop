@@ -51,7 +51,6 @@ $this->addBreadcrumb(Yii::t('app', 'Manage user'), ['index']);
             'user_id'  => $model->id,
             'multiple' => false,
         ]) ?>
-
     </div>
 </div>
     <?= Html::submitButton(Yii::t('app', 'Submit'), [

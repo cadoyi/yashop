@@ -77,7 +77,7 @@ class Controller extends \cando\web\Controller
      * @param  array  $data  附加的数据
      * @return string
      */
-    protected function error( $message, $data = [])
+    protected function error( $message, $code = 1, $data = [])
     {
         if($message instanceof Model) {
             $messages = $message->getFirstErrors();
@@ -88,7 +88,7 @@ class Controller extends \cando\web\Controller
             $message = reset($message);
         }
         $_data = [
-            'error'   => 1,
+            'error'   => $code,
             'message' => $message,
             'data'    => $data,
         ];
@@ -120,9 +120,33 @@ class Controller extends \cando\web\Controller
     public function render($view, $params = [])
     {
         if($this->request->isAjax && $this->request->get('_pjax')) {
-            return parent::renderPartial($view, $params);
+            return $this->renderAjax($view, $params);
         }
         return parent::render($view, $params);
+    }
+
+
+
+    /**
+     * serialize dataProvider
+     * 
+     * @param  [type] $dataProvider [description]
+     * @return [type]               [description]
+     */
+    public function serialize($dataProvider)
+    {
+        $models = $dataProvider->getModels();
+        $data = [];
+        foreach($models as $model) {
+            $data[] = $model->toArray();
+        }
+        $jsonData = [
+           'code'  => 0,
+           'msg'   => "",
+           'count' => $dataProvider->getTotalCount(),
+           'data'  => $data,
+        ];
+        return $this->asJson($jsonData);
     }
 
 }

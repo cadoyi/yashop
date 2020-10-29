@@ -9,19 +9,18 @@ use customer\models\types\Phone;
 
 
 /**
- * register form
+ * 注册使用的 Form
  *
  * @author  zhangyang <zhangyangcado@qq.com>
  */
 class RegisterForm extends Model
 {
 
-    public $password;
+    const SESSION_KEY = 'register-username';
 
-    public $password_confirm;
 
     /**
-     * @var string 手机号或者邮箱验证码
+     * @var string 图片验证码
      */
     public $code;
 
@@ -35,28 +34,14 @@ class RegisterForm extends Model
     public function rules()
     {
         return [
-            [['username', 'code', 'password', 'password_confirm'], 'required'],
+            [['username', 'code'], 'required'],
             [['username'], 'compose', 'rules' => [
                     ['email'],
                     ['phone'],
                 ],
                 'condition' => 'or',
             ], 
-            ['code', 'string', 'length' => 6],
-            [['code'], function() {
-                $code = Yii::$app->session->get('register_code');
-                if(!$code || !is_array($code) || !isset($code['code'])) {
-                    $this->addError('code', Yii::t('app', 'Please send captcha code first'));
-                    return;
-                }
-                if($this->code != $code['code']) {
-                    $this->addError('code', Yii::t('app', 'Captcha code error'));
-                }
-            }],
-            [['password', 'password_confirm'], 'string', 'min' => 6],
-            [['password'], 'match', 'pattern' => '/[a-zA-Z]/', 'message' => '{attribute}必须包含至少一个大小写字母'],
-            [['password'], 'match', 'pattern' => '/[0-9]/', 'message' => '{attribute}必须至少包含一个数字'],
-            [['password_confirm'], 'compare', 'compareAttribute' => 'password'],
+            ['code', 'captcha', 'captchaAction' => '/customer/account/captcha'],
             ['username', 'validateUsername', 'skipOnError' => true],
         ];
     }       
@@ -78,8 +63,6 @@ class RegisterForm extends Model
     {
         return [
             'username'         => Yii::t('app', 'Account'),
-            'password'         => Yii::t('app', 'Password'),
-            'password_confirm' => Yii::t('app', 'Confirm password'),
             'code'             => Yii::t('app', 'Verify code'),
         ];
     }
@@ -102,73 +85,51 @@ class RegisterForm extends Model
     }
 
 
+
+
+
     /**
-     * 注册用户
+     * 保存用户名.
      * 
-     * @return boolean
+     * @return string
      */
-    public function register()
+    public function saveUsername()
     {
-        if(!$this->validate()) {
+        Yii::$app->session->set(static::SESSION_KEY, [
+            'expire'   => time() + 3600,
+            'username' => $this->username,
+        ]);
+    }
+
+
+
+    /**
+     * 清除保存的内容.
+     */
+    public static function clear()
+    {
+        Yii::$app->session->remove(static::SESSION_KEY);
+    }
+
+
+
+    /**
+     * 获取保存的用户名.
+     * 
+     * @return array|boolean
+     */
+    public static function getSavedUsername()
+    {
+        $data = Yii::$app->session->get(static::SESSION_KEY, []);
+        $expire = $data['expire'] ?? 0;
+        if(time() > $expire) {
+            if(!empty($data)) {
+                static::clear();
+            }
             return false;
         }
-        if($this->isEmail()) {
-            return $this->registerEmailAccount();
-        }
-        return $this->regiserPhoneAccount();
+        return $data['username'];
     }
-
-
-
-    /**
-     * 注册 email 账户
-     * 
-     * @return boolean
-     */
-    public function registerEmailAccount()
-    {
-        $email = new Email();
-        $email->username = $this->username;
-        $email->setPassword($this->password);
-        if($email->save()) {
-            $this->_account = $email;
-            return true;
-        }
-        return false;
-    }
-
-
-
-    /**
-     * 注册手机号账户
-     * 
-     * @return boolean
-     */
-    public function registerPhoneAccount()
-    {
-        $phone = new Phone();
-        $phone->username = $this->username;
-        $phone->setPassword($this->password);
-        if($phone->save()) {
-            $this->_account = $phone;
-            return true;
-        }
-        return false;
-    }
-
-
-    
-    /**
-     * 获取 customer , 注册成功之后调用
-     * 
-     * @return Customer
-     */
-    public function getCustomer()
-    {
-        return $this->_account->getIdentity();
-    }
-
-
 
 
 }

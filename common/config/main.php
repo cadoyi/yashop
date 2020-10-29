@@ -19,11 +19,12 @@ return [
             'redis' => 'redisCache',
         ],
         'config' => [ 
-            'class'        => 'cando\config\Config',
-            'dir'          => 'config/config.d',
+            'class'        => 'cando\config\Manager',
+            //'dir'          => 'config/config.d',
             'systemConfig' => [
-                'modelClass' => 'core\models\Config',
-                'filename'   => 'system',
+                'modelClass'    => 'core\models\Config',
+                'filename'      => 'system',
+                'defaultRender' => 'core\backend\vms\config\renders\FieldRender',
             ],
         ],
         'linkable' => [

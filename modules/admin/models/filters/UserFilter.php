@@ -18,6 +18,15 @@ class UserFilter extends ActiveFilter
 
 
 
+    public function dataProviderConfig( $query )
+    {
+        return [
+            'pagination' => [
+                'pageSizeParam' => 'limit',
+            ],
+        ];
+    }
+
     
        /**
      * @inheritdoc
@@ -42,5 +51,8 @@ class UserFilter extends ActiveFilter
     {
         return 'uf';
     }
+
+
+
 
 }
