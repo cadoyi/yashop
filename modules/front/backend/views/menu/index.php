@@ -1,8 +1,8 @@
 <?php
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\grid\GridView;
-use yii\grid\ActionColumn;
+use common\grid\GridView;
+use common\grid\ActionColumn;
 ?>
 <?php 
 /**
@@ -14,7 +14,7 @@ $this->title = Yii::t('app', 'Manage menus');
 ?>
 <div class="grid-buttons">
     <?= Html::a(Yii::t('app', 'Add menu'), ['create'], [
-        'class' => 'btn btn-sm btn-primary',
+        'class' => 'btn btn-sm btn-molv',
     ])?>
 </div>
 <?= GridView::widget([
@@ -30,10 +30,10 @@ $this->title = Yii::t('app', 'Manage menus');
            'header' => Yii::t('app', 'Action'),
            'template' => '{items} {update} {delete}',
            'buttons' => [
-              'items' => function($action, $model, $key) {
-                  return Html::a(Yii::t('app', 'Manage menu items'), ['/front/menu-item/index', 'menu_id' => $key], [
-                      'class' => 'grid-link',
-                  ]);
+              'items' => function($url, $model, $key, $action) {
+                   $title = Yii::t('app', 'Manage menu items');
+                   $url = ['/front/menu-item/index', 'menu_id' => $key];
+                   return $action->createButton($title, $url);
               }
            ],
        ],

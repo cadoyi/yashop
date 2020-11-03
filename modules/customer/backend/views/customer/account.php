@@ -2,8 +2,8 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\helpers\ArrayHelper;
-use yii\grid\GridView;
-use yii\grid\ActionColumn;
+use common\grid\GridView;
+use common\grid\ActionColumn;
 
 ?>
 <?php 
@@ -20,12 +20,12 @@ $types = ArrayHelper::getColumn($accounts, 'type');
 <div class="grid-buttons">
      <?php if(!in_array('email', $types, true)): ?>
          <?= Html::a(Yii::t('app', 'Binding email account'), ['add-account', 'id' => $customer->id, 'type' => 'email'], [
-            'class' => 'btn btn-sm btn-primary',
+            'class' => 'btn btn-sm btn-molv',
          ])?>
      <?php endif; ?>
      <?php if(!in_array('phone', $types, true)): ?>
          <?= Html::a(Yii::t('app', 'Binding phone account'), ['add-account', 'id' => $customer->id , 'type' => 'phone'], [
-             'class' => 'btn btn-sm btn-primary',
+             'class' => 'btn btn-sm btn-molv',
          ])?>
      <?php endif; ?>
 </div>

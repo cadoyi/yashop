@@ -1,0 +1,41 @@
+
+.login-body {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+}
+
+.login-form {
+    background: #fff;
+    padding: 2rem 2rem;
+    border-radius: 4px;
+    width: 300px;
+}
+#loginform-code {
+    border-right: 0 !important;
+}
+#loginform-code-image {
+    border: 1px solid #ced4da;
+    border-left: 0;
+    cursor: pointer;
+}
+#loginform-code:focus + #loginform-code-image {
+    border-color: #80bdff;
+}
+
+.was-validated .form-control:invalid:focus + #loginform-code-image, 
+.form-control.is-invalid:focus + #loginform-code-image {
+    border-color: #dc3545;
+}
+
+
+.login-form .invalid-feedback {
+    display: none;
+}
+.custom-control-label[for="loginform-remember"] {
+    font-size: .8rem;
+    line-height: 1.5rem;
+}

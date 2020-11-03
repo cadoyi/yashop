@@ -1,0 +1,54 @@
+/**
+ * login layout
+ * 
+ */
+
+
+/****************** login-header *******************/
+
+.login-header {
+    background-color: #343a40;
+    height: 56px;
+}
+.login-header .navbar {
+    padding: 0 2rem;
+}
+.login-header .navbar a {
+    padding: 0;
+}
+.login-header a {
+    color: rgba(255,255,255, .7);
+    line-height: 56px;
+}
+.login-header a:hover {
+    color: #fff;
+}
+
+
+/*************** login-body ***********************/
+
+.login-body {
+    min-height: calc(100vh - 80px);
+    background-color: #20c997;
+}
+
+
+
+
+
+/************* login footer ***********************/
+
+
+.login-footer {
+    background-color: #343a40;
+    height: 24px;
+    color: rgba(255,255,255, .7);
+    font-size: .7rem;
+    line-height: 24px;
+}
+.login-footer a {
+    color: rgba(255,255,255, .7);
+}
+.login-footer a:hover {
+    color: #fff;
+}

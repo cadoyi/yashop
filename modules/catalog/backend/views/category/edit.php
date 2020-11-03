@@ -23,6 +23,6 @@ $this->addBreadcrumb(Yii::t('app', 'Manage categories'), ['index']);
     <?= $form->field($model, 'sort_order') ?>
 
     <?= Html::submitButton(Yii::t('app', 'Save'), [
-        'class' => 'btn btn-sm btn-primary',
+        'class' => 'btn btn-sm btn-molv',
     ]) ?>
 <?php $this->endForm() ?>

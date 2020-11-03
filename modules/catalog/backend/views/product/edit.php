@@ -5,7 +5,7 @@ use catalog\models\Brand;
 use store\models\Store;
 use common\widgets\CKEditorInput;
 use core\widgets\Uploader;
-use backend\assets\basic\catalog\ProductAsset;
+use backend\assets\bs4\catalog\ProductAsset;
 ProductAsset::register($this);
 ?>
 <?php 
@@ -29,13 +29,8 @@ $this->addBreadcrumb(Yii::t('app', 'Manage products'), ['index']);
 <?php $form = $this->beginForm([
    'id' => 'edit_catalog_product_form',
 ]) ?>
-<div class="form-buttons text-right border-bottom p-3 mb-2">
-    <?= Html::a(Yii::t('app', 'Back'), ['index'], ['class' => 'btn btn-sm btn-outline-secondary']) ?>
-    <?= Html::submitButton(Yii::t('app', 'Save'), [
-           'class' => 'btn btn-sm btn-primary',
-    ])?>
-</div>
-<ul class="nav nav-tabs">
+
+<ul class="nav nav-tabs nav-tabs-brief">
     <li class="nav-item">
         <a class="nav-link active" data-toggle="tab" href="#basic_info">
             <?= Yii::t('app', 'Basic info') ?>
@@ -191,5 +186,10 @@ $this->addBreadcrumb(Yii::t('app', 'Manage products'), ['index']);
         <?php endif; ?>
     </div>
 </div>
-
+<div class="form-buttons p-3 mb-2">
+    <?= Html::a(Yii::t('app', 'Back'), ['index'], ['class' => 'btn btn-sm btn-outline-secondary btn-long']) ?>
+    <?= Html::submitButton(Yii::t('app', 'Save'), [
+           'class' => 'btn btn-sm btn-molv',
+    ])?>
+</div>
 <?php $this->endForm() ?>

@@ -16,12 +16,21 @@ use yii\helpers\Url;
 $addresses = $dataProvider->models;
 $this->title = Yii::t('app', 'Address list');
 $this->addBreadcrumb(Yii::t('app', 'Manage customers'), ['/customer/customer/index']);
-?>    
+?>
+<style>
+    .card {
+        font-size: .8rem;
+        line-height: 1.5rem;
+    }
+    .card-header {
+        padding: .5rem 1rem;
+        font-size: .8rem;
+    }
+</style>
 <div class="text-right border-bottom pb-3 mb-3">
-    <?= Html::a(Yii::t('app', 'Add new address'), ['create', 'cid' => $customer->id], ['class' => 'btn btn-sm btn-primary']) ?>
+    <?= Html::a(Yii::t('app', 'Add new address'), ['create', 'cid' => $customer->id], ['class' => 'btn btn-sm btn-molv']) ?>
 </div>
 <div class="d-flex flex-wrap">
-
     <?php foreach($addresses as $address): ?>
         <div class="card m-1" style="width: 320px;">
             <div class="card-header d-flex flex-nowrap justify-content-arround">

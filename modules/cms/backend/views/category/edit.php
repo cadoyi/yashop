@@ -17,6 +17,6 @@ $this->addBreadcrumb(Yii::t('app', 'Manage article categories'), ['index']);
    <?= $form->field($model, 'name') ?>
    <?= $form->field($model, 'description')->textarea() ?>
    <?= Html::submitButton(Yii::t('app', 'Save'), [
-       'class' => 'btn btn-sm btn-primary',
+       'class' => 'btn btn-sm btn-molv btn-long',
    ])?>
 <?php $this->endForm() ?>

@@ -1,9 +1,8 @@
 <?php
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\grid\GridView;
-use yii\grid\ActionColumn;
-use yii\bootstrap4\ActiveForm;
+use common\grid\GridView;
+use common\grid\ActionColumn;
 
 ?>
 <?php 
@@ -17,25 +16,13 @@ use yii\bootstrap4\ActiveForm;
 $this->title = Yii::t('app', 'Manage roles');
 ?>
 <div class="grid-buttons">
-    <?= Html::a(Yii::t('app', 'Add role'), ['create'], ['class' => 'btn btn-sm btn-primary'])?>
+    <?= Html::a(Yii::t('app', 'Add role'), ['create'], ['class' => 'btn btn-sm btn-molv'])?>
 </div>
-<div class="grid-search">
-    <?php $form =  ActiveForm::begin([
-        'id' => 'role_search_form',
-        'method' => 'get',
-    ]) ?>
-    <?= $form->field($filterModel, 'name') ?>
-    <?= Html::a(Yii::t('app', 'Reset'), ['index'], [
-        'class' => 'btn btn-sm btn-secondary'
-    ])?>
-    <?= Html::submitButton(Yii::t('app', 'Search'), [
-         'class' => 'btn btn-sm btn-primary',
-    ])?>
-    <?php ActiveForm::end() ?>
-</div>
+
 <?= GridView::widget([
    'id' => 'admin_role_grid',
    'dataProvider' => $dataProvider,
+   'filterModel'  => $filterModel,
    'columns' => [
        'name',
        'label' => [

@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use Yii;
+use yii\base\Model;
 
 /**
  * 前端控制器

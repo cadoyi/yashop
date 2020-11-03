@@ -43,6 +43,9 @@ $tabItems[$itemName]['active'] = true;
 ?>
 <?= Tabs::widget([
     'id' => 'customer_account_tabs',
+    'options' => [
+        'class' => 'nav-tabs-brief',
+    ],
     'items' => $tabItems,
     'tabContentOptions' => [
         'class' => 'tab-content p-3',

@@ -155,13 +155,23 @@ body {
 /*******************************************/
 .layout-body {
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 60px;
+    left: 200px;
     right: 0;
     z-index: 0;
-    padding-left: 200px;
-    padding-top: 60px;
+    padding: 0 1rem;
+    padding-bottom: 66px;
     min-height: calc(100vh - 120px);
+}
+.layout-body > nav {
+   margin-left: -1rem;
+   margin-right: -1rem;
+}
+.layout-body > nav > .breadcrumbs {
+    margin: 0;
+    background: transparent;
+    font-size: .8rem;
+    line-height: 1.5rem;
 }
 
 /*******************************************/

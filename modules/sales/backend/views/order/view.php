@@ -19,8 +19,8 @@ $this->addBreadcrumb(Yii::t('app', 'Manage orders'), ['index']);
         <div>订单号: #<?= $order->increment_id ?> | <?= $order->asDatetime('created_at') ?></div>
     </div>
     <div class="">
-        <?= Html::a('返回', ['index'], ['class' => 'btn btn-sm btn-outline-secondary'])?>
-        <?= Html::a('发货', '#', ['class' => 'btn btn-sm btn-primary']) ?>
+        <?= Html::a('返回', ['index'], ['class' => 'btn btn-sm btn-long btn-outline-secondary'])?>
+        <?= Html::a('发货', '#', ['class' => 'btn btn-sm btn-molv']) ?>
     </div>
 </div>
 <div class="order-info row">

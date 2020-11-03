@@ -7,6 +7,12 @@ AccountAsset::register($this);
 ?>
 <?php 
 /**
+ * 客户的账户操作布局
+ *    登录
+ *    注册
+ *    找回密码
+ *    
+ * 
  * @var  $this yii\web\View
  *
  * 

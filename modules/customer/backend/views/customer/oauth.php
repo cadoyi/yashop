@@ -1,8 +1,8 @@
 <?php
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\grid\GridView;
-use yii\grid\ActionColumn;
+use common\grid\GridView;
+use common\grid\ActionColumn;
 
 ?>
 <?php 

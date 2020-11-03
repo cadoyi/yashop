@@ -14,8 +14,6 @@ use cando\db\ActiveRecord;
 class TypeAttribute extends ActiveRecord
 {
 
-    protected $_config;
-
 
     /**
      * @inheritdoc
@@ -71,10 +69,23 @@ class TypeAttribute extends ActiveRecord
             'name'       => Yii::t('app', 'Attribute name'),
             'type_id'    => Yii::t('app', 'Product type'),
             'input_type' => Yii::t('app', 'Input type'),
-            'values'     => Yii::t('app', 'Values'),
+            'values'     => Yii::t('app', 'Pre-selected values'),
             'is_active'  => Yii::t('app', 'Status'),
             'created_at' => Yii::t('app', 'Created at'),
             'updated_at' => Yii::t('app', 'Updated at'),
+        ];
+    }
+
+
+
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeHints()
+    {
+        return [
+            'values' => '使用 json 格式来表示预选值',
         ];
     }
 
@@ -100,7 +111,8 @@ class TypeAttribute extends ActiveRecord
      */
     public static function inputTypeHashOptions()
     {
-         return (new inputs\Config())->getHashOptions();
+        $config = TypeAttributeConfig::instance();
+        return $config->hashOptions();
     }
 
 
@@ -112,10 +124,7 @@ class TypeAttribute extends ActiveRecord
      */
     public function getConfig()
     {
-        if(!$this->_config) {
-            $this->_config = new inputs\Config();
-        }
-        return $this->_config;
+        return TypeAttributeConfig::instance();
     }
 
 
@@ -127,7 +136,7 @@ class TypeAttribute extends ActiveRecord
      */
     public function getTypeConfig()
     {
-        return $this->getConfig()->getTypeConfig($this->input_type);
+        return $this->getConfig()->getInputTypeConfig($this->input_type, $this);
     }
 
     

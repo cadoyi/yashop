@@ -6,16 +6,16 @@ use Yii;
 use frontend\controllers\Controller;
 use customer\frontend\models\account\LoginForm;
 use customer\frontend\models\account\LoginCodeForm;
-
 use customer\frontend\models\account\RegisterForm;
 use customer\frontend\models\account\RegisterCodeForm;
 use customer\frontend\models\account\RegisterPasswordForm;
 use customer\frontend\models\account\RegisterDoneForm;
 use customer\frontend\models\account\SendRegisterCodeForm;
-
 use customer\frontend\models\account\ForgotPasswordForm;
-use customer\frontend\models\account\PasswordForm;
-use customer\models\Customer;
+use customer\frontend\models\account\ForgotPasswordVerifyForm;
+use customer\frontend\models\account\SendForgotPasswordCodeForm;
+use customer\frontend\models\account\ResetPasswordForm;
+use customer\frontend\models\account\ResetPasswordDoneForm;
 
 /**
  * 账户控制器
@@ -252,13 +252,8 @@ class AccountController extends Controller
 
 
 
-
-
-
-
-
     /**
-     * 忘记密码
+     * 忘记密码 [填写用户名]
      * 
      * @return string
      */
@@ -267,16 +262,63 @@ class AccountController extends Controller
         if(!$this->user->isGuest) {
             return $this->notFound();
         }
-
+        $this->layout = 'account';
         $form = new ForgotPasswordForm();
-        $form->scenario = ForgotPasswordForm::SCENARIO_ACCOUNT_CODE;
         if($form->load($this->request->post()) && $form->validate()) {
-            $this->session->set('forgoted_id', $form->getCustomer()->id);
-            return $this->redirect(['reset-password']);
+            $form->saveUsername();
+            return $this->redirect(['forgot-password-verify']);
         }
         return $this->render('forgot-password', [
             'model' => $form,
         ]);
+    }
+
+
+
+    /**
+     * 忘记密码 [验证用户名]
+     */
+    public function actionForgotPasswordVerify()
+    {
+        if(!$this->user->isGuest) {
+            return $this->notFound();
+        }  
+        $this->layout = 'account';
+        $form = new ForgotPasswordVerifyForm();
+        if(!$form->username) {
+            return $this->redirect(['forgot-password']);
+        }
+        if($form->load($this->request->post()) && $form->validate()) {
+            $form->addStep();
+            return $this->redirect(['reset-password']);
+        }
+        return $this->render('forgot-password-verify', [
+            'model' => $form,
+        ]);
+    }
+
+
+
+    /**
+     * 发送忘记密码的验证码.
+     */
+    public function actionSendForgotPasswordCode()
+    {
+        if(!$this->user->isGuest) {
+            return $this->error('页面已经过期！请刷新本页面！');
+        }
+        $model = new SendForgotPasswordCodeForm([
+            'username' => $this->request->post('username'),
+        ]);
+        if(!$model->validate()) {
+            return $this->error($model);
+        }
+        try {
+            $model->sendCode();
+        } catch(\Exception | \Throwable $e) {
+            return $this->error($e);
+        }
+        return $this->success();
     }
 
 
@@ -289,25 +331,40 @@ class AccountController extends Controller
      */
     public function actionResetPassword()
     {
-        $customer_id = $this->session->get('forgoted_id');
-        if(!$customer_id) {
+        if(!$this->user->isGuest) {
+            return $this->notFound();
+        }  
+        $this->layout = 'account';
+        $form = new ResetPasswordForm();
+        if(!$form->username) {
             return $this->redirect(['forgot-password']);
         }
-        $customer = $this->findModel($customer_id, Customer::class, false);
-        if(!$customer) {
-            $this->session->remove('forgoted_id');
-            return $this->redirect(['forgot-password']);
-        }
-        $model = new PasswordForm(['customer' => $customer]);
-        if($model->load($this->request->post()) && $model->changePassword()) {
-            $this->_success('Password changed');
-            $this->session->remove('forgoted_id');
-            return $this->redirect(['/customer/account/login']);
-        }
+        if($form->load($this->request->post()) && $form->resetPassword()) {
+            return $this->redirect(['reset-password-done']);
+        } 
         return $this->render('reset-password', [
-            'model' => $model,
+            'model' => $form
         ]);
+    }
 
+
+
+    /**
+     * 完成重置密码.
+     * 
+     * @return string
+     */
+    public function actionResetPasswordDone()
+    {
+        $this->layout = 'account';
+        $form = new ResetPasswordDoneForm();
+        if(!$form->username) {
+            return $this->redirect(['forgot-password']);
+        }
+        $form->clear();
+        return $this->render('reset-password-done', [
+            'model' => $form,
+        ]);
     }
 
 }

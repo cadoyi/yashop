@@ -1,7 +1,6 @@
 <?php
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\bootstrap4\ActiveForm;
 ?>
 <?php 
 /**
@@ -15,7 +14,7 @@ $this->addBreadcrumb(Yii::t('app', 'Manage customers'), ['/customer/customer/ind
 $this->addBreadcrumb(Yii::t('app', 'Address list'), ['index', 'cid' => $customer->id]);
 
 ?>
-<?php $form = ActiveForm::begin([
+<?php $form = $this->beginForm([
     'id' => 'edit_customer_address_form',
 ]) ?>
     <?= $form->field($address, 'tag') ?>
@@ -30,8 +29,8 @@ $this->addBreadcrumb(Yii::t('app', 'Address list'), ['index', 'cid' => $customer
         'checked' => $address->isDefault(),
     ]) ?>
     <?= Html::submitButton(Yii::t('app', 'Save'), [
-        'class' => 'btn btn-sm btn-primary',
+        'class' => 'btn btn-sm btn-molv',
     ]) ?>
 
-<?php ActiveForm::end() ?>
+<?php $this->endForm() ?>
 

@@ -28,7 +28,7 @@ $this->addBreadcrumb(Yii::t('app', 'Manage roles'), ['index']);
     'roleName' => $model->name,
 ]) ?>    
 <?= Html::submitButton(Yii::t('app', 'Save'), [
-    'class' => 'btn btn-sm btn-primary',
+    'class' => 'btn btn-sm btn-molv btn-long',
 ])?>
 
 <?php $this->endForm() ?>

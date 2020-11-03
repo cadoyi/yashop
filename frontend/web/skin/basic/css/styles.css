@@ -1,0 +1,46 @@
+/**
+ * 成熟的样式.
+ */
+section .section-title {
+    padding: 0 1rem;
+}
+section .section-content {
+    padding: 1rem 2rem;
+}
+section .section-title h3 {
+    font-size: 1.2rem;
+}
+
+.columns .column {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+}
+
+.columns .column .title {
+    display: block;
+    width: 90px;
+    padding-left: .5rem;
+    padding-right: .5rem;
+    white-space: nowrap;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+}
+.columns.columns-long .column .title {
+    width: 120px;
+    padding-left: .5rem;
+    padding-right: .5rem;
+}
+.columns.columns-left .column .title {
+    text-align: left;
+}  
+.columns.columns-right .column .title {
+    text-align: right;
+}
+
+.columns .column .content {
+    display: block;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+}

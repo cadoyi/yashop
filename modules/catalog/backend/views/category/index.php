@@ -1,12 +1,12 @@
 <?php
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\grid\GridView;
-use yii\grid\ActionColumn;
+use common\grid\GridView;
+use common\grid\ActionColumn;
 use common\assets\JsTreeAsset;
-use backend\assets\basic\catalog\CategoryAsset;
+//use backend\assets\basic\catalog\CategoryAsset;
 JsTreeAsset::register($this);
-CategoryAsset::register($this);
+//CategoryAsset::register($this);
 use catalog\models\widgets\Category;
 
 ?>
@@ -23,15 +23,16 @@ $categoryHashOptions = Category::hashOptions();
 $this->title = Yii::t('app', 'Manage categories');
 ?>
 
-<div class="grid-buttons">
-    <?= Html::a(Yii::t('app', 'Add new category'), ['create'], ['class' => 'btn btn-sm btn-primary'])?>
-</div>
+
 <div class="d-flex">
     <div class="my-3">
         <div><a class="root-category" href="#">分类结构预览</a></div>
         <div id="category_container" class="category-container">
         </div>
     </div>
+</div>
+<div class="grid-buttons">
+    <?= Html::a(Yii::t('app', 'Add new category'), ['create'], ['class' => 'btn btn-sm btn-molv'])?>
 </div>
 <?= GridView::widget([
     'id' => 'catalog_category_grid',
@@ -62,10 +63,10 @@ $this->title = Yii::t('app', 'Manage categories');
             'header' => Yii::t('app', 'Action'),
             'template' => '{addchild} {update} {delete}',
             'buttons' => [
-                'addchild' => function( $action, $model, $key ) {
-                    return Html::a(Yii::t('app', 'Add child category'), ['create', 'parent' => $key], [
-                        'class' => 'grid-link',
-                    ]);
+                'addchild' => function( $url, $model, $key, $action ) {
+                    $title = Yii::t('app', 'Add child category');
+                    $url = ['create', 'parent' => $key];
+                    return $action->createButton($title, $url);
                 }
             ],
         ]

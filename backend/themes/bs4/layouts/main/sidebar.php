@@ -90,11 +90,7 @@ $childLinkTemplate = '<a class="has-child" href="{url}">{label}<i class="fa fa-c
                          ],
                          [
                              'label' => Yii::t('app', 'Product type'),
-                             'url' => ['/catalog/product-type/index'],
-                         ],
-                         [
-                             'label' => Yii::t('app', 'Supplier'),
-                             'url' => ['/catalog/supplier/index'],
+                             'url' => ['/catalog/type/index'],
                          ],
                          [
                              'label' => Yii::t('app', 'Product'),
@@ -102,7 +98,7 @@ $childLinkTemplate = '<a class="has-child" href="{url}">{label}<i class="fa fa-c
                          ],
                          [
                               'label' => Yii::t('app', 'Product restore'),
-                              'url' => ['/catalog/product/restore-list'],
+                              'url' => ['/catalog/deleted-product/index'],
                          ]
 
 
@@ -110,21 +106,31 @@ $childLinkTemplate = '<a class="has-child" href="{url}">{label}<i class="fa fa-c
                 
                 ],
                 [
-                    'label' => Yii::t('app', 'System'),
+                    'label' => Yii::t('app', 'Sales'),
+                    'url' => '#',
+                    'template' => $childLinkTemplate,
+                    'items' => [
+                        [
+                            'label' => Yii::t('app', 'Order'),
+                            'url'   => ['/sales/order/index'],
+                        ],
+                    ],
+                ],
+                [
+                    'label' => Yii::t('app', 'Frontend'),
                     'url' => '#',
                     'icon' => 'desktop',
                     'template' => $childLinkTemplate,
                     'items' => [
                         [
-                            'label' => Yii::t('app', 'Menu action'),
-                            'url'   => ['/system/menu-action/index'],
+                            'label' => Yii::t('app', 'Menu'),
+                            'url'   => ['/front/menu/index'],
                         ],
                         [
                             'label' => Yii::t('app', 'Menu'),
                             'url'   => ['/system/menu/index'],
                         ],
                     ],
-
                 ],
                 [
                     'label' => Yii::t('app', 'System config'),

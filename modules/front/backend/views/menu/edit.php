@@ -17,6 +17,6 @@ $this->addBreadcrumb(Yii::t('app', 'Manage menus'), ['index']);
    <?= $form->field($model, 'name') ?>
    <?= $form->field($model, 'code') ?>
    <?= Html::submitButton(Yii::t('app', 'Save'), [
-       'class' => 'btn btn-sm btn-primary',
+       'class' => 'btn btn-sm btn-molv',
    ]) ?>
 <?php $this->endForm() ?>

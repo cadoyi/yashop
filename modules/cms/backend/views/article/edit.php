@@ -3,7 +3,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\GridView;
 use yii\grid\ActionColumn;
-use common\widgets\CKEditorInput;
+use backend\widgets\CKEditorInput;
 ?>
 <?php 
 /**
@@ -28,7 +28,7 @@ $this->addBreadcrumb(Yii::t('app', 'Manage articles'), ['index']);
    <?= $form->field($model, 'meta_keywords')->textarea() ?>
    <?= $form->field($model, 'meta_description')->textarea() ?>
    <?= Html::submitButton(Yii::t('app', 'Save'), [
-       'class' => 'btn btn-sm btn-primary',
+       'class' => 'btn btn-sm btn-molv btn-long',
    ]) ?>
 <?php $this->endForm() ?>
 

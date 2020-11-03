@@ -9,6 +9,7 @@ use yii\helpers\Url;
  * @var  $this yii\web\View
  * 
  */
+$identity = Yii::$app->user->identity;
 ?>
 <header class="header">
     <nav class="navbar navbar-light navbar-expand">
@@ -26,12 +27,12 @@ use yii\helpers\Url;
             <?php else: ?>
               <li class="nav-item dropdown login-menus">
                   <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  我的用户名
+                  <?= Html::encode($identity->nickname) ?>
                   </a>
                 <div class="dropdown-menu  link-dark" aria-labelledby="navbarDropdown">
                   <div class="dropdown-item d-flex flex-nowrap">
                       <div class="" style="width: 60px;">
-                           <img class="rounded-circle" width="60" height="60" src="<?= $this->getAssetUrl('img/ph.svg') ?>" />
+                           <img class="rounded-circle" width="30" height="30" src="<?= $this->getAssetUrl('img/ph.svg') ?>" />
                       </div>
                       <div class="flex-grow-1 d-flex justify-content-end align-self-start">
                           <a class="logout-link" 
@@ -44,8 +45,22 @@ use yii\helpers\Url;
                       </div>
                   </div>
                   <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="#">帐号管理</a>
-                  <a class="dropdown-item" href="#">我的订单</a>
+                  <a class="dropdown-item" href="<?= Url::to(['/customer/center/dashboard'])?>">
+                      <i class="fa fa-user-o"></i>
+                      个人中心
+                  </a>
+                  <a class="dropdown-item" href="#">
+                      <i class="fa fa-shopping-basket"></i> 
+                      我的订单
+                  </a>
+                  <a class="dropdown-item" href="#">
+                      <i class="fa fa-shopping-basket"></i> 
+                      我的订单
+                  </a>
+                  <a class="dropdown-item" href="#">
+                      <i class="fa fa-shopping-basket"></i> 
+                      我的订单
+                  </a>
                 </div>
               </li>
             <?php endif; ?>

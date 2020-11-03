@@ -63,17 +63,6 @@ class AccountController extends Controller
 
 
 
-    /**
-     * @inheritdoc
-     */
-    public function ajax()
-    {
-        return [
-            'login-post',
-        ];
-    }
-
-
 
     /**
      * 登录
@@ -86,33 +75,14 @@ class AccountController extends Controller
             return $this->goBack();
         }
         $model = new LoginForm();
+        if($model->load($this->request->post()) && $model->login()) {
+            $this->log('User login: {nickname}', [
+                'nickname' => $this->identity->nickname,
+            ]);
+            return $this->goHome();
+        }
         return $this->render('login', ['model' => $model]);
     }
-
-
-    /**
-     * 登录表单
-     */
-    public function actionLoginPost()
-    {
-        $model = new LoginForm();
-        try {
-            if($model->load($this->request->post()) && $model->login()) {
-                $this->log('User login: {nickname}', [
-                    'nickname' => $this->identity->nickname,
-                ]);
-                return $this->success([
-                    'url' => Yii::$app->homeUrl,
-                ]);
-            }
-            return $this->error($model, [
-                'captcha'    => $model->canDisplayCaptcha(),
-            ]);
-        } catch(\Exception | \Throwable $e) {
-            return $this->error($e->getMessage());
-        }
-    }
-
 
 
 

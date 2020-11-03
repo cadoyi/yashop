@@ -1,8 +1,8 @@
 <?php
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\grid\GridView;
-use yii\grid\ActionColumn;
+use common\grid\GridView;
+use common\grid\ActionColumn;
 use catalog\models\widgets\Category;
 ?>
 <?php 
@@ -19,7 +19,7 @@ $this->title = Yii::t('app', 'Manage product types');
 ?>
 <div class="grid-buttons">
     <?= Html::a(Yii::t('app', 'Add new product type'), ['create'], [
-        'class' => 'btn btn-sm btn-primary',
+        'class' => 'btn btn-sm btn-molv',
     ])?>
 </div>
 <?= GridView::widget([
@@ -47,8 +47,10 @@ $this->title = Yii::t('app', 'Manage product types');
             'header' => Yii::t('app', 'Action'),
             'template' => '{attrs} {update} {delete}',
             'buttons' => [
-                'attrs' => function($action, $model, $key) {
-                    return Html::a(Yii::t('app', 'Manage attributes'), ['/catalog/type-attribute/index', 'type_id' => $key]);
+                'attrs' => function($url, $model, $key, $action) {
+                    $title = Yii::t('app', 'Manage attributes');
+                    $url = ['/catalog/type-attribute/index', 'type_id' => $key];
+                    return $action->createButton($title, $url);
                 }
             ],
         ]

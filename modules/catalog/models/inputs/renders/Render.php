@@ -60,33 +60,49 @@ class Render extends Component
     }
 
 
+
+    /**
+     * 获取 input 选项.
+     * 
+     * @return array
+     */
     public function getInputOptions()
     {
         return $this->typeConfig->getOptions();
     }
-
+ 
 
 
     /**
      * 渲染 boolean 框
      * 
-     * @param  [type] $form  [description]
-     * @param  [type] $model [description]
-     * @param  [type] $name  [description]
-     * @return [type]        [description]
+     * @param  ActiveForm $form 
+     * @param  Model  $model 
+     * @param  string $name  
+     * @return string
      */
     public function renderBoolean($form, $model, $name)
     {
          $items = $this->typeConfig->getItems();
          $options = $this->getInputOptions();
          $options['prompt'] = Yii::t('app', 'Please select');
-         if(empty($items) || count($items) !== 2) {
+         if(empty($items)) {
              $items = ['是' => '是', '否' => '否'];
          }
          return $form->field($model, $name)->dropDownList($items, $options);
     }
 
 
+
+
+    /**
+     * 渲染单选列表
+     * 
+     * @param  ActiveForm $form 
+     * @param  Model  $model 
+     * @param  string $name  
+     * @return string
+     */
     public function renderRadioList($form, $model, $name)
     {
         $items = $this->typeConfig->getItems();
@@ -95,6 +111,15 @@ class Render extends Component
     }
 
 
+
+    /**
+     * 渲染多选列表
+     * 
+     * @param  ActiveForm $form 
+     * @param  Model  $model 
+     * @param  string $name  
+     * @return string
+     */
     public function renderCheckboxList($form, $model, $name)
     {
         $items = $this->typeConfig->getItems();
@@ -104,6 +129,14 @@ class Render extends Component
 
 
 
+    /**
+     * 渲染多选框
+     * 
+     * @param  ActiveForm $form 
+     * @param  Model  $model 
+     * @param  string $name  
+     * @return string
+     */
     public function renderCheckbox($form, $model, $name)
     {
         $options = $this->getInputOptions();
@@ -113,6 +146,15 @@ class Render extends Component
     }
 
 
+
+    /**
+     * 渲染单选框
+     * 
+     * @param  ActiveForm $form 
+     * @param  Model  $model 
+     * @param  string $name  
+     * @return string
+     */
     public function renderRadio($form, $model, $name)
     {
         $options = $this->getInputOptions();
@@ -165,10 +207,11 @@ class Render extends Component
     /**
      * 渲染 password 字段。
      * 
-     * @param  [type] $form  [description]
-     * @param  [type] $model [description]
-     * @param  [type] $name  [description]
-     * @return [type]        [description]
+     * 
+     * @param  ActiveForm $form 
+     * @param  Model  $model 
+     * @param  string $name  
+     * @return string
      */
     public function renderPassword($form, $model, $name)
     {
@@ -181,10 +224,10 @@ class Render extends Component
     /**
      * 渲染 textarea
      * 
-     * @param  [type] $form  [description]
-     * @param  [type] $model [description]
-     * @param  [type] $name  [description]
-     * @return [type]        [description]
+     * @param  ActiveForm $form 
+     * @param  Model  $model 
+     * @param  string $name  
+     * @return string
      */
     public function renderTextarea($form, $model, $name)
     {
@@ -196,10 +239,10 @@ class Render extends Component
     /**
      * 渲染文本框
      * 
-     * @param  [type] $form  [description]
-     * @param  [type] $model [description]
-     * @param  [type] $name  [description]
-     * @return [type]        [description]
+     * @param  ActiveForm $form 
+     * @param  Model  $model 
+     * @param  string $name  
+     * @return string
      */
     public function renderText($form, $model, $name)
     {

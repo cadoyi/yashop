@@ -1,8 +1,8 @@
 <?php
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\grid\GridView;
-use yii\grid\ActionColumn;
+use common\grid\GridView;
+use common\grid\ActionColumn;
 ?>
 <?php 
 /**
@@ -17,7 +17,7 @@ $this->addBreadcrumb(Yii::t('app', 'Manage menus'), ['/front/menu/index']);
 <div class="grid-buttons">
     <?= Html::a(Yii::t('app', 'Add menu item'), 
          ['create', 'menu_id' => $menu->id],
-         ['class' => 'btn btn-sm btn-primary']
+         ['class' => 'btn btn-sm btn-molv']
      )?>
 </div>
 <?= GridView::widget([

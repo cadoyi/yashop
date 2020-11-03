@@ -1,0 +1,39 @@
+
+.avatar-container {
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #ddd;
+}
+.avatar-container .base-info .title {
+    display: inline-block;
+    width: 80px;
+    font-size: .9rem;
+    color: #222;
+}
+.avatar-container .base-info .content {
+    font-size: .8rem;
+    color: #777;
+}
+
+.field-customer-avatar {
+    margin-bottom: 0;
+    width: 150px;
+    text-align: center;
+}
+.field-customer-avatar > div {
+    margin-left: 0 !important;
+    max-width: 100%;
+    width: 100%;
+    flex: 1;
+}
+.field-customer-avatar .preview > img {
+    width: 90px;
+    height: 90px;
+    cursor: pointer;
+}
+.field-customer-avatar .form-text.text-muted {
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin-top: -.5rem;
+}

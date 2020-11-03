@@ -90,22 +90,23 @@ $this->title = Yii::t('app', 'Login');
 <?php $this->beginScript() ?>
 <script>
     $('#sendcode').on('click', function( e ) {
-        e.preventDefault();
-        e.stopPropagation();
+        stopEvent(e);
         var self = $(this);
-        self.attr('disabled', 'disabled').text('发送中...');
         var input = $('#logincodeform-username');
         var username = input.val();
         if(!username) {
-            alert('请输入用户名');
+            op.alert('请输入用户名').then(function() {
+                input.focus();
+            });
             return;
         }
+        self.attr('disabled', 'disabled').text('发送中...');
         var url = '<?= Url::to(['/customer/account/send-login-code']) ?>';
         $.post(url, {username: username}).then(function( res ) {
             if(res.error) {
                 if(res.error === 2) {
                     $.each(res.data, function(k,m) {
-                        alert(m);
+                        op.alert(m);
                         self.removeAttr('disabled').text('发送验证码');
                         return false;
                     });
@@ -113,9 +114,10 @@ $this->title = Yii::t('app', 'Login');
                     return;
                 }
                 self.removeAttr('disabled').text('发送验证码');
-                alert(res.message);
+                op.alert(res.message);
                 return;
             }
+            op.msg('验证码已发送');
             downtime(60, function(t) {
                 self.attr('disabled', 'disabled').text('重新发送（' + t +'）');
                 if(t == 0) {

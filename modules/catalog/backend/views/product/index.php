@@ -1,8 +1,8 @@
 <?php
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\grid\GridView;
-use yii\grid\ActionColumn;
+use common\grid\GridView;
+use common\grid\ActionColumn;
 ?>
 <?php 
 /**
@@ -15,7 +15,7 @@ use yii\grid\ActionColumn;
 $this->title = Yii::t('app', 'Manage products');
 ?>
 <div class="grid-buttons">
-    <?= Html::a(Yii::t('app', 'Add new product'), ['create'], ['class' => 'btn btn-sm btn-primary'])?>
+    <?= Html::a(Yii::t('app', 'Add new product'), ['create'], ['class' => 'btn btn-sm btn-molv'])?>
 </div>
 <?= GridView::widget([
     'id' => 'catalog_product_grid',

@@ -1,10 +1,12 @@
-
+.config-edit {
+    margin-left: -1rem;
+    margin-right: -1rem;
+}
 .config-menu {
     padding: 0;
-    padding-top: 2rem;
     list-style: none;
-    width: 150px;
-    box-shadow: 1px -1px 3px 0px #d6c7c7;
+    width: 175px;
+    box-shadow:2px 0px 3px 0px #d6c7c7;
 }
 .config-menu > li > ul {
     display: none;
@@ -77,6 +79,7 @@
     cursor: pointer;
     padding-left: 2rem;
     position: relative;
+    user-select: none;
 }
 .fieldset .fieldset-title h2::before {
     display: inline-block;

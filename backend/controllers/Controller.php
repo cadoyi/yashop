@@ -18,7 +18,15 @@ class Controller extends \cando\web\Controller
      */
     public function access()
     {
-        return [];
+        return [
+           'rules' => [
+                [
+                    'roles' => ['?'],
+                    'allow' => false,
+                ],
+                [],
+           ],
+        ];
     }
 
 

@@ -150,3 +150,43 @@
     color: #007bff;
     font-size: .9rem;
 }
+
+/********* forgot password *****************/
+
+.forgot-password .forgot-password-form {
+    max-width: 450px;
+    margin-left: 5rem;
+    margin-top: 3rem;
+}
+.forgot-password label {
+    white-space: nowrap;
+}
+.forgot-password .forgot-password-form .form-group {
+    min-height: 61px;
+}
+
+.forgot-password #forgot-code {
+    border-right: 0 !important;
+}
+.forgot-password #forgot-code-image {
+    border: 1px solid #ddd;
+    border-left: 0;
+    cursor: pointer;
+}
+.forgot-password .was-validated .form-control:invalid + img, 
+.forgot-password .form-control.is-invalid + img {
+   border-color: #bb888e !important;
+}
+.forgot-password #forgot-code:invalid:focus + img,
+.forgot-password #forgot-code.is-invalid:focus +img {
+    border-color: #dc3545 !important;
+}
+.forgot-password #forgot-code:focus + img {
+    border-color: #80bdff !important;
+}
+
+.forgot-password  .username-input {
+    border: 0 !important;
+    background: transparent !important;
+    color: red;
+}

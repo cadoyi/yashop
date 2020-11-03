@@ -1,7 +1,6 @@
 <?php
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\widgets\ActiveForm;
 
 ?>
 <?php 
@@ -15,11 +14,11 @@ $this->title = Yii::t('app', 'Add customer email');
 $this->addBreadcrumb(Yii::t('app', 'Manage customers'), ['index']);
 $this->addBreadcrumb(Yii::t('app', 'Edit customer'), ['update-account', 'id' => $model->customer_id]);
 ?>
-<?php $form = ActiveForm::begin([
+<?php $form = $this->beginForm([
     'id' => 'add_customer_email_form',
 ]) ?>
     <?= $form->field($model, 'username') ?>
     <?= Html::submitButton(Yii::t('app', 'Save'), [
-         'class' => 'btn btn-sm btn-primary',
+         'class' => 'btn btn-sm btn-molv',
     ]) ?>
-<?php ActiveForm::end() ?>
+<?php $this->endForm() ?>

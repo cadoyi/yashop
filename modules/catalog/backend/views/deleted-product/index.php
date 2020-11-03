@@ -1,8 +1,8 @@
 <?php
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\grid\GridView;
-use yii\grid\ActionColumn;
+use common\grid\GridView;
+use common\grid\ActionColumn;
 ?>
 <?php 
 /**
@@ -26,10 +26,15 @@ $this->title = Yii::t('app', 'Manage deleted products');
         [
             'class'    => ActionColumn::class,
             'header'   => Yii::t('app', 'Action'),
-            'template' => '{restore} {delete}',
+            'template' => '{restore}',
             'buttons' => [
-                'restore' => function($action, $model, $key) {
-                    return Html::a('恢复', ['/catalog/deleted-product/restore', 'id' => $key]);
+                'restore' => function($url, $model, $key, $action) {
+                    $title = Yii::t('app', 'Restore');
+                    $url = ['/catalog/deleted-product/restore', 'id' => $key];
+                    return $action->createButton($title, $url, [
+                       'data-method' => 'post',
+                       'data-confirm' => '确定要恢复吗? ',
+                    ]);
                 }
             ],
         ],

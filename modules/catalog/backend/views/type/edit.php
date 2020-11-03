@@ -19,6 +19,6 @@ $this->addBreadcrumb(Yii::t('app', 'Manage product types'), ['index']);
     <?= $form->field($model, 'category_id')->widget(CategorySelector::class) ?>
 
     <?= Html::submitButton(Yii::t('app', 'Save'), [
-        'class' => 'btn btn-sm btn-primary',
+        'class' => 'btn btn-sm btn-molv',
     ]) ?>
 <?php $this->endForm() ?>

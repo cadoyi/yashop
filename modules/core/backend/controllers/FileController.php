@@ -4,8 +4,8 @@ namespace core\backend\controllers;
 
 use Yii;
 use backend\controllers\Controller;
-use core\models\file\Uploader;
-use core\models\file\exceptions\UploadUserException;
+use cando\storage\uploaders\ConfigUploader;
+use cando\storage\uploaders\UploadException;
 
 /**
  * 处理文件上传
@@ -26,8 +26,9 @@ class FileController extends Controller
     public function actionUpload($id)
     {
         $fileId = $this->request->post('file_id');
+        
         try {
-            $uploader = new Uploader($id);
+            $uploader = new ConfigUploader($id);
             $uploader->upload('file');
             if($uploader->done()) {
                 $data = [
@@ -42,7 +43,7 @@ class FileController extends Controller
                 $data = ['success' => true, 'file_id' => $fileId];
             }
             return $this->asJson($data);
-        } catch(UploadUserException $e) {
+        } catch(UploadException $e) {
             $data = [
                 'success' => false,
                 'message' => $e->getMessage(),

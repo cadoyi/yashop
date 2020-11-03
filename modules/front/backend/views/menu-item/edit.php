@@ -24,5 +24,5 @@ $this->addBreadcrumb(Yii::t('app', 'Manage menu items'), ['index', 'menu_id' => 
    <?= $form->field($model, 'parent_id')?>
    <?= $form->field($model, 'sort_order') ?>
 
-   <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-sm btn-primary']) ?>
+   <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-sm btn-molv']) ?>
 <?php $this->endForm() ?>

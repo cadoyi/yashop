@@ -1,9 +1,8 @@
 <?php
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\bootstrap4\ActiveForm;
 use cando\rbac\widgets\SelectRole;
-use core\widgets\Uploader;
+use cando\storage\widgets\ConfigUploader;
 
 ?>
 <?php 
@@ -15,7 +14,7 @@ use core\widgets\Uploader;
 $this->title = Yii::t('app', 'Create user');
 $this->addBreadcrumb(Yii::t('app', 'Manage user'), ['index']);
 ?>
-<ul class="nav nav-tabs">
+<ul class="nav nav-tabs nav-tabs-brief">
     <li class="nav-item">
         <a class="nav-link active" data-toggle="tab" href="#basic_info">
             <?= Yii::t('app', 'Basic info') ?>
@@ -37,8 +36,8 @@ $this->addBreadcrumb(Yii::t('app', 'Manage user'), ['index']);
             'disabled' => !$model->isNewRecord,
         ]) ?>
         <?= $form->field($model, 'nickname') ?>
-        <?= $form->field($model, 'avatar')->widget(Uploader::class, [
-            'uploadId' => 'admin/user/avatar',
+        <?= $form->field($model, 'avatar')->widget(ConfigUploader::class, [
+            'uploadUrl' => ['/core/file/upload', 'id' => 'admin/user/avatar'],
         ]) ?>
         <?= $form->field($model, 'password')->passwordInput() ?>
         <?= $form->field($model, 'password_confirm')->passwordInput() ?>
@@ -46,7 +45,6 @@ $this->addBreadcrumb(Yii::t('app', 'Manage user'), ['index']);
         <?= $form->field($model, 'admin_password')->passwordInput() ?>
     </div>
     <div id="role_info" class="tab-pane fade">
-
         <?= $form->field($model, 'role')->widget(SelectRole::class, [
             'user_id'  => $model->id,
             'multiple' => false,
@@ -54,6 +52,6 @@ $this->addBreadcrumb(Yii::t('app', 'Manage user'), ['index']);
     </div>
 </div>
     <?= Html::submitButton(Yii::t('app', 'Submit'), [
-        'class' => 'btn btn-sm btn-primary',
+        'class' => 'btn btn-sm btn-molv',
     ]) ?>
 <?php $this->endForm() ?>

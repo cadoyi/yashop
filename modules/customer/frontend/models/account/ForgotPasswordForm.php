@@ -3,29 +3,17 @@
 namespace customer\frontend\models\account;
 
 use Yii;
-use yii\base\NotSupportedException;
-use customer\models\types\Phone;
-use customer\models\types\Email;
+
 
 /**
  * 忘记密码的表单
  *
  * @author  zhangyang <zhangyangcado@qq.com>
  */
-class ForgotPasswordForm extends SendCodeForm
+class ForgotPasswordForm extends Model
 {
 
-    const EMAIL_CONFIG_ID = 'customer_forgot_password';
-
-    const SCENARIO_ACCOUNT_CODE = 'code';
-
-    public $captcha;
-
     public $code;
-
-
-    protected $_isUsernameExist;
-
 
 
     /**
@@ -34,44 +22,14 @@ class ForgotPasswordForm extends SendCodeForm
     public function rules()
     {
         return array_merge(parent::rules(), [
-            [['captcha'], 'required'],
-            [['captcha'], 'captcha', 'captchaAction' => 'customer/account/captcha'],     
-            [['code'], 'required', 'on' => static::SCENARIO_ACCOUNT_CODE],
-            [['code'], 'validateCode', 'on' => static::SCENARIO_ACCOUNT_CODE],     
+            [['code'], 'required'],
+            [['code'], 'captcha', 'captchaAction' => 'customer/account/captcha'],
+            [['username'], function($attribute) {
+                if(!$this->findUsername()->exists()) {
+                    return $this->addError('该用户还未注册!');
+                }
+            }],
         ]);
-    }
-
-
-
-    /**
-     * 验证发送手机验证码
-     * 
-     * @param  string $attribute 属性名
-     */
-    public function validateCode($attribute)
-    {
-        $code = $this->$attribute;
-        $registerCode = Yii::$app->session->get('customer_forgot_code');
-        if(!$registerCode) {
-            $this->addError($attribute, '请先发送验证码');
-            return;
-        }
-        if(!is_array($registerCode)) {
-            $this->addError($attribute, '验证码不正确');
-            return;
-        }
-        $_code = $registerCode['code'];
-        $_username = $registerCode['username'];
-        $_time = $registerCode['time'];
-        if($this->username !== $_username) {
-            return $this->addError($attribute, '验证码不正确');
-        }
-        if($_code != $code) {
-            return $this->addError($attribute, '验证码不正确');
-        }
-        if($_time - time() > 3600) {
-            return $this->addError($attribute, '验证码已过期,请重新发送');
-        }
     }
 
 
@@ -83,38 +41,66 @@ class ForgotPasswordForm extends SendCodeForm
     {
         return [
             'username' => Yii::t('app', 'Username'),
-            'captcha'  => Yii::t('app', 'Captcha code'),
             'code'     => Yii::t('app', 'Captcha code'),
         ];
     }
 
 
 
-
     /**
-     * 账户是否存在, 不存在不会发生验证码也不会告诉前端是否存在此账户
+     * 临时保存用户名.
      * 
      * @return boolean
      */
-    public function isUsernameExist()
+    public function saveUsername( $step = 1)
     {
-        if(is_null($this->_isUsernameExist)) {
-            $this->_isUsernameExist = $this->findUsername()->exists();
+        Yii::$app->session->set('reset-password', [
+            'username' => $this->username,
+            'step'   => $step,
+            'expire' => time() + 3600,
+        ]);
+    }
+
+
+    public static function setStep($step = 1)
+    {
+        $username = Yii::$app->session->get('reset-password', false);
+        if($username) {
+            $username['step'] = $step;
+            Yii::$app->session->set('reset-password', $username);
         }
-        return $this->_isUsernameExist;
+    }
+
+
+    public static function getStep()
+    {
+        $username = Yii::$app->session->get('reset-password', []);
+        return $username['step'] ?? 0;
     }
 
 
 
     /**
-     * 获取 customer
-     * 
-     * @return Customer
+     * 获取保存的用户名.
      */
-    public function getCustomer()
+    public static function getSavedUsername()
     {
-        $account = $this->findUsername()->one();
-        return $account->identity;
+        $username = Yii::$app->session->get('reset-password', [
+            'expire' => 0,
+        ]);
+        if(time() > $username['expire']) {
+            return null;
+        }
+        return $username['username'] ?? null;
+    }
+
+
+    /**
+     * @inheritdoc
+     */
+    public function formName()
+    {
+        return 'forgot';
     }
 
 

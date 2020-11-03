@@ -18,7 +18,7 @@ $this->title = $section->trans('label');
 $this->addBreadcrumb(Yii::t('app', 'System config') , ['edit']);
 
 ?>
-<div class="d-flex flex-nowrap">
+<div class="d-flex flex-nowrap config-edit">
     <?= Menu::widget([
         'system' => $section->system,
         'options' => [
@@ -28,7 +28,7 @@ $this->addBreadcrumb(Yii::t('app', 'System config') , ['edit']);
         'linkTemplate' => '<a href="{url}">{label}<i class="fa fa-caret-left"></i><i class="fa fa-caret-down"></i></a>',
         'activateParents' => true,
     ])?>
-    <div class="flex-grow-1 p-3">
+    <div class="flex-grow-1 px-3 pt-0">
 
         <?php $form = $this->beginForm([
             'id' => 'config_form',
@@ -47,7 +47,7 @@ $this->addBreadcrumb(Yii::t('app', 'System config') , ['edit']);
             ]
 
         ]) ?>
-        <div class="border-bottom pb-3 mb-3 text-right">
+        <div class=" pb-3 text-right">
             <button id="submit_button"  type="submit" class="btn btn-sm btn-molv">立即保存</button>
         </div>        
             <?php foreach($section->fieldsets as $fieldset): ?>

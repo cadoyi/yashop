@@ -100,7 +100,6 @@ class TypeAttributeForm extends DynamicModel
         $typeAttribute = $this->getTypeAttribute($name);
         if($typeAttribute) {
             $config = $typeAttribute->getTypeConfig();
-            $config->typeAttribute = $typeAttribute;
             $render = $config->getRender();
             return $render->render($form, $this, $name);
         }

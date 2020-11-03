@@ -1,7 +1,6 @@
 <?php 
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\bootstrap4\ActiveForm;
 use customer\models\Customer;
 use customer\models\CustomerGroup;
 use core\widgets\Uploader;
@@ -14,7 +13,7 @@ use core\widgets\Uploader;
 ?>
 <?php $this->beginBlock('content') ?>
     <div class="mw-500">
-        <?php $form = ActiveForm::begin(['id' => 'customer_basic_form']) ?>
+        <?php $form = $this->beginForm(['id' => 'customer_basic_form']) ?>
             <?= $form->field($customer, 'avatar')->widget(Uploader::class, [
                 'uploadId' => 'customer/customer/avatar',
             ]) ?>
@@ -31,9 +30,9 @@ use core\widgets\Uploader;
             <?= $form->field($customer, 'dob') ?>
             <?= $form->field($customer, 'group_id')->dropDownList(CustomerGroup::hashOptions()) ?>
             <?= Html::submitButton(Yii::t('app', 'Save'), [
-                'class' => 'btn btn-sm btn-primary',
+                'class' => 'btn btn-sm btn-molv',
             ]) ?>
-        <?php ActiveForm::end() ?>
+        <?php $this->endForm() ?>
     </div>
 <?php $this->endBlock(); ?>
 

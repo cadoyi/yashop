@@ -314,6 +314,7 @@ return [
     'Product image'  => '产品图',
     'Pending orders' => '未支付订单',
     'Please select' => '请选择...',
+    'Pre-selected values' => '预选值',
     'Product promotion price' => '产品促销价',
     'Product promotion price start date' => '促销起始日期',
     'Product promotion price end date' => '促销结束日期',

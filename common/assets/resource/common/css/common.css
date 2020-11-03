@@ -1,0 +1,141 @@
+
+/************ bootstrap reload ***********************/
+.btn-molv { color: #eee; background-color: #009688; border-color: #009688; padding-left: 1rem; padding-right:1rem;}
+.btn-molv:hover { color: #fff; }
+.btn { border-radius: 0; }
+.btn-outline-secondary {
+    border-width: 1px;
+}
+.btn-long {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+.btn-very-long {
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+.btn:focus, .btn.focus { box-shadow: none !important; }
+.btn-sm, .btn-group-sm > .btn { border-radius: 0; }
+
+.form-control { border-radius: 0; }
+.form-control:focus { box-shadow: none !important; }
+
+.invalid-feedback {
+    font-size: .7rem;
+}
+
+.was-validated .form-control:invalid, 
+.form-control.is-invalid { border-color: #bb888e; background-image: none !important; }
+
+.was-validated .form-control:valid, 
+.form-control.is-valid { border-color: #38b1a6; background-image: none !important;}
+
+.custom-control-input:focus ~ .custom-control-label::before {
+    box-shadow: none !important;
+}
+.was-validated .custom-control-input:valid ~ .custom-control-label, 
+.custom-control-input.is-valid ~ .custom-control-label {
+    color: #38b1a6;
+}
+.was-validated .custom-control-input:valid ~ .custom-control-label::before, 
+.custom-control-input.is-valid ~ .custom-control-label::before {
+    border-color: #38b1a6;
+}
+.was-validated .custom-control-input:valid:checked ~ .custom-control-label::before, 
+.custom-control-input.is-valid:checked ~ .custom-control-label::before {
+    border-color: #38b1a6;
+    background-color: #38b1a6;
+}
+.custom-checkbox .custom-control-label::before {
+    border-radius: 0 !important;
+}
+.custom-checkbox .custom-control-label {
+    cursor: pointer;
+}
+
+.custom-control-input:checked ~ .custom-control-label::before {
+    border-color: #009688;
+    background-color: #009688;
+}
+
+
+/**
+ * 极简风格的 tabs
+ */
+.nav-tabs-brief { border-bottom: 1px solid #e6e6e6; }
+.nav-tabs-brief .nav-link.active, 
+.nav-tabs-brief .nav-item.show .nav-link {
+    border: 1px solid transparent;
+    border-bottom: 2px solid #009688;
+}
+.nav-tabs-brief .nav-link:hover, 
+.nav-tabs-brief .nav-link:focus {
+    border: 1px solid transparent;
+    border-bottom: 2px solid #009688;
+}
+
+
+/************ swal ***********************/
+.swal-overlay {
+    background-color: transparent;
+}
+.swal-modal {
+    width: 350px;
+    margin: 0;
+    border-radius: 2px;
+    overflow: hidden;
+    box-shadow: 0px -1px 12px 0px #6c757d;
+}
+.swal-icon:first-child {
+    margin: 0 auto;
+}
+.swal-title {
+    padding: 0;
+    font-size: 1.2rem;
+}
+.swal-title:not(:last-child) {
+    margin-bottom: 5px;
+}
+.swal-icon:first-child {
+    margin-top: 20px;
+}
+.swal-button {
+    padding: 3px 24px;
+    border-radius: 0 !important;
+    background-color: #069c8f;
+    font-weight: 400;
+}
+.swal-button:focus {
+    box-shadow: none;
+}
+.swal-button:not([disabled]):hover {
+    background-color: #026960;
+}
+.swal-footer {
+    margin: 0;
+    padding: 5px 16px;
+}
+.swal-msg {
+    background: #222;
+    color: #fff;
+    width: auto;
+}
+.swal-msg .swal-text {
+    color: rgba(255,255,255, .8);
+    margin: 10px 20px;
+    white-space: nowrap;
+    max-width: 100%;
+}
+
+.swal-confirm .swal-text {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+.swal-confirm .swal-button--cancel {
+    background-color: #bd2130;
+    color: rgba(255,255,255, .7);
+}
+.swal-confirm .swal-button--cancel:not([disabled]):hover {
+    background-color: #960f0f;
+    color: #fff;
+}

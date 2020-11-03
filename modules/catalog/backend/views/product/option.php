@@ -57,10 +57,10 @@ $formName = $optionsForm->formName();
     <div class="option-sort-order d-flex flex-column justify-content-around">
         <input sort-order-input type="hidden" name="<?= $formName ?>[{{index}}][sort_order]" value="{{sort_order}}"/>
         <button sort-up type="button">
-            <i class="fa fa-level-up"></i>
+            <i class="fa fa-arrow-up"></i>
         </button>
         <button sort-down type="button">
-            <i class="fa fa-level-down"></i>
+            <i class="fa fa-arrow-down"></i>
         </button>
     </div>             
     <div class="option-remove d-flex align-items-center justify-content-center">
@@ -81,31 +81,7 @@ $formName = $optionsForm->formName();
 
     <div class="add-button">
         <button add-option type="button" class="btn btn-sm btn-outline-primary">添加选项</button>
-        <?php /*
-        <button generate-skus
-                type="button"
-                class="btn btn-sm btn-outline-secondary"
-        >
-           生成子产品
-        </button> */ ?>
     </div>
-    <?php /*
-    <div sku-container class="skus mt-3" >
-        <table sku-table class="table table-hover table-striped sku-table">
-            <thead>
-                <tr>
-                    <th>图片</th>
-                    <th>SKU</th>
-                    <th>价格</th>
-                    <th>库存</th>
-                    <th>操作</th>
-                </tr>
-            </thead>
-            <tbody sku-table-body>
-               
-            </tbody>
-        </table>
-    </div> */ ?>
 </div>
 <style>
     [sku-table] .preview img {
@@ -139,7 +115,7 @@ $formName = $optionsForm->formName();
             var self = this;
             var options = this.optionWrapper.find('[option-wrapper]');
             if(options.length >= 3) {
-                 alert('最多可添加 3 个选项');
+                 op.alert('最多只能添加 3 个选项');
                  return;
             }
             var option = this._addOption();
@@ -175,8 +151,13 @@ $formName = $optionsForm->formName();
 
             option.on('click', '[remove-option-value]', function( e ) {
                 stopEvent(e);
-                var value = $(this).attr('remove-option-value');
-                self.removeOptionValue(option, value);
+                var link = $(this);
+                op.confirm('要移除这个值吗? ').then(function( ok ) {
+                    if(ok) {
+                        var value = link.attr('remove-option-value');
+                        self.removeOptionValue(option, value);                        
+                    }
+                });
             }).on('click', '[add-option-value]', function( e ) {
                 stopEvent(e);
                 var input = option.find('[add-option-value-input]');
@@ -188,9 +169,11 @@ $formName = $optionsForm->formName();
                 }
             }).on('click', '[remove-option]', function( e ) { // 移除选项
                 stopEvent(e);
-                if(confirm('删除选项会影响子产品,确定要删除吗? ')) {
-                    option.remove();
-                }
+                op.confirm('确定要删除这个选项吗?').then(function( value ) {
+                    if(value) {
+                        option.remove();
+                    }
+                });
             }).on('click', '[sort-up]', function( e ) {
                 var prev = option.prev('[option-wrapper]');
                 while(prev.length > 0) {
@@ -232,7 +215,7 @@ $formName = $optionsForm->formName();
         addOptionValue: function( option, value ) {
             var select = option.find('[option-value-hidden-input]');
             if(select.find('option[value="'+ value +'"]').length > 0) {
-                alert('选项值重复');
+                op.alert('选项值重复');
                 return false;
             }
             var selectOption = this._generateOption(value);
@@ -257,6 +240,5 @@ $formName = $optionsForm->formName();
         }
     };
     var po = new ProductOption(<?= $optionsForm->getJson() ?>);
-    //po.restore([{"name": "颜色", "values": ["红色", "黑色", "蓝色"]}]);
 </script>
 <?php $this->endScript() ?>

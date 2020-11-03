@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\bootstrap4\Breadcrumbs;
 ?>
 <?php 
 /**
@@ -15,6 +16,13 @@ use yii\helpers\Url;
     <?= $this->render('main/header') ?>
     <?= $this->render('main/sidebar') ?>
     <main class="layout-body">
+        <?= Breadcrumbs::widget([
+            'id' => 'breadcrumbs',
+            'options' => [
+                'class' => 'breadcrumbs',
+            ],
+            'links' => $this->getBreadcrumbs()
+        ]) ?>
         <?= $content ?>
     </main>
     <?= $this->render('main/footer') ?>      

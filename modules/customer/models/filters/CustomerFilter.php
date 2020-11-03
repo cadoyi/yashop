@@ -35,6 +35,16 @@ class CustomerFilter extends ActiveFilter
 
 
 
+    public function dataProviderConfig( $query )
+    {
+        return [
+            'pagination' => [
+            ],
+        ];
+    }
+
+
+
     /**
      * @inheritdoc
      */

@@ -1,0 +1,72 @@
+/**
+ * customer center layout
+ */
+.customer-header {
+    height: 80px;
+    border-bottom: 1px solid #ddd;
+}
+.customer-header {
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+.customer-header .navbar-nav .nav-item {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+
+
+main.content {
+    position: relative;
+    padding: 0;
+}
+main.content .customer-sidebar {
+    position: absolute;
+    left: 0;
+    width: 200px;
+    top: 0;
+    height: 100%;
+    z-index: 1;
+}
+.customer-sidebar ul {
+    list-style: none;
+    padding-left: 0;
+    text-align: center;
+}
+.customer-sidebar a {
+    display: block;
+    padding: 0 1rem;
+    line-height: 2rem;
+    font-size: .9rem;
+    color: #444;
+}
+.customer-sidebar a:hover {
+    color: #000;
+}
+.customer-sidebar > ul > li > a,
+.customer-sidebar > ul > li > span {
+    font-size: 1rem;
+    line-height: 3rem;
+    color: #000;
+}
+.customer-sidebar > ul > li.customer-center-home > a {
+    color: 1#fd5151;
+}
+.customer-sidebar > ul ul li.active > a {
+    color: #ffffff;
+    background: #106961;
+}
+.customer-sidebar > ul > li.active > a {
+    color: #fd5151;
+}
+
+
+
+main.content .content-container {
+    padding-left: 200px;
+    position: relative;
+}
+
+main.content .content-wrapper {
+    padding: 1rem;
+}

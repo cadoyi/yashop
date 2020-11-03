@@ -14,15 +14,15 @@ use yii\bootstrap4\ActiveForm;
 ?>
 <?php $this->beginBlock('content') ?>
 <div class="mw-500">
-    <?php $form = ActiveForm::begin([
+    <?php $form = $this->beginForm([
         'id' => 'customer_password_form',
     ]) ?>
         <?= $form->field($model, 'password')->passwordInput() ?>
         <?= $form->field($model, 'password_confirm')->passwordInput() ?>
         <?= Html::submitButton(Yii::t('app', 'Save'), [
-            'class' => 'btn btn-sm btn-primary',
+            'class' => 'btn btn-sm btn-molv btn-long',
         ]) ?>
-    <?php ActiveForm::end() ?>
+    <?php $this->endForm() ?>
 </div>
 <?php $this->endBlock() ?>
 <?php $this->beginContent('@customer/backend/views/customer/_update.php', [
