@@ -37,3 +37,34 @@
     text-align: center;
     margin-top: -.5rem;
 }
+
+.info-security .service-info .table td {
+    vertical-align: middle;
+}
+.info-security .service-info .table tr > td:nth-child(1) {
+    white-space: nowrap;
+    font-size: .8rem;
+    text-align: center;
+}
+.info-security .service-info .table tr > td:nth-child(1)[success] {
+    color: #28a745;
+}
+.info-security .service-info .table tr > td:nth-child(1)[unset] {
+    color: #ffc107;
+}
+.info-security .service-info .table tr > td:nth-child(1) .fa {
+    display: block;
+}
+.info-security .service-info .table tr > td:nth-child(2) {
+    white-space: nowrap;
+}
+.info-security .service-info .table tr > td:nth-child(3) {
+    font-size: .7rem;
+}
+.info-security .service-info .table tr > td:nth-child(4) {
+    white-space: nowrap;
+    font-size: .8rem;
+}
+.info-security .service-info .table tr > td:nth-child(4) a {
+    color: #007bff;
+}

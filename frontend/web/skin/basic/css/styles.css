@@ -9,6 +9,8 @@ section .section-content {
 }
 section .section-title h3 {
     font-size: 1.2rem;
+    margin-bottom: 0;
+    line-height: 2.5rem;
 }
 
 .columns .column {

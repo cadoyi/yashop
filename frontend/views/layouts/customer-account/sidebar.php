@@ -26,28 +26,12 @@ use yii\widgets\Menu;
                         'url' => ['/customer/info/security'],
                     ],
                     [
-                        'label' => '我的收藏',
+                        'label' => '帐号绑定',
                         'url' => ['dashboard'],
                     ],
                     [
-                        'label' => '我的积分',
-                        'url' => ['dashboard'],
-                    ],
-                    [
-                        'label' => '我的优惠',
-                        'url' => ['dashboard'],
-                    ],
-                    [
-                        'label' => '我的足迹',
-                        'url' => ['dashboard'],
-                    ],
-                    [
-                        'label' => '我的发票',
-                        'url' => ['dashboard'],
-                    ],
-                    [
-                        'label' => '退换货服务',
-                        'url' => ['dashboard'],
+                        'label' => '地址管理',
+                        'url' => ['/customer/address/index'],
                     ],
                 ],     
             ],

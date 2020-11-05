@@ -15,7 +15,7 @@ use customer\models\CustomerAddress;
 class AddressController extends Controller
 {
 
-    public $layout = 'customer';
+    public $layout = 'customer-account';
 
 
 

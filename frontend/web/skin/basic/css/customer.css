@@ -70,3 +70,19 @@ main.content .content-container {
 main.content .content-wrapper {
     padding: 1rem;
 }
+
+
+
+/** dashboard page */
+.center-dashboard  {
+    margin-top: -1rem;
+}
+.center-dashboard .header {
+    padding: .25rem 1rem;
+    border-bottom: 1px solid #ddd;
+}
+.center-dashboard .order-section .section-content .fa {
+    display: block;
+    font-size: 2rem;
+    padding-bottom: .5rem;
+}

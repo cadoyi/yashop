@@ -40,9 +40,11 @@ header.header .navbar-nav .nav-link.appd {
 
 header.header .login-menus {
     text-align: center;
+
 }
 header.header .login-menus .dropdown-menu {
    border-radius: 0 !important;
+   font-size: .8rem;
 }
 header.header .login-menus .dropdown-item:active,
 header.header .login-menus .dropdown-item.active {
