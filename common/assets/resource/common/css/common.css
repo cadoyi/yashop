@@ -1,7 +1,9 @@
 
 /************ bootstrap reload ***********************/
 .btn-molv { color: #eee; background-color: #009688; border-color: #009688; padding-left: 1rem; padding-right:1rem;}
-.btn-molv:hover { color: #fff; }
+.btn-seagreen { color: #eee; background-color: #33cc99; border-color: #33cc99; padding-left: 1rem; padding-right:1rem;  }
+.btn-molv:hover,
+.btn-seagreen:hover { color: #fff; }
 .btn { border-radius: 0; }
 .btn-outline-secondary {
     border-width: 1px;

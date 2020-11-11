@@ -12,7 +12,7 @@ $type = $product->type;
 $attributes = $type->activedTypeAttributes;
 $productTypes = $product->productTypes;
 ?>
-<table class="table table-hover table-bordered">
+<table class="detail-table table table-hover table-bordered">
     <tbody>
     <?php foreach($attributes as $attribute): ?>
         <?php $productType = $productTypes[$attribute->id] ?? null; ?>

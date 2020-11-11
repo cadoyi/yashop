@@ -2,6 +2,7 @@
 namespace frontend\controllers;
 
 use Yii;
+use frontend\vms\site\Index;
 
 
 /**
@@ -27,6 +28,17 @@ class SiteController extends Controller
         ];
     }
 
+
+
+    /**
+     * @inheritdoc
+     */
+    public function viewModels()
+    {
+        return [
+            'index' => Index::class,
+        ];
+    }
 
 
 

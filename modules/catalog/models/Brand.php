@@ -92,4 +92,22 @@ class Brand extends ActiveRecord
             ->column();
     }
 
+
+
+
+    /**
+     * 获取 logo url
+     * 
+     * @param  int $width  
+     * @param  int $height 
+     * @return string
+     */
+    public function getLogoUrl($width = null, $height = null)
+    {
+        if(!$this->logo) {
+            return null;
+        }
+        return Yii::$app->storage->getUrl($this->logo, $width, $height);
+    }
+
 }

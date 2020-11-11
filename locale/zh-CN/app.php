@@ -121,6 +121,7 @@ return [
     'Customer address saved'  => '客户地址已保存',
     'Customer logged out'     => '客户已登出',
     'Confirm your registion'  => '注册确认',
+    'Can search on frontend' => '前端可搜索',
     'Cannot delete the default group' => '不能删除默认组',
     /****************** DDDDDDDDDDDDDDD ************************/
     'Disabled'    => '已禁用',
@@ -175,6 +176,7 @@ return [
     'Footer' => '尾部',
     'Female' => '女',
     'Frontend' => '前端',
+
     'Forgot password' => '忘记密码',
     'Faild delete user: {username}' => '删除用户失败: {username}',
     /****************** GGGGGGGGGGGGGGG ************************/
@@ -278,6 +280,7 @@ return [
     'Oauth accounts' => 'Oauth 账户',
     'Orders center'  => '订单中心',
     'Original password' => '原始密码',
+    'Option values list' => '选项值列表',
 
     /****************** PPPPPPPPPPPPPPP ************************/
     'Password' => '密码',

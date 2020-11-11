@@ -85,7 +85,7 @@ class Controller extends \cando\web\Controller
      * @param  array  $data  附加的数据
      * @return string
      */
-    protected function error( $message, $code = 1, $data = [])
+    protected function error( $message, $data = [])
     {
         if($message instanceof Model) {
             $messages = $message->getFirstErrors();
@@ -96,7 +96,7 @@ class Controller extends \cando\web\Controller
             $message = reset($message);
         }
         $_data = [
-            'error'   => $code,
+            'error'   => 1,
             'message' => $message,
             'data'    => $data,
         ];

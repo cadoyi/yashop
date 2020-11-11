@@ -11,7 +11,7 @@ use yii\helpers\Url;
  * 
  */
 ?>
-<div class="banner" style="min-width: 400px; height: 400px;">
+<div class="banner">
     <div class="swiper-container">
         <div class="swiper-wrapper">
         <?php foreach($product->galleries as $gallery): ?>

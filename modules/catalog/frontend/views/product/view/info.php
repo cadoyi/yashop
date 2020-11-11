@@ -17,7 +17,7 @@ if(!Yii::$app->user->isGuest) {
 $this->registerJsVar('add_wishlist_url', Url::to(['/wishlist/wishlist/add-product']));
 $this->registerJsVar('productSkus', $self->getSkusData());
 ?>
-<table class="table product-desc-table">
+<table class="table product-desc">
     <colgroup>
         <col width="100px" />
         <col />
@@ -25,28 +25,9 @@ $this->registerJsVar('productSkus', $self->getSkusData());
     <tbody>
         <tr class="product-name">
             <td colspan="2">
-                <h5><?= Html::encode($product->name) ?></h5>
+                <h5><?= Html::encode($product->name) ?>阿斯蒂芬asd暗示法广芳广芳广芳广芳暗示法广芳广芳广芳</h5>
             </td>
         </tr>
-        <tr class="product-tags">
-            <td colspan="2">
-                <?php if($product->is_new): ?>
-                    <span class="badge badge-primary">新品</span>
-                <?php endif; ?>
-                <?php if($product->is_hot): ?>
-                    <span class="badge badge-danger">热销</span>
-                <?php endif; ?>
-                <?php if($product->is_best): ?>
-                    <span class="badge badge-primary">精品</span>
-                <?php endif; ?>  
-            </td>
-        </tr>
-        <?php if($product->brand): ?>
-        <tr class="product-brand">
-            <td>品 牌</td>
-            <td><?= Html::encode($product->brand->name) ?></td>
-        </tr>
-        <?php endif; ?>
         <tr class="product-price">
             <td>售 价</td>
             <td>
@@ -66,79 +47,124 @@ $this->registerJsVar('productSkus', $self->getSkusData());
                 </span>                                
             </td>
         </tr>
-        <?php if(!$product->is_virtual): ?>
-             <tr class="product-weight">
-                 <td>重 量</td>
-                 <td>
-                  <div class="weight-value">
-                       <span><?= $product->weight ?> <?= Html::encode($product->weight_unit) ?></span>
-                  </div>                         
-                 </td>
-             </tr>
-         <?php endif; ?>
-
+        <?php if($product->brand): ?>
+        <tr class="product-brand">
+            <td>品 牌</td>
+            <td><?= Html::encode($product->brand->name) ?></td>
+        </tr>
+        <?php endif; ?>
+        <tr class="product-option">
+            <td>颜色</td>
+            <td>
+                <label>
+                    <input type="radio" name="color" value="1" />
+                    <span>红色</span>
+                </label>
+                <label>
+                    <input type="radio" name="color" value="1" />
+                    <span>蓝色</span>
+                </label>
+                <label>
+                    <input type="radio" name="color" value="1" />
+                    <span>灰色</span>
+                </label>
+                <label>
+                    <input type="radio" name="color" value="1" />
+                    <span>白色</span>
+                </label>
+                <label>
+                    <input type="radio" name="color" value="1" />
+                    <span>红色</span>
+                </label>
+                <label>
+                    <input type="radio" name="color" value="1" />
+                    <span>蓝色</span>
+                </label>
+                <label>
+                    <input type="radio" name="color" value="1" />
+                    <span>灰色</span>
+                </label>
+                <label>
+                    <input type="radio" name="color" value="1" />
+                    <span>白色</span>
+                </label>
+            </td>
+        </tr>
+        <tr class="product-option">
+            <td>尺寸</td>
+            <td>
+                <label>
+                    <input type="radio" name="size" value="1" />
+                    <span>XXL</span>
+                </label>
+                <label>
+                    <input type="radio" name="size" value="1" />
+                    <span>XL</span>
+                </label>
+            </td>
+        </tr>
         <!-- product option here -->
         <tr class="product-qty">
             <td>数 量</td>
             <?php if($hasStock): ?>
             <td>
-                <div class="qty-value input-group input-group-sm">
-                    <div class="input-group-prepend">
-                         <a sub-qty class="input-group-text rounded-0" href="#">-</a>
-                    </div>                                       
-                    <input id="qty_input" type="number" class="form-control qty-input" value="1" min="1" max="<?= $product->getMaxStock() ?>"/>
-                    <div class="input-group-append">
-                       <a add-qty class="input-group-text rounded-0" href="#">+</a>
+                <div class="d-flex">
+                    <div class="qty-value input-group input-group-sm">
+                        <div class="input-group-prepend">
+                             <a sub-qty class="input-group-text rounded-0" href="#">-</a>
+                        </div>                                       
+                        <input id="qty_input" type="number" class="form-control qty-input" value="1" min="1" max="<?= $product->getMaxStock() ?>"/>
+                        <div class="input-group-append">
+                           <a add-qty class="input-group-text rounded-0" href="#">+</a>
+                        </div>
                     </div>
-                </div>                        
+                    <div class="flex-grow-1 qty-note">库存还剩 111111 件</div>
+                </div>                     
             </td>
             <?php else: ?>
                 <td>已售罄</td>
             <?php endif; ?>
         </tr>
-        <tr>
-            <td colspan="2">
-                <div class="wishlist-div">
-                    <a id="addto_wishlist" 
-                        product-id="<?= $product->id ?>"
-                        class="wishlist <?= (isset($wishlist) && $wishlist->hasProduct($product)) ? 'active' : ''; ?>" 
-                        href="#"
-                    >
-                        <i class="fa fa-star"></i>
-                        <span noadd>加入收藏</span>
-                        <span added>已收藏</span>
-                    </a>
-                </div>
-            </td> 
-        </tr>
         <tr class="product-cart-actions">
             <td colspan="2">
-
                 <div class="d-flex">
-                    <div class="p-3">
+                    <div class="mr-4">
                         <button 
                            <?php if(!$hasStock): ?> 
                                disabled="disabled"
                            <?php endif; ?>
                            checkout_button 
-                           class="btn btn-primary rounded-0"
+                           class="btn btn-seagreen rounded-0"
                         >
-                           立即购买
+                           &nbsp;&nbsp;立即购买&nbsp;&nbsp;
                        </button>
                     </div>
-                    <div class="p-3">
+                    <div>
                         <button 
                            <?php if(!$hasStock): ?> 
                                disabled="disabled"
                            <?php endif; ?>
                             tocart_button 
-                            class="btn btn-danger rounded-0"
+                            class="btn btn-molv rounded-0"
                         >
                            加入购物车
                        </button>
-                    </div>
+                   </div>
                 </div>
            
+            </td>
+        </tr>
+        <tr class="product-promise">
+            <td>卖家承诺</td>
+            <td>
+                <div class="promise">
+                    <a href="#">七天无理由</a>
+                    <a href="#">极速退款</a>
+                    <a href="#">正品保证</a>
+                    <a href="#">七天无理由</a>
+                    <a href="#">极速退款</a>
+                    <a href="#">正品保证</a>
+                </div>
             </td>
         </tr>
     </tbody>

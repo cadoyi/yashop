@@ -12,7 +12,7 @@ use catalog\models\widgets\Category;
  * @var  $dataProvider yii\data\ActiveDataProvider
  * 
  */
-$categoryHashOptions = Category::hashOptions();
+//$categoryHashOptions = Category::hashOptions();
 
 
 $this->title = Yii::t('app', 'Manage product types'); 
@@ -31,16 +31,16 @@ $this->title = Yii::t('app', 'Manage product types');
         'name',
         'category_id' => [
             'attribute' => 'category_id',
-            'filter'    => $categoryHashOptions,
+            //'filter'    => $categoryHashOptions,
             'filterInputOptions' => [
                  'class' => 'form-control', 
                  'id' => null,
                  'encodeSpaces' => true,
             ],
-            'value'     => function($model, $key, $index, $column) use ($categoryHashOptions) {
-                $categoryId = $model->category_id;
-                return $categoryHashOptions[$categoryId];
-            }
+           // 'value'     => function($model, $key, $index, $column) use ($categoryHashOptions) {
+           //     $categoryId = $model->category_id;
+           //     return $categoryHashOptions[$categoryId];
+           // }
         ],
         [
             'class' => ActionColumn::class,

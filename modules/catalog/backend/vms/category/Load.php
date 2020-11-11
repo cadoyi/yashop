@@ -44,11 +44,10 @@ class Load extends ViewModel
      */
     public function getJsonData( $category )
     {
-        return [
-           'id'       => $category->id,
-           'text'     => $category->title,
-           'children' => $this->hasChild($category),
-        ];
+        $data = $category->toArray();
+        $data['text'] = $category->title;
+        $data['children'] = $this->hasChild($category);// ? [] : null;
+        return $data;
     }
 
 

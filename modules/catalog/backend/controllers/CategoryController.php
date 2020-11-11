@@ -25,7 +25,13 @@ class CategoryController extends Controller
      */
     public function verbs()
     {
-         return [];
+         return [
+             'load' => ['post', 'get'],
+             'create' => ['post'],
+             'update' => ['post'],
+             'sort'   => ['post'],
+             'delete' => ['post'],
+         ];
     }
 
 
@@ -35,7 +41,7 @@ class CategoryController extends Controller
      */
     public function ajax()
     {
-        return ['load'];
+        return ['load', 'create', 'update', 'sort', 'delete'];
     }
 
 
@@ -60,13 +66,7 @@ class CategoryController extends Controller
      */
     public function actionIndex()
     {
-        $filterModel = new CategoryFilter();
-        $dataProvider = $filterModel->search($this->request->get());
-
-        return $this->render('index', [
-            'filterModel'  => $filterModel,
-            'dataProvider' => $dataProvider,
-        ]);
+        return $this->render('index');
     }
 
 
@@ -81,7 +81,7 @@ class CategoryController extends Controller
     {
         if($id === '#') {
             $categories = Category::find()
-                ->andWhere(['parent_id' => null])
+                ->andWhere(['parent_id' => 0])
                 ->orderBy(['sort_order' => SORT_ASC ])
                 ->all();
         } else {
@@ -102,42 +102,73 @@ class CategoryController extends Controller
     /**
      * 新增分类.
      */
-    public function actionCreate( $parent = null )
+    public function actionCreate()
     {
-        if($parent !== null) {
-            $parent = $this->findModel($parent, Category::class);
+        $pid = $this->request->post('parent');
+        $parent = $this->findModel($pid, Category::class);
+        if(!$parent) {
+            return $this->error('父分类不存在');
         }
-        $model = new Category([
-           'parent_id' => is_null($parent) ? null : $parent->id,
+        $category  = new Category([
+           'parent_id' => $parent->id,
+           'title'     => '新分类',
         ]);
-        $model->insertMode();
-        
-        if($model->load($this->request->post()) && $model->save()) {
-            $this->_success('Category saved');
-            return $this->redirect(['index']);
+        if($category->save()) {
+            $load = new Load();
+            $data = $load -> getJsonData($category);
+            return $this->success($data);
+        } else {
+            return $this->error($category);
         }
-        return $this->render('edit', [
-           'model' => $model,
-        ]);
     }
 
 
     /**
-     * 更新分类.
+     * 更新分类.主要是用于重命名。
      * 
      * @param  int  $id  分类 ID
      */
-    public function actionUpdate( $id )
+    public function actionUpdate()
     {
-        $model = $this->findModel($id, Category::class);
-
-        if($model->load($this->request->post()) && $model->save()) {
-            $this->_success('Category saved');
-            return $this->redirect(['index']);
+        $id = $this->request->post('id');
+        $title = $this->request->post('title');
+        $category = $id ? $this->findModel($id, Category::class, false) : null;
+        if(!$category) {
+            return $this->error('分类已经不存在');
         }
-        return $this->render('edit', [
-            'model' => $model,
-        ]);
+        $category->title = $title;
+        $category->save();
+        return $this->success();
+    }
+
+
+
+    /**
+     * 分类排序。
+     * 
+     * @return json
+     */
+    public function actionSort()
+    {
+        $ids = $this->request->post('ids');
+        $categories = Category::find()
+            ->andWhere(['id' => $ids])
+            ->indexBy('id')
+            ->all();
+        $trans = Category::getDb()->beginTransaction();
+        try {
+            foreach($ids as $k => $id) {
+                $category = $categories[$id];
+                $category->sort_order = $k;
+                $category->save();
+            }
+            $trans->commit();
+            
+        } catch(\Exception | \Throwable $e) {
+            $trans->rollBack();
+            return $this->error($e);
+        }
+        return $this->success();
     }
 
 
@@ -147,12 +178,19 @@ class CategoryController extends Controller
      * 
      * @param  int  $id   分类 ID
      */
-    public function actionDelete( $id )
+    public function actionDelete()
     {
-        $model = $this->findModel($id, Category::class);
-        $model->delete();
-        $this->_success('Category saved');
-        $this->redirect(['index']);
+        $id = $this->request->post('id');
+        $model = $id ? $this->findModel($id, Category::class, false) : false;
+        if(!$model) {
+            return $this->error('分类不存在');
+        }
+
+        if($model->hasChild()) {
+            return $this->error('当前分类有子分类， 因此不能被删除');
+        }
+        $model->virtualDelete();
+        return $this->success();
     }
 
 

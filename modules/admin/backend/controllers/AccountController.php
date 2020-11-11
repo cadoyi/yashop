@@ -79,7 +79,7 @@ class AccountController extends Controller
             $this->log('User login: {nickname}', [
                 'nickname' => $this->identity->nickname,
             ]);
-            return $this->goHome();
+            return $this->goBack();
         }
         return $this->render('login', ['model' => $model]);
     }

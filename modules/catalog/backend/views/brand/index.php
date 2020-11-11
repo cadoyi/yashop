@@ -25,6 +25,17 @@ $this->title = Yii::t('app', 'Manage brands');
     'columns' => [
         'id',
         'name',
+        'sort_order',
+        'logo' => [
+            'attribute' => 'logo',
+            'format'    => 'raw',
+            'value' => function($model, $key, $index, $column) {
+                if($model->logo) {
+                    //return Html::img($model->logoUrl);
+                }
+                return null;
+            }
+        ],
         [
             'class'  => ActionColumn::class,
             'header' => Yii::t('app', 'Action'),

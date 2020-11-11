@@ -100,7 +100,7 @@ class Category extends \catalog\models\Category
         $tree = [];
         foreach($all as $id => $category) {
             $parentId = $category->parent_id;
-            if(is_null($parentId)) {
+            if(is_null($parentId) || !$parentId) {
                 $tree[$id] = $category;
                 continue;
             }

@@ -14,8 +14,6 @@ use cando\db\ActiveRecord;
 class Category extends ActiveRecord
 {
 
-    protected $_changedPath = false;
-
 
     /**
      * @inheritdoc
@@ -23,6 +21,15 @@ class Category extends ActiveRecord
     public static function tableName()
     {
         return '{{%catalog_category}}';
+    }
+
+
+    /**
+     * @inheritdoc
+     */
+    public static function find()
+    {
+        return parent::find()->andWhere(['is_deleted' => 0]);
     }
 
 
@@ -49,10 +56,17 @@ class Category extends ActiveRecord
     {
         return [
            [['title'], 'required'],
-           [['path'], 'string'],
-           [['level'], 'integer'],
            [['parent_id'], 'exist', 'targetClass' => static::class, 'targetAttribute' => 'id'],
-           [['sort_order'], 'default', 'value' => 1 ],
+           [['sort_order'], 'default', 'value' => function() {
+               if(!$this->parent_id) { 
+                   $this->parent_id = 0;
+               }
+               $max = static::find()
+                   ->andWhere(['parent_id' => $this->parent_id])
+                   ->max('sort_order');
+                return $max + 1;
+           }],
+           [['parent_id'], 'default', 'value' => 0],
         ];
     }
 
@@ -67,54 +81,11 @@ class Category extends ActiveRecord
         return [
             'parent_id'  => Yii::t('app', 'Parent category'),
             'title'      => Yii::t('app', 'Title'),
-            'path'       => Yii::t('app', 'Category tree path'),
-            'level'      => Yii::t('app', 'Category tree level'),
             'sort_order' => Yii::t('app', 'Sort order'),
             'created_at' => Yii::t('app', 'Created at'),
             'updated_at' => Yii::t('app', 'Updated_at'),
         ];
     }
-
-
-
-
-
-
-
-    /**
-     * @inheritdoc
-     */
-    public function afterSave($insert, $changedAttributes)
-    {
-        parent::afterSave($insert, $changedAttributes);
-        $this->afterParentChanged();
-    }
-
-
-
-    /**
-     * 修改 path 和 level 到正确的级别.
-     * 
-     * @return boolean
-     */
-    public function afterParentChanged()
-    {
-        if($this->_changedPath) return true;
-        $this->_changedPath = true;
-        $this->refresh();
-        $parent = $this->parent;
-        if(is_null($parent)) {
-            $this->path = $this->id;
-            $this->level = 1;
-        } else {
-            $this->path = $parent->path . '/' . $this->id;
-            $this->level = $parent->level + 1;
-        }
-        $result = $this->save(false);
-        $this->_changedPath = false;
-        return $result;
-    }
-
 
 
     /**
@@ -141,6 +112,18 @@ class Category extends ActiveRecord
     }
 
 
+
+    /**
+     * 是否有子节点。
+     * 
+     * @return boolean 
+     */
+    public function hasChild()
+    {
+        return $this->getChilds()->count() > 0;
+    }
+
+
     
 
 
@@ -156,6 +139,19 @@ class Category extends ActiveRecord
            ->indexBy('id')
            ->tableCache()
            ->column();
+    }
+
+
+
+    /**
+     * 虚拟删除。
+     * 
+     * @return boolean
+     */
+    public function virtualDelete()
+    {
+        $this->is_deleted = 1;
+        return $this->save();
     }
 
 
