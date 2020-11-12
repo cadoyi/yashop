@@ -20,7 +20,7 @@ LayoutAsset::register($this);
   <meta charset="<?= Yii::$app->charset ?>">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="icon" href="<?= Url::to('@web/skin/default/img/logo.png') ?>" type="image/png">
+  <link rel="icon" href="<?= $this->getAssetUrl('img/logo.png') ?>" type="image/png">
   <?= Html::csrfMetaTags() ?>
   <title><?= Html::encode($this->title) ?></title>
   <?php $this->head() ?>

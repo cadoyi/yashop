@@ -172,6 +172,7 @@ return [
     'Email address' => '邮件地址',
     'Edit customer address' => '编辑客户地址',
     'Edit product type attribute' => '编辑产品类型属性',
+    'Edit issue category' => '编辑问题分类',
     /****************** FFFFFFFFFFFFFFF ************************/
     'Footer' => '尾部',
     'Female' => '女',
@@ -190,6 +191,7 @@ return [
     'Id' => 'ID',
     'Ip' => 'IP',
     'Image' => '图片',
+    'Issue' => '问题',
     'Individual' => '个人',
     'Is active'  => '是否激活',
     'Is publish' => '是否发布',
@@ -263,6 +265,7 @@ return [
     'My favorite' => '我的收藏',
     'Multiple select dropdown list' => '多选下拉列表',
     'Multiple line text input' => '多行文本输入框',
+    'Manage issue categories'  => '管理问题分类',
     /****************** NNNNNNNNNNNNNNN ************************/
     'No'             => '否',
     'Name'           => '名称',
@@ -425,6 +428,7 @@ return [
     'Unpublished'      => '未发布',
     'Updated At'       => '更新时间',
     'Updated at'       => '更新时间',
+    'Unique code'      => '唯一码',
     'Unit "seconds"'   => '单位 “秒”',
     'User saved'       => '用户已保存',
     'User logouted'    => '用户已登出',

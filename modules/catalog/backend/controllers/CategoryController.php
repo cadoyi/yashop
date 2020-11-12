@@ -105,12 +105,13 @@ class CategoryController extends Controller
     public function actionCreate()
     {
         $pid = $this->request->post('parent');
-        $parent = $this->findModel($pid, Category::class);
-        if(!$parent) {
-            return $this->error('父分类不存在');
+        if($pid === '#') {
+            $parent = null;
+        } else {
+            $parent = $this->findModel($pid, Category::class);
         }
         $category  = new Category([
-           'parent_id' => $parent->id,
+           'parent_id' => $parent ?  $parent->id : null,
            'title'     => '新分类',
         ]);
         if($category->save()) {

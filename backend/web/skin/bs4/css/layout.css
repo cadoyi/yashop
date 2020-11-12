@@ -118,6 +118,7 @@ body {
     color: #fff !important;
     border-left: 3px solid #009688;
 }
+.layout-sidebar .menus > ul > li > a,
 .layout-sidebar .menus a.has-child {
     font-size: 1rem;
 }

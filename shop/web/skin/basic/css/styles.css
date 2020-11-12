@@ -1,0 +1,173 @@
+
+/************ bootstrap reload ***********************/
+/** @see  common.css                                **/
+
+
+/************ swal ***********************/
+/** @see  common.css                     */
+
+
+/***************** grid-view ****************************/
+.grid-view {
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    box-shadow: 1px 1px 3px 2px #dee2e6;
+}
+.grid-view .table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    min-height: 300px;
+}
+
+.grid-view .table {
+    margin-bottom: 0;
+}
+.grid-view .table th, 
+.grid-view .table td {
+    padding: 0.5rem 1rem;
+    white-space: nowrap;
+    font-size: .9rem;
+    font-weight: 400;
+}
+.grid-view .table th a[data-sort]::before {
+    font-family: "FontAwesome";
+    display: inline-block;
+    content: "";
+}
+
+.grid-view .table-bordered thead th, 
+.grid-view .table-bordered thead td {
+    border-width: 1px;
+}
+
+.grid-view td [aria-role="action"] {
+    background-color: #009688;
+    color: rgba(255,255,255, .8);
+    padding: 2px .5rem;
+    border-radius: 2px;
+}
+.grid-view td .action-delete {
+    background-color: #bd2130;
+}
+.grid-view td [aria-role="action"]:hover {
+    color: #fff;
+}
+.grid-view .filters td {
+    padding: 0 !important;
+}
+.grid-view .filters td .form-control {
+    font-size: .8rem;
+    border: 1px solid transparent;
+}
+
+
+.grid-view-header {
+    border: 1px solid #ddd;
+    border-bottom: 0;
+    font-size: .8rem;
+}
+.grid-view-header .navbar {
+    padding: 0 1rem;
+}
+
+
+.grid-view-footer {
+    display: -ms-flexbox;
+    display: flex;
+    border: 1px solid #ddd;
+    padding: .25rem .5rem;
+    line-height: 2rem;
+}
+.grid-view-footer .pagination {
+    margin-bottom: 0;
+}
+.grid-view-footer .pagination li.prev,
+.grid-view-footer .pagination li.next {
+    font-weight: 900;
+}
+.grid-view-footer .pagination li.disabled {
+    color: #ccc;
+}
+.grid-view-footer .pagination li.active > span,
+.grid-view-footer .pagination li.active > a {
+    background-color: #009688;
+    color: rgba(255,255,255, .8);
+}
+.grid-view-footer .pagination li > span,
+.grid-view-footer .pagination li > a {
+    display: inline-block;
+    width: 1.5rem;
+    height: 1.5rem;
+    line-height: 1.5rem;
+    text-align: center;
+    font-size: .7rem;
+}
+.grid-view-footer .jumper {
+    font-size: .7rem;
+    line-height: 1.5rem;
+    height: 1.5rem;
+    padding: 0 .5rem;
+    margin: auto 0;
+}
+.grid-view-footer .jumper > span {
+    padding: 0 .5rem;
+}
+.grid-view-footer .jumper > input {
+    height: 1.5rem;
+    line-height: 1.5rem;
+    margin: auto 0;
+    border: 1px solid  #ddd;
+    text-align: center;
+}
+.grid-view-footer .summary {
+    font-size: .7rem; 
+    font-weight: 100;
+}
+.grid-view-footer .swicher {
+    font-size: .7rem;
+    padding: 0 .5rem;
+    height: 1.5rem;
+    line-height: 1.5rem;
+    margin: auto 1rem;
+    border: 1px solid #ddd;
+    cursor: pointer;
+}
+.grid-view-footer select:focus,
+.grid-view-footer input:focus {
+    outline: 0;
+    outline-offset: 0;
+}
+.grid-buttons {
+    text-align: right;
+    padding-bottom: 1rem;
+}
+
+
+
+/************ uploader **********************/
+.upload-container .preview {
+    position: relative;
+}
+.upload-container .preview img {
+    width: 90px;
+}
+.upload-container .preview .remove {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 1rem;
+    height: 1rem;
+    line-height: 1rem;
+    background-color: #ddd;
+    color: #000;
+}
+
+
+/********** rbac role widget ***********/
+.rrc-radio > div.form-control {
+    height: auto !important;
+    border: 0 !important;
+}
+.rbac-permission-container span.r-item-input :checked + label::after {
+    color: #009688;
+}

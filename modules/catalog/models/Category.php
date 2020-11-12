@@ -56,7 +56,7 @@ class Category extends ActiveRecord
     {
         return [
            [['title'], 'required'],
-           [['parent_id'], 'exist', 'targetClass' => static::class, 'targetAttribute' => 'id'],
+           [['parent_id'], 'integer'],
            [['sort_order'], 'default', 'value' => function() {
                if(!$this->parent_id) { 
                    $this->parent_id = 0;
@@ -121,6 +121,25 @@ class Category extends ActiveRecord
     public function hasChild()
     {
         return $this->getChilds()->count() > 0;
+    }
+
+
+
+    /**
+     * @inheritdoc
+     */
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+        $parent = $this->parent;
+        if($parent) {
+            $path = $parent->path . '/' . $this->id;
+            $level = $parent->level + 1;            
+        } else {
+            $path = $this->id;
+            $level = 1;
+        }
+        static::updateAll(['path' => $path, 'level' => $level], ['id' => $this->id]);
     }
 
 

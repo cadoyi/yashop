@@ -89,10 +89,6 @@ $childLinkTemplate = '<a class="has-child" href="{url}">{label}<i class="fa fa-c
                              'url'    => ['/catalog/category/index'],
                          ],
                          [
-                             'label' => Yii::t('app', 'Product type'),
-                             'url' => ['/catalog/type/index'],
-                         ],
-                         [
                              'label' => Yii::t('app', 'Product'),
                              'url' => ['/catalog/product/index'],
                          ],
@@ -131,6 +127,10 @@ $childLinkTemplate = '<a class="has-child" href="{url}">{label}<i class="fa fa-c
                             'url'   => ['/system/menu/index'],
                         ],
                     ],
+                ],
+                [
+                    'label' => Yii::t('app', 'Issue'),
+                    'url'   => ['/issue/category/index'],
                 ],
                 [
                     'label' => Yii::t('app', 'System config'),

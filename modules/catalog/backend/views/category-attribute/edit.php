@@ -58,7 +58,6 @@ $this->title = '编辑分类属性';
         var value = select.val();
         var option = select.find('option[value="' + value +'"]');
         var hasValue = +option.attr('it-required');
-        console.log(hasValue);
         if(hasValue) {
             var hint = option.attr('it-hint') || '';
             jsonItemsContainer.find('small').text(hint);

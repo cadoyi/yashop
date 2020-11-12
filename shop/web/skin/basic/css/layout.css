@@ -1,0 +1,198 @@
+
+html {
+    height: 100%;
+}
+body {
+    height: 100%;
+    overflow: auto;
+    position: relative;
+}
+
+/*******************************************/
+/*   layout header                         */
+/*******************************************/
+.layout-header {
+    height: 40px;
+    background: #efefef;
+    position: absolute;
+    top: 0;
+    left: 200px;
+    right: 0;
+    z-index: 100;
+    box-shadow: 0 0 11px 2px #d6d6d6;
+}
+.layout-header .navbar {
+    padding: 0;
+    padding-right: 3rem;
+}
+.layout-header .navbar .nav-item .nav-link {
+    color: rgba(0,0,0, .8);
+    padding: 0 20px;
+    line-height: 38px;
+    border-bottom: 2px solid transparent;
+    font-size: .8rem;
+}
+.layout-header .nav-item.active .nav-link {
+    border-bottom: 2px solid #4d88c3;
+    font-size: .8rem;
+}
+.layout-header .nav-item.dropdown.show > .dropdown-toggle {
+     border-bottom: 2px solid #4d88c3;
+}
+.dropdown-item.active, .dropdown-item:active
+
+.layout-header .nav-item .dropdown-menu {
+    margin: 0;
+}
+.layout-header .nav-item .dropdown-menu .dropdown-item {
+    padding: 0;
+}
+.layout-header .nav-item .dropdown-menu .dropdown-item.active, 
+.layout-header .nav-item .dropdown-menu .dropdown-item:active {
+    background-color: transparent;
+}
+
+.layout-header .nav-item .dropdown-menu .dropdown-item .nav-link {
+    color: #555 ;
+    line-height: 2rem;
+    border-bottom: 0;
+}
+.layout-header .nav-item .dropdown-menu .dropdown-item .nav-link.text-danger {
+    color: #fd5151;
+}
+
+/*******************************************/
+/*   layout sidebar                        */
+/*******************************************/
+.layout-sidebar {
+    width: 200px;
+    height: 100%;
+    background:#163d65 !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+}
+.layout-sidebar .title {
+    height: 60px;
+    border-bottom: 1px solid #13406f;
+    background: #0e2e4e;
+    color: rgba(255,255,255, .8);
+    display: block;
+    line-height: 60px;
+    text-align: center;
+}
+.layout-sidebar  .title > img {
+    width: 100%;
+}
+.layout-sidebar .menus {
+    max-height: 100%;
+    overflow: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+}
+.layout-sidebar .menus {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+.layout-sidebar .menus::-webkit-scrollbar {
+    display: none;
+}
+.layout-sidebar .menus .submenus {
+    background-color: rgba(0,0,0,.3)!important;
+    display: none;
+}
+.layout-sidebar .menus a.has-child.open + .submenus {
+    display: block;
+}
+.layout-sidebar .menus ul {
+    list-style: none;
+    padding-left: 0;
+}
+.layout-sidebar .menus ul a {
+    color: rgba(255,255,255, .7);
+    padding-left: 1.5rem;
+    display: block;
+    line-height: 2.5rem;
+    border-left: 3px solid transparent;
+    font-size: .9rem;
+}
+.layout-sidebar .menus ul a:hover {
+    background: #1b646f;
+    color: #fff !important;
+    border-left: 3px solid #009688;
+}
+.layout-sidebar .menus a.has-child,
+.layout-sidebar .menus > ul > li > a {
+    font-size: 1rem;
+}
+.layout-sidebar .menus a.has-child:hover {
+    background: #1b646f;
+}
+.layout-sidebar .menus a.has-child .fa {
+    position: absolute;
+    right: 0;
+    width: 2rem;
+    line-height: 2.5rem;
+}
+.layout-sidebar .menus a.has-child .fa-caret-left {
+    display: inline-block;
+}
+.layout-sidebar .menus a.has-child .fa-caret-down {
+    display: none;
+}
+.layout-sidebar .menus a.has-child.open .fa-caret-left {
+    display: none;
+}
+.layout-sidebar .menus a.has-child.open .fa-caret-down {
+    display: inline-block;
+}
+
+.layout-sidebar .menus ul li.active > a:not(.has-child) {
+    background-color: #009688;
+}
+
+
+
+
+/*******************************************/
+/*   layout body                           */
+/*******************************************/
+.layout-body {
+    position: absolute;
+    top: 60px;
+    left: 200px;
+    right: 0;
+    z-index: 0;
+    padding: 0 1rem;
+    padding-bottom: 66px;
+    min-height: calc(100vh - 120px);
+}
+.layout-body > nav {
+   margin-left: -1rem;
+   margin-right: -1rem;
+}
+.layout-body > nav > .breadcrumbs {
+    margin: 0;
+    background: transparent;
+    font-size: .8rem;
+    line-height: 1.5rem;
+}
+
+/*******************************************/
+/*   layout footer                         */
+/*******************************************/
+.layout-footer {
+    height: 50px;
+    background:#f1f1f1;
+    position: fixed;
+    bottom: 0;
+    left: 200px;
+    right: 0;
+    border-top: 1px solid #ddd;
+    line-height: 60px;
+    padding: 0 2rem;
+}

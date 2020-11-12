@@ -27,7 +27,7 @@ $this->title = Yii::t('app', 'Manage categories');
 
 <div class="d-flex">
     <div class="my-3">
-        <div><a class="root-category" href="#">分类结构预览</a></div>
+        <div><a id="add_root_category" class="btn btn-sm btn-molv" href="#">新增主分类</a></div>
         <div id="category_container" class="category-container">
         </div>
     </div>
@@ -81,7 +81,26 @@ $this->title = Yii::t('app', 'Manage categories');
             op.alert('网络错误！');
         });
     };
-
+    var getEditCallback = function( inst, obj) {
+        return function(node, status, cancel) {
+            var originalText = node.original.text;
+            if(status) {
+                $.post(updateUrl, {
+                    id: node.id,
+                    title: node.text
+                }).then(function( res ) {
+                    if(res.error) {
+                        op.alert(res.message);
+                        inst.rename_node(obj, originalText);
+                    }
+                    op.success();
+                }, function() {
+                    op.alert('网络错误');
+                    inst.rename_node(obj, originalText);
+                });
+            }
+        };
+    };
 
     $('#category_container').jstree({
         'core': {
@@ -115,11 +134,12 @@ $this->title = Yii::t('app', 'Manage categories');
                                     }
                                     var node = res.data;
                                     inst.create_node(obj, node, 'last', function( new_node ) {
+                                        var callback = getEditCallback(inst, node);
                                          try {
-                                            inst.edit(new_node);
+                                            inst.edit(new_node, new_node.text, callback);
                                          } catch( ex ) {
                                              setTimeout(function() {
-                                                 inst.edit(new_node);
+                                                 inst.edit(new_node, new_node.text, callback);
                                              }, 0);
                                          }
                                     });
@@ -138,24 +158,7 @@ $this->title = Yii::t('app', 'Manage categories');
                             var inst = $.jstree.reference(data.reference),
                                 obj = inst.get_node(data.reference);
                             var text = obj.text;
-                            inst.edit(obj, text, function(node, status, cancel) {
-                                var originalText = node.original.text;
-                                if(status) {
-                                    $.post(updateUrl, {
-                                        id: node.id,
-                                        title: node.text
-                                    }).then(function( res ) {
-                                        if(res.error) {
-                                            op.alert(res.message);
-                                            inst.rename_node(obj, originalText);
-                                        }
-                                        op.success();
-                                    }, function() {
-                                        op.alert('网络错误');
-                                        inst.rename_node(obj, originalText);
-                                    });
-                                }
-                            });
+                            inst.edit(obj, text, getEditCallback(inst, obj));
                         }
                     },
                     "remove" : {
@@ -240,7 +243,36 @@ $this->title = Yii::t('app', 'Manage categories');
         },
         'plugins': [ 'contextmenu' ]
     }).on('ready.jstree', function( e ) {
-         //$(this).jstree(true).open_all();
+         $(this).jstree(true).open_all();
+    });
+
+
+
+    $('#add_root_category').on('click', function( e ) {
+        stopEvent(e);
+        var inst = $('#category_container').jstree(true);
+        var obj = inst.get_node($.jstree.root);
+        $.post(createUrl, {
+            parent: obj.id,
+        }).then(function( res ) {
+            if(res.error) {
+                 op.alert(res.message);
+                 return;
+            }
+            var node = res.data;
+            inst.create_node(obj, node, 'last', function( new_node ) {
+                var callback = getEditCallback(inst, node);
+                 try {
+                    inst.edit(new_node, new_node.text, callback);
+                 } catch( ex ) {
+                     setTimeout(function() {
+                         inst.edit(new_node, new_node.text, callback);
+                     }, 0);
+                 }
+            });
+        }, function() {
+            alert('网络错误！');
+        });
     });
 
 </script>

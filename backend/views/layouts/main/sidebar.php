@@ -101,10 +101,11 @@ use common\widgets\Alert;
                              'label'  => Yii::t('app', 'Category'),
                              'url'    => ['/catalog/category/index'],
                          ],
+                         /*
                          [
                              'label' => Yii::t('app', 'Product type'),
                              'url' => ['/catalog/type/index'],
-                         ],
+                         ], */
                          [
                              'label' => Yii::t('app', 'Product'),
                              'url' => ['/catalog/product/index'],

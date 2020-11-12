@@ -3,7 +3,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use catalog\models\Brand;
 use store\models\Store;
-use common\widgets\CKEditorInput;
+use backend\widgets\CKEditorInput;
 use core\widgets\Uploader;
 use backend\assets\bs4\catalog\ProductAsset;
 ProductAsset::register($this);
