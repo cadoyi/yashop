@@ -1,0 +1,151 @@
+
+.product-select-category .category-container {
+    min-height: 250px;
+    max-height: 350px;
+    overflow: auto;
+    border: 1px solid #d6d6d6;
+    padding: 1rem;
+}
+
+/**
+ * product gallery
+ */
+.previews .preview {
+    display: inline-block;
+    max-width: 120px;
+    box-shadow: 2px 1px 3px 0 #ddd;
+    border: 1px solid #ddd;
+    position: relative;
+    cursor: pointer;
+    margin: 2px;
+}
+.previews .preview img {
+    max-width: 100%;
+}
+.previews .preview a.remove {
+    display: none;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 1.5rem;
+    height: 1.5rem;
+    line-height: 1.5rem;
+    text-align: center;
+    color: #777;
+    z-index: 200;
+}
+.previews .preview .preview-buttons {
+    display: none;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    background: #f1f1f1;
+    padding: 0 .5rem;
+}
+.previews .preview .preview-buttons > a {
+    width: 2rem;
+    display: inline-block;
+    text-align: center;
+}
+.previews .preview:hover .preview-buttons {
+    display: block;
+}
+.previews .preview:hover a.remove {
+    display: block;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * product options
+ */
+.product-option .option-sort-order {
+    width: 2rem;
+    text-align: center;
+    background: #efefef;
+    -ms-flex-negative: 0 !important;
+    flex-shrink: 0 !important;
+}
+.product-option .option-sort-order a[sort-up],
+.product-option .option-sort-order a[sort-down] {
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    color: #fff;
+    display: -ms-flexbox !important;
+    display: flex !important;
+    -ms-flex-pack: center !important;
+    justify-content: center !important;
+    -ms-flex-align: center !important;
+    align-items: center !important;
+}
+.product-option .option-sort-order a[sort-up] {
+    background: #083d73;
+}
+
+.product-option .option-sort-order a[sort-down] {
+    background: #88020f;
+}
+
+
+
+
+
+.product-option .option-name {
+    width: 120px;
+}
+.product-option .option-value-tags {
+    margin-left: -120px;
+    padding: .5rem;
+    min-height: 50px;
+}
+
+
+.product-option .option-value-tag {
+    display: inline-block;
+    padding: 3px 8px;
+    background: #009688;
+    color: rgba(255,255,255, .8);
+    margin: 2px;
+    font-size: .8rem;
+}
+.product-option .option-value-tag a {
+    color: rgba(255,255,255, .8);
+    display: inline-block;
+    width: 1rem;
+    text-align: center;
+}
+
+.product-option .option-remove {
+    width: 2rem;
+    background: #fd5151;
+    color: #fff;
+    -ms-flex-negative: 0 !important;
+    flex-shrink: 0 !important;
+}
+.product-option .option-remove [remove-option] {
+    height: 100%;
+    width: 100%;
+    display: -ms-flexbox !important;
+    display: flex !important;
+    -ms-flex-pack: center !important;
+    justify-content: center !important;
+    -ms-flex-align: center !important;
+    align-items: center !important;
+}
+.product-option .option-remove .fa {
+    color: #fff;
+}
+

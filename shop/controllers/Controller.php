@@ -4,6 +4,7 @@ namespace shop\controllers;
 
 use Yii;
 use yii\base\Model;
+use store\models\Store;
 
 /**
  * 后台控制器
@@ -13,9 +14,12 @@ use yii\base\Model;
 class Controller extends \cando\web\Controller
 {
 
+    protected $_currentStore;
+
     /**
      * @inheritdoc
      */
+    /*
     public function access()
     {
         return [
@@ -27,9 +31,22 @@ class Controller extends \cando\web\Controller
                 [],
            ],
         ];
+    } */
+
+
+
+
+    /**
+     * @inheritdoc
+     */
+    public function init()
+    {
+        parent::init();
+        $this->on(static::EVENT_BEFORE_ACTION, function( $event ) {
+            $store = $this->store;
+            Yii::$app->set('currentStore', $store);
+        });
     }
-
-
 
     /**
      * 记录日志.
@@ -155,6 +172,56 @@ class Controller extends \cando\web\Controller
            'data'  => $data,
         ];
         return $this->asJson($jsonData);
+    }
+
+
+
+    /**
+     * 获取店铺。
+     * 
+     * @return string
+     */
+    public function getStore()
+    {
+        if(!$this->_currentStore) {
+            $this->_currentStore = Store::find()->limit(1)->one();
+        }
+        return $this->_currentStore;
+    }
+
+
+    /**
+     * @inheritdoc
+     * @param  [type]  $id    [description]
+     * @param  [type]  $class [description]
+     * @param  boolean $throw [description]
+     * @param  [type]  $field [description]
+     * @return [type]         [description]
+     */
+    public function findModel($id, $class, $throw = true, $field = null)
+    {
+        if(is_numeric($id) || is_string($id)) {
+            if(!is_null($field)) {
+                $where = [$field => $id];
+            } else {
+                $primaryKey = $class::primaryKey();
+                $field = $primaryKey[0];
+                $where = [$field => $id]; 
+            }
+            $instance = $class::instance();
+            if($instance->hasAttribute('store_id')) {
+                $where['store_id'] = $this->store->id;
+            }
+
+            $model = $class::findOne($where);
+            if($model instanceof $class) {
+                if($model->hasMethod('setStore')) {
+                    $model->setStore($this->store);
+                }
+                return $model;
+            }
+        }
+        return $throw ? $this->notFound() : null;
     }
 
 }

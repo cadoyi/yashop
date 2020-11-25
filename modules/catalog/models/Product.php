@@ -30,6 +30,16 @@ class Product extends ActiveRecord
     /**
      * @inheritdoc
      */
+    public static function find()
+    {
+        return parent::find()->andWhere(['is_deleted' => 0]);
+    }
+
+
+
+    /**
+     * @inheritdoc
+     */
     public function behaviors()
     {
         return array_merge(parent::behaviors(), [
@@ -48,8 +58,8 @@ class Product extends ActiveRecord
     public function rules()
     {
         return [
-            [['store_id', 'category_id', 'type_id', 'title', 'sku', 'image', 'price', 'weight_unit'], 'required'],
-            [['store_id', 'category_id', 'brand_id', 'type_id'], 'integer'],
+            [['store_id', 'category_id',  'title', 'sku', 'image', 'price', 'weight_unit'], 'required'],
+            [['store_id', 'category_id', 'brand_id'], 'integer'],
             [['title', 'sku', 'image'], 'string', 'max' => 255],
             [['weight_unit'], 'string', 'max' => 8],
             [['description', 'meta_keywords', 'meta_description'], 'string'],
@@ -60,14 +70,9 @@ class Product extends ActiveRecord
             [['sku'], 'unique', 'when' => function($model, $attribute) {
                 return $model->isAttributeChanged($attribute);
             }],
-            ['store_id', 'exist', 'targetClass' => Store::class, 'targetAttribute' => 'id'],
-            [['category_id'], 'exist', 'targetClass' => Category::class, 'targetAttribute' => 'id'],
             [['brand_id'], 'exist', 'targetClass' => Brand::class, 'targetAttribute' => 'id'],
-            [['type_id'], 'exist', 'targetClass' => Type::class, 'targetAttribute' => 'id'],
-
             [['status', 'is_selectable'], 'default', 'value' => 1],
-            [['weight', 'rate', 'is_best', 'is_hot', 'is_new', 'is_virtual', 'deleted_at'], 'default', 'value' => 0],
-            
+            [['weight', 'rate', 'is_best', 'is_hot', 'is_new', 'is_virtual'], 'default', 'value' => 0],
         ];
     }
 
@@ -82,7 +87,6 @@ class Product extends ActiveRecord
             '_id'       => Yii::t('app', 'Id'),                // 主键值
             'store_id'  => Yii::t('app', 'Store'),           // 店铺 ID
             'brand_id'  => Yii::t('app', 'Brand'),           // 品牌 ID
-            'type_id'   => Yii::t('app', 'Product type'),            // 产品类型 ID
             'category_id' => Yii::t('app', 'Product category'),       // 分类 ID
             'title'        => Yii::t('app', 'Product name'),              // 产品名称
             'description'  => Yii::t('app', 'Product description'),        // 产品描述
@@ -109,31 +113,62 @@ class Product extends ActiveRecord
             'image'            => Yii::t('app', 'Product image'),              // 头图
             'created_at'       => Yii::t('app', 'Created at'),         // 添加时间
             'updated_at'       => Yii::t('app', 'Updated at'),         // 更新时间
-            'deleted_at'       => Yii::t('app', 'Deleted at'),         // 删除时间
         ];
     }
 
 
+
+
     /**
-     * 获取产品类型
+     * 获取产品名
      * 
-     * @return yii\db\ActiveQuery
+     * @return string
      */
-    public function getType()
+    public function getName()
     {
-        return $this->hasOne(Type::class, ['id' => 'type_id']);
+        return $this->title;
+    }
+
+
+    /**
+     * 设置产品名
+     * 
+     * @param string $name
+     */
+    public function setName( $name )
+    {
+        $this->title = $name;
+    }
+
+
+
+
+    /**
+     * 获取图片的 URL
+     * 
+     * @param  int  $width   图片宽度
+     * @param  int  $height  图片高度
+     * @return string
+     */
+    public function getImageUrl( $width = null, $height = null)
+    {
+        return (string) Yii::$app->storage->getUrl($this->image, $width, $height);
     }
 
 
 
     /**
-     * 设置 catalog type
+     * 进行虚拟删除
+     * 
+     * @return boolean
      */
-    public function setType(Type $type)
+    public function virtualDelete()
     {
-        $this->type_id = $type->id;
-        $this->populateRelation('type', $type);
+        $this->is_deleted = true;
+        return $this->save();
     }
+
+
 
 
 
@@ -172,6 +207,21 @@ class Product extends ActiveRecord
     }
 
 
+
+    /**
+     * 设置 store
+     * 
+     * @param Store $store 
+     */
+    public function setStore(Store $store)
+    {
+        $this->store_id = $store->id;
+        $this->populateRelation('store', $store);
+    }
+
+    
+
+
     /**
      * 获取品牌
      * 
@@ -181,6 +231,8 @@ class Product extends ActiveRecord
     {
         return $this->hasOne(Brand::class, ['id' => 'brand_id']);
     }
+
+
 
 
 
@@ -270,70 +322,18 @@ class Product extends ActiveRecord
 
 
 
-
     /**
-     * 获取产品类型
+     * 获取产品规格.
      * 
-     * @return yii\db\ActiveQuery[]
+     * @return yii\db\ActiveQuery
      */
-    public function getProductTypes()
+    public function getProductSpecs()
     {
-        return $this->hasMany(ProductType::class, ['product_id' => 'id'])
-           ->indexBy('type_attribute_id')
-           ->inverseOf('product');
-    }
-    
-
-
-    /**
-     * 获取产品名
-     * 
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->title;
+        return $this->hasMany(ProductSpec::class, ['product_id' => 'id'])
+            ->indexBy('attribute_id')
+            ->inverseOf('product');
     }
 
-
-    /**
-     * 设置产品名
-     * 
-     * @param string $name
-     */
-    public function setName( $name )
-    {
-        $this->title = $name;
-    }
-
-
-
-
-    /**
-     * 获取图片的 URL
-     * 
-     * @param  [type] $width  [description]
-     * @param  [type] $height [description]
-     * @return [type]         [description]
-     */
-    public function getImageUrl( $width = null, $height = null)
-    {
-        return (string) Yii::$app->storage->getUrl($this->image, $width, $height);
-    }
-
-
-
-    /**
-     * 进行虚拟删除
-     * 
-     * @return boolean
-     */
-    public function virtualDelete()
-    {
-        $this->is_deleted = true;
-        $this->deleted_at = time();
-        return $this->save();
-    }
 
 
 
@@ -346,7 +346,10 @@ class Product extends ActiveRecord
      */
     public function getSalesCount($includeVirtual = true)
     {
-        return $this->salesData->getSalesCount($includeVirtual);
+        if($this->salesData) {
+            return $this->salesData->getSalesCount($includeVirtual);
+        }
+        return 0;
     }
 
 

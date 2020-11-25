@@ -6,6 +6,7 @@ use Yii;
 use yii\behaviors\TimestampBehavior;
 use cando\db\ActiveRecord;
 use customer\models\Customer;
+use checkout\models\collections\CartItemCollection;
 
 /**
  * 购物车模块
@@ -63,6 +64,18 @@ class Cart extends ActiveRecord
     }
 
 
+    
+    /**
+     * 获取 item collection
+     * 
+     * @return CartItemCollection
+     */
+    public function getItemCollection()
+    {
+        return new CartItemCollection(['cart' => $this]);
+    }
+
+
 
     /**
      * 添加购物车条目
@@ -100,18 +113,6 @@ class Cart extends ActiveRecord
 
 
 
-    /**
-     * 删除购物车中的所有条目
-     * 
-     * @return boolean
-     */
-    public function removeAllItems()
-    {
-        foreach($this->items as $item) {
-            $item->delete();
-        }
-        return true;
-    }
 
 
 

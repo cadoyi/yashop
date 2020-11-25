@@ -22,11 +22,12 @@ $reviewOptions = array_merge($viewOptions, ['filterModel' => $filterModel, 'data
     <?= $this->render('view/search') ?>
     <div class="container-fluid p-0">
         <div class="d-flex">
-            <?= $this->render('view/gallery', $viewOptions); ?>
-
+            <div class="d-flex flex-column">
+                <?= $this->render('view/gallery', $viewOptions); ?>
+                <?= $this->render('view/wishlist', $viewOptions) ?>
+            </div>
             <div class="desc flex-grow-1">
                 <?= $this->render('view/info', $viewOptions) ?>
-
             </div>   <!-- end desc -->
 
         </div> 

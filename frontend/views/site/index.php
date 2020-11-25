@@ -3,7 +3,8 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use frontend\assets\basic\HomeAsset;
 use frontend\assets\lib\SwiperAsset;
-use catalog\widgets\CategoryMenu;
+//use catalog\widgets\CategoryMenu;
+use front\widgets\NavMenu;
 SwiperAsset::register($this);
 HomeAsset::register($this);
 
@@ -37,30 +38,33 @@ HomeAsset::register($this);
 
     </form>
 </section>
-<section class="border-top row flex-nowrap" style="height: 400px;">
+<section class="home-nav border-top row justify-content-center flex-nowrap" style="min-height: 400px;">
     <div class="home-menus flex-shrink-0">
-        <?= CategoryMenu::widget() ?>
+        <?= NavMenu::widget([
+           'options' => [
+                'class' => 'menus',
+           ],
+        ]) ?>
     </div>
     <div style="width: 780px;">
         <div class="mbs swiper-container">
             <div id="banners" class="banners swiper-wrapper">
                 <a class="swiper-slide" href="#">
-                    <img height="400" width="780" src="<?= $this->getAssetUrl('img/banner.jpg')?>" />
+                    <img height="468" width="780" src="<?= $this->getAssetUrl('img/banner.jpg')?>" />
                 </a>
                 <a  class="swiper-slide" href="#">
-                    <img  height="400" width="780" src="<?= $this->getAssetUrl('img/banner.jpg')?>" />
+                    <img  height="468" width="780" src="<?= $this->getAssetUrl('img/banner.jpg')?>" />
                 </a>
                 <a  class="swiper-slide" href="#">
-                    <img height="400" width="780" src="<?= $this->getAssetUrl('img/banner.jpg')?>" />
+                    <img height="468" width="780" src="<?= $this->getAssetUrl('img/banner.jpg')?>" />
                 </a>
                 <a  class="swiper-slide" href="#">
-                    <img height="400" width="780" src="<?= $this->getAssetUrl('img/banner.jpg')?>" />
+                    <img height="468" width="780" src="<?= $this->getAssetUrl('img/banner.jpg')?>" />
                 </a>
             </div>
             <div class="swiper-pagination"></div>
         </div>
     </div>
-    <div class="phs bg-dark flex-shrink-1 flex-grow-1" style="height: 400px;background: #000;">
         
     </div>
 </section>

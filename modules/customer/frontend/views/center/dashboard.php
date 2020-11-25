@@ -26,7 +26,7 @@ $this->title = Yii::t('app', 'Customer center');
         </div>
         <div class="base-title-info flex-grow-1 d-flex flex-nowrap align-items-center text-center">
             <div class="flex-grow-1">
-                <a href="#">我的收货地址</a>
+                <a href="<?= Url::to(['/customer/address/index'])?>">我的收货地址</a>
             </div>
             <div class="flex-grow-1">
                 <a href="#">我的物流信息</a>

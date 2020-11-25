@@ -16,14 +16,9 @@ use yii\bootstrap4\Breadcrumbs;
     <?= $this->render('main/header') ?>
     <?= $this->render('main/sidebar') ?>
     <main class="layout-body">
-        <?= Breadcrumbs::widget([
-            'id' => 'breadcrumbs',
-            'options' => [
-                'class' => 'breadcrumbs',
-            ],
-            'links' => $this->getBreadcrumbs()
-        ]) ?>
-        <?= $content ?>
+        <div class="layout-body-container">
+             <?= $content ?>
+        </div>
     </main>
     <?= $this->render('main/footer') ?>      
 </div>

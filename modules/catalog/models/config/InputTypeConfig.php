@@ -30,6 +30,19 @@ class InputTypeConfig extends ConfigData
 
 
     /**
+     * 类型别名
+     * 
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->name;
+    }
+
+
+
+
+    /**
      * 获取 label
      * 
      * @return string
@@ -65,5 +78,39 @@ class InputTypeConfig extends ConfigData
         $hint = $this->get('hint', '');
         return $hint;
     }
+
+
+
+    /**
+     * 获取渲染器.
+     * 
+     * @return InputTypeRender
+     */
+    public function getRender()
+    {
+        $options = $this->get('render', ['class' => InputTypeRender::class]);
+        if(is_string($options)) {
+            $options = ['class' => $options];
+        }
+        $options['config'] = $this;
+        $render = Yii::createObject($options);
+        return $render;
+    }
+
+
+
+
+    /**
+     * 渲染的 input 选项.
+     * 
+     * @return array
+     */
+    public function getRenderInputOptions()
+    {
+        return $this->get('renderInputOptions', []);
+    }
+
+
+
 
 }

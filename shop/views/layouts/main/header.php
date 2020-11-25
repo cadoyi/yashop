@@ -2,6 +2,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\Menu;
+use yii\bootstrap4\Breadcrumbs;
 ?>
 <?php 
 /**
@@ -11,6 +12,17 @@ use yii\widgets\Menu;
 <header class="layout-header">
     <nav class="navbar navbar-expand navbar-light">
       <div class="collapse navbar-collapse show">
+        <?= Breadcrumbs::widget([
+            'id' => 'breadcrumbs',
+            'options' => [
+                'class' => 'breadcrumbs',
+            ],
+            'homeLink' => [
+                'label' => '当前位置',
+                'url'   => Yii::$app->homeUrl,
+            ],
+            'links' => $this->getBreadcrumbs()
+        ]) ?>
         <?= Menu::widget([
             'options' => [
                 'class' => 'navbar-nav ml-auto',

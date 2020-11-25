@@ -20,7 +20,8 @@ $this->addBreadcrumb('管理 SKU', ['index', 'pid' => $product->id ]);
         'uploadId' => 'catalog/product/images',
     ]) ?>
     <?php foreach($model->getOptions() as $option): ?>
-        <?= $form->field($model, $option->name)->dropDownList($model->getOptionHashOptions($option), ['prompt' => '']) ?>
+        <?= $form->field($model, $option->name)
+            ->dropDownList($model->getOptionHashOptions($option), ['prompt' => '']) ?>
     <?php endforeach; ?>
     <?= $form->field($model, 'qty') ?>
     <?= $form->field($model, 'price') ?>

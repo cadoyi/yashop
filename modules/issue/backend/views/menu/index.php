@@ -230,6 +230,12 @@ $this->title = Yii::t('app', 'Manage menus');
                     'issues': {
                         'label': '管理问题',
                         'icon': 'fa fa-cog',
+                        '_disabled': function( data ) {
+                            var inst = $.jstree.reference(data.reference);
+                            var node = inst.get_node(data.reference);
+                            console.log(data);
+                            return inst.is_parent(node);
+                        },
                         'action': function( data ) {
                             var inst = $.jstree.reference(data.reference);
                             var node = inst.get_node(data.reference);

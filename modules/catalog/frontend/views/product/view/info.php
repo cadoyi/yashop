@@ -25,10 +25,10 @@ $this->registerJsVar('productSkus', $self->getSkusData());
     <tbody>
         <tr class="product-name">
             <td colspan="2">
-                <h5><?= Html::encode($product->name) ?>阿斯蒂芬asd暗示法广芳广芳广芳广芳暗示法广芳广芳广芳</h5>
+                <h5><?= Html::encode($product->name) ?></h5>
             </td>
         </tr>
-        <tr class="product-price">
+        <tr id="product_price_tr" class="product-price" data-price="<?= $product->finalPrice?>">
             <td>售 价</td>
             <td>
                  <span style="color: #fd5151; font-size: 1rem;">
@@ -53,58 +53,9 @@ $this->registerJsVar('productSkus', $self->getSkusData());
             <td><?= Html::encode($product->brand->name) ?></td>
         </tr>
         <?php endif; ?>
-        <tr class="product-option">
-            <td>颜色</td>
-            <td>
-                <label>
-                    <input type="radio" name="color" value="1" />
-                    <span>红色</span>
-                </label>
-                <label>
-                    <input type="radio" name="color" value="1" />
-                    <span>蓝色</span>
-                </label>
-                <label>
-                    <input type="radio" name="color" value="1" />
-                    <span>灰色</span>
-                </label>
-                <label>
-                    <input type="radio" name="color" value="1" />
-                    <span>白色</span>
-                </label>
-                <label>
-                    <input type="radio" name="color" value="1" />
-                    <span>红色</span>
-                </label>
-                <label>
-                    <input type="radio" name="color" value="1" />
-                    <span>蓝色</span>
-                </label>
-                <label>
-                    <input type="radio" name="color" value="1" />
-                    <span>灰色</span>
-                </label>
-                <label>
-                    <input type="radio" name="color" value="1" />
-                    <span>白色</span>
-                </label>
-            </td>
-        </tr>
-        <tr class="product-option">
-            <td>尺寸</td>
-            <td>
-                <label>
-                    <input type="radio" name="size" value="1" />
-                    <span>XXL</span>
-                </label>
-                <label>
-                    <input type="radio" name="size" value="1" />
-                    <span>XL</span>
-                </label>
-            </td>
-        </tr>
+
         <!-- product option here -->
-        <tr class="product-qty">
+        <tr id="product_qty" class="product-qty">
             <td>数 量</td>
             <?php if($hasStock): ?>
             <td>
@@ -135,6 +86,8 @@ $this->registerJsVar('productSkus', $self->getSkusData());
                            <?php endif; ?>
                            checkout_button 
                            class="btn btn-seagreen rounded-0"
+                           type="submit"
+                           form="checkout_form"
                         >
                            &nbsp;&nbsp;立即购买&nbsp;&nbsp;
                        </button>
@@ -146,6 +99,8 @@ $this->registerJsVar('productSkus', $self->getSkusData());
                            <?php endif; ?>
                             tocart_button 
                             class="btn btn-molv rounded-0"
+                            type="submit"
+                            form="addcart_form"
                         >
                            加入购物车
                        </button>
@@ -174,34 +129,22 @@ $this->registerJsVar('productSkus', $self->getSkusData());
         ['/checkout/cart/add', 'product_id' => $product->id],
         'post',
         [
+            'id'    => 'addcart_form',
             'class' => 'addcart-form',
         ]
     ) ?>
-        <select class="d-none" name="product_sku">
-            <option value=""></option>
-            <?php foreach($product->skus as $sku): ?>
-                <option value="<?= Html::encode($sku->id) ?>">
-                    <?= Html::encode($sku->sku) ?>
-                </option>
-            <?php endforeach; ?>
-        </select>
+        <input type="hidden" name="product_sku" />
         <input type="hidden" name="qty" value="1" />
     <?= Html::endForm() ?>
     <?= Html::beginForm(
         ['/checkout/quote/add-product', 'product_id' => (string) $product->id],
         'post',
         [
+            'id'    => 'checkout_form',
             'class' => 'checkout-form',
         ]
 ) ?>
-        <select class="d-none" name="product_sku">
-            <option value=""></option>
-            <?php foreach($product->skus as $sku): ?>
-                <option value="<?= Html::encode($sku->id) ?>">
-                    <?= Html::encode($sku->sku) ?>
-                </option>
-            <?php endforeach; ?>
-        </select>
+        <input type="hidden" name="product_sku" />
         <input type="hidden" name="qty" value="1" />  
     <?= Html::endForm() ?>
 </div>
@@ -209,9 +152,29 @@ $this->registerJsVar('productSkus', $self->getSkusData());
 <?php $this->beginScript() ?>
 <script>
     var po = new ProductOption(
-        <?= Json::encode($self->getProductInfo()) ?>,
-        <?= Json::encode($self->getOptionsData())?>,
-        <?= Json::encode($self->getSkusData()) ?>
+        <?= Json::encode($self->getProductOptionsData()) ?>
     );
+    
+    $('#addcart_form, #checkout_form').on('submit', function( e ) {
+        stopEvent(e);
+        var form = $(this);
+        var sku = $('#product_view').data('sku');
+        if(!sku) {
+            op.alert('请选择规格');
+            return;
+        }
+        var qtyInput = form.find('[name="qty"]');
+        qtyInput.val($('#qty_input').val());
+        form.find('[name="product_sku"]').val(sku.id);
+        var data = form.serializeArray();
+        var url = form.attr('action');
+        $.post(url, data).then(function( res ) {
+            if(res.error) {
+                op.alert(res.message);
+                return;
+            }
+            op.success('已加入购物车');
+        });
+    });
 </script>
 <?php $this->endScript() ?> 

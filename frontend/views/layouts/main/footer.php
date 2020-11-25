@@ -67,7 +67,7 @@ use yii\helpers\Url;
         <div class="col">
              <div title>帮助中心</div>
             <ul>
-                <li><a href="#">常见问题</a></li>
+                <li><a href="<?= Url::to(['/issue/issue/index'])?>">常见问题</a></li>
                 <li><a href="#">购物指南</a></li>
                 <li><a href="#">配送问题</a></li>
                 <li><a href="#">其他问题</a></li>

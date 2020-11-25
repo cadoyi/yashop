@@ -79,7 +79,7 @@ $identity = Yii::$app->user->identity;
               <a class="nav-link" href="#">联系客服</a>
             </li>          
             <li class="nav-item">
-              <a class="nav-link" href="#">免费开店</a>
+              <a class="nav-link" href="<?= Yii::$app->config->get('url/shop/secure')?>">免费开店</a>
             </li>
         </ul>
       </div>

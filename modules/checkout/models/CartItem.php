@@ -79,6 +79,19 @@ class CartItem extends ActiveRecord
     }
 
 
+    
+    /**
+     * 设置 cart
+     * 
+     * @param Cart $cart 
+     */
+    public function setCart(Cart $cart)
+    {
+        $this->cart_id = $cart->id;
+        $this->populateRelation('cart', $cart);
+    }
+
+
 
     /**
      * 获取产品
@@ -92,6 +105,19 @@ class CartItem extends ActiveRecord
 
 
     /**
+     * 设置 product
+     * 
+     * @param Product $product
+     */
+    public function setProduct(Product $product)
+    {
+        $this->product_id = $product->id;
+        $this->populateRelation('product', $product);
+    }
+
+
+
+    /**
      * 获取产品 sku
      * 
      * @return ProductSku
@@ -101,6 +127,18 @@ class CartItem extends ActiveRecord
         return $this->hasOne(ProductSku::class, ['id' => 'product_sku_id']);
     }
 
+ 
+    
+    /**
+     * 设置 product sku
+     * 
+     * @param ProductSku $productSku 
+     */
+    public function setProductSku(ProductSku $productSku)
+    {
+        $this->product_sku_id = $productSku->id;
+        $this->populateRelation('productSku', $productSku);
+    }
 
 
 

@@ -7,10 +7,12 @@ $params = array_merge(
 );
 
 return [
-    'id' => 'app-shop',
+    'id'       => 'app-shop',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'shop\controllers',
-    'bootstrap' => ['log'],
+    'bootstrap' => [
+        'log',
+    ],
     'modules' => [],
     'components' => [
         'request' => [
@@ -39,7 +41,10 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        
+        'assetManager' => [
+            'linkAssets'      => true,
+            'appendTimestamp' => true,
+        ],
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,

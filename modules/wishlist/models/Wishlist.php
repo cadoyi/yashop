@@ -7,6 +7,7 @@ use yii\behaviors\TimestampBehavior;
 use cando\db\ActiveRecord;
 use customer\models\Customer;
 use catalog\models\Product;
+use wishlist\models\collections\ProductCollection;
 
 /**
  * 收藏夹
@@ -70,84 +71,19 @@ class Wishlist extends ActiveRecord
 
     
     /**
-     * 获取 wishlist items
+     * 获取 wishlist products
      * 
      * @return yii\db\ActiveQuery[]
      */
-    public function getItems()
+    public function getProducts()
     {
-        return $this->hasMany(WishlistItem::class, ['wishlist_id' => 'id'])
+        return $this->hasMany(WishlistProduct::class, ['wishlist_id' => 'id'])
             ->orderBy(['id' => SORT_DESC])
+            ->indexBy(['product_id'])
             ->inverseOf('wishlist');
     }
 
 
-
-    /**
-     * 添加产品
-     * 
-     * @param Product $product 
-     */
-    public function addProduct(Product $product)
-    {
-        $items = $this->items;
-        foreach($items as $item) {
-            if($item->product_id == $product->id) {
-                return $item;
-            }
-        }
-        $item = new WishlistItem([
-            'wishlist' => $this,
-            'product'  => $product,
-        ]);
-        $item->save();
-        $this->items[$item->id] = $item;
-        return $item;
-    }
-
-
-
-    /**
-     * 移除产品
-     * 
-     * @param  Product $product
-     * @return boolean
-     */
-    public function removeProduct(Product $product)
-    {
-        foreach($this->items as $id => $item) {
-            if($item->product_id == $product->id) {
-                $item->delete();
-                unset($this->items[$id]);
-                break;
-            }
-        }
-        return true;
-    }
-
-
-
-    /**
-     * 是否已经加入了收藏
-     * 
-     * @param  string|Product  $product 
-     * @return boolean 
-     */
-    public function hasProduct( $product  )
-    {
-        if($product instanceof Product) {
-            $product_id = $product->id;
-        } else {
-            $product_id = $product;
-        }
-        $items = $this->items;
-        foreach($items as $item) {
-            if($item->product_id == $product_id) {
-                return true;
-            }
-        }
-        return false;
-    }
 
 
 
@@ -217,6 +153,22 @@ class Wishlist extends ActiveRecord
         }
         return $this->item_count;
     }
+
+
+
+
+    /**
+     * 获取产品收集器.
+     * 
+     * @return ProductCollection
+     */
+    public function getProductCollection()
+    {
+        return new ProductCollection(['wishlist' => $this]);
+    }
+
+
+    
 
 
 }

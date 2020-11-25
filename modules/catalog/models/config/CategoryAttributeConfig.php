@@ -95,7 +95,17 @@ class CategoryAttributeConfig extends Component
 
 
 
-
+    
+    /**
+     * 获取输入类型配置.
+     * 
+     * @return InputTypeConfig
+     */
+    public function getInputType($type)
+    {
+        $types = $this->getInputTypes();
+        return $types[$type];
+    }
 
 
 

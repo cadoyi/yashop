@@ -26,11 +26,25 @@ section.search .input-col > .switch-bar a.active {
     color: #fff;
 }
 
+section.home-nav {
+    background-image: url('/skin/basic/img/nav.png.webp');
+    background-size: 120% 100%;
+    background-position: 50%;
+
+}
+
 .home-menus {
     width:210px;
     min-width: 210px;
     position: relative;
+    border-bottom: 1px solid #eaeaea;
+    background: #fff;
 }
+.home-menus ul a {
+    font-size: .8rem;
+    white-space: nowrap;
+}
+
 .home-menus ul {
     list-style: none;
     padding-left: 0;
@@ -38,7 +52,7 @@ section.search .input-col > .switch-bar a.active {
 .home-menus > ul > li > a {
     display: block;
     width: 100%;
-    line-height: 2rem;
+    line-height: 1.8rem;
     position: relative;
     padding: 0 1rem;
 }
@@ -49,19 +63,68 @@ section.search .input-col > .switch-bar a.active {
     width: 2rem;
     text-align: center;
 }
-.home-menus a + div {
-    /* display: none; */
+.home-menus > .menus > li > ul {
+    display: none;
+    width: 700px;
     position: absolute;
+    left: 200px;
     top: 0;
-    left: 211px;
-    z-index: 100;
-    background-color: #fff;
+    bottom: 0;
+    z-index: 150;
     height: 100%;
-    width: 300px;
+    background: #efefef;
+    overflow-y: hidden;
+    padding: 1rem;
+    line-height: 1.8rem;
+    border:1px solid #eaeaea;
 }
-.home-menus li:hover a+ div {
+.home-menus > .menus > li > ul a {
+    padding-left: 4px;
+    padding-right: 4px;
+}
+.home-menus > .menus > li > a:hover + ul {
     display: block;
+}
+.home-menus > .menus > li:hover > a {
+    background: #e9e9e9;
+    color: #823a3a;
+}
+.home-menus > .menus > li > ul:hover {
+    display: block;
+}
+.home-menus > .menus > li > ul > li {
+    display: -ms-flexbox;
+    display: flex;
 
+}
+.home-menus > .menus > li > ul > li > a {
+    width: 80px;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    font-size: .95rem;
+    position: relative;
+}
+.home-menus > .menus > li > ul > li > a::after {
+    display: inline-block;
+    font-family: "FontAwesome";
+    content: "\f105";
+    position: absolute;
+    line-height: 1.8rem;
+    right: .25rem;
+}
+
+
+.home-menus > .menus > li > ul > li > ul {
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+}
+
+
+.home-menus > .menus > li > ul > li > ul > li {
+    display: inline-block;
+}
+.home-menus > .menus > li > ul > li > ul > li > a:hover {
+    color: #d01a1a;
 }
 
 

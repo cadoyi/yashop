@@ -47,7 +47,6 @@ class CategoryProductFilter extends ActiveFilter
     {
         $ids = $this->getCategoryIds();
         return parent::query()
-            ->andWhere(['is_deleted' => 0])
             ->andWhere(['status' => "1"])
             ->andWhere(['category_id' => $ids ]);
     }
@@ -61,7 +60,7 @@ class CategoryProductFilter extends ActiveFilter
     {
         return [
             'pagination' => [
-                'pageSize' => 20,
+                'pageSize' => 1,
             ],
         ];
     }

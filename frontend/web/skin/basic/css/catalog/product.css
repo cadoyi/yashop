@@ -25,11 +25,33 @@
  */
 .product-view .banner {
     width: 400px;
-    height: 400px;
     min-width: 400px;
+    margin-bottom: .5rem;
 }
 
 
+
+
+.product-view .wlinks {
+    line-height: 2rem;
+    font-size: .7rem;
+}
+.product-view .wlinks > a {
+    padding: 0 .5rem;
+    min-width: 4rem;
+}
+#add_to_wishlist .fa {
+    color: #ce9c05;
+}
+#tip_off {
+    color: #aaa;
+}
+#tip_off .fa {
+    color: rgba(167, 108, 114, 0.4);
+}
+#share_it .fa {
+    color: #007bff;
+}
 
 /**
  * desc

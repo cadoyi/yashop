@@ -4,16 +4,17 @@ namespace wishlist\frontend\controllers;
 
 use Yii;
 use frontend\controllers\Controller;
-use wishlist\models\filters\WishlistItemFilter;
+use wishlist\models\filters\WishlistProductFilter;
 use catalog\models\Product;
 
 /**
- * wishlist controller
+ * wishlist product controller
  *
  * @author  zhangyang <zhangyangcado@qq.com>
  */
-class WishlistController extends Controller
+class ProductController extends Controller
 {
+
     public $layout = 'customer';
 
 
@@ -23,7 +24,7 @@ class WishlistController extends Controller
     public function access()
     {
         return [
-            'except' => ['add-product'],
+            'except' => ['add'],
             'rules' => [
                 [
                     'allow' => false,
@@ -43,7 +44,7 @@ class WishlistController extends Controller
     {
         $customer = $this->identity;
         $wishlist = $customer->getWishlist();
-        $filterModel = new WishlistItemFilter(['wishlist' => $wishlist]);
+        $filterModel = new WishlistProductFilter(['wishlist' => $wishlist]);
         $dataProvider = $filterModel->search($this->request->get());
         return $this->render('index', [
             'wishlist'     => $wishlist,
@@ -59,13 +60,12 @@ class WishlistController extends Controller
      * 
      * @param  string $product_id  产品 ID
      */
-    public function actionAddProduct()
+    public function actionAdd($product_id)
     {
         if($this->user->isGuest) {
             return $this->asJson(['success' => false, 'message' => 'Please login first']);
         }
-        $product_id = $this->request->post('product_id');
-        $cancel = (int) $this->request->post('cancel');
+        $cancel = (int) $this->request->post('cancel', 0);
         
         $product = $this->findModel($product_id, Product::class);
         if($product === false) {
@@ -77,10 +77,12 @@ class WishlistController extends Controller
         try {
             $customer = $this->identity;
             $wishlist = $customer->getWishlist();
+            $collection = $wishlist->getProductCollection();
+
             if(!$cancel) {
-                $wishlist->addProduct($product);
+                $item = $collection->addProduct($product);
             } else {
-                $wishlist->removeProduct($product);
+                $collection->removeProduct($product);
             }
             $wishlist->save();            
         } catch(\Exception $e) {
@@ -88,6 +90,7 @@ class WishlistController extends Controller
                 'success' => false,
                 'message' => $e->getMessage(),
             ];
+            return $this->asJson($data);
         }
 
         return $this->asJson(['success' => true, 'canceled' => $cancel]);
@@ -100,18 +103,11 @@ class WishlistController extends Controller
      *
      * @param  int $item_id  Wishlist item id
      */
-    public function actionDelete($item_id)
+    public function actionDelete($id)
     {
-        $customer = $this->identity;
-        $wishlist = $customer->getWishlist();
-        $item = $wishlist->getItems()
-            ->andWhere(['id' => $item_id])
-            ->one();
-        if(!$item) {
-            return $this->notFound();
-        }
-        $item->delete();
-        $this->_success('Wishlist item deleted');
+        $collection = $this->identity->wishlist->getProductCollection();
+        $collection->removeItem($id);
+        $this->_success('Wishlist product removed');
         return $this->redirect(['index']);
     }
 

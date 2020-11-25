@@ -174,4 +174,22 @@ class Category extends ActiveRecord
     }
 
 
+
+
+    /**
+     * 获取分类属性.
+     * 
+     * @return array
+     */
+    public function getCategoryAttributes()
+    {
+        return $this->hasMany(CategoryAttribute::class, ['category_id' => 'id'])
+            ->indexBy('id')
+            ->inverseOf('category');
+    }
+
+
+
+
+
 }

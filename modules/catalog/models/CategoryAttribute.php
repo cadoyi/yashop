@@ -3,6 +3,7 @@
 namespace catalog\models;
 
 use Yii;
+use yii\helpers\Json;
 use yii\behaviors\TimestampBehavior;
 use cando\db\ActiveRecord;
 use catalog\models\config\CategoryAttributeConfig;
@@ -122,6 +123,19 @@ class CategoryAttribute extends ActiveRecord
 
 
     /**
+     * 获取输入类型配置.
+     * 
+     * @return config\InputTypeConfig
+     */
+    public function getInputTypeConfig()
+    {
+        $config = $this->config;
+        return $config->getInputType($this->input_type);
+    }
+
+
+
+    /**
      * 获取 input_type hash 选项.
      * 
      * @return array
@@ -130,6 +144,23 @@ class CategoryAttribute extends ActiveRecord
     {
         $model = new static();
         return $model->config->inputTypeHashOptions;
+    }
+
+
+
+
+    /**
+     * 获取 items
+     * 
+     * @return  array
+     */
+    public function getItems()
+    {
+        $items = $this->json_items;
+        if(is_string($items)) {
+            return Json::decode($items);
+        }
+        return [];
     }
 
 

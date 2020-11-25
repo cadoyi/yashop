@@ -4,7 +4,7 @@ namespace wishlist\models\filters;
 
 use Yii;
 use cando\db\ActiveFilter;
-use wishlist\models\WishlistItem;
+use wishlist\models\WishlistProduct;
 
 
 /**
@@ -12,10 +12,10 @@ use wishlist\models\WishlistItem;
  *
  * @author  zhangyang <zhangyangcado@qq.com>
  */
-class WishlistItemFilter extends ActiveFilter
+class WishlistProductFilter extends ActiveFilter
 {
 
-    public $modelClass = WishlistItem::class;
+    public $modelClass = WishlistProduct::class;
 
 
     public $wishlist;
@@ -26,7 +26,7 @@ class WishlistItemFilter extends ActiveFilter
      */
     public function query()
     {
-        return $this->wishlist->getItems()->with('product');
+        return $this->wishlist->getProducts()->with('product');
     }
 
 

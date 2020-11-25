@@ -1,0 +1,193 @@
+.issue-container {
+    margin-left: -1rem;
+    margin-right: -1rem;
+}
+
+.search-top-nav {
+    padding-left: 3rem;
+    padding-right: 3rem;
+    height: 50px;
+    line-height: 40px;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+}
+.search-top-nav .nav-link {
+    padding: 0 1rem;
+    font-size: .9rem;
+}
+.search-top-nav .title h1 {
+    font-size: 1.5rem;
+    line-height: 40px;
+}
+.search-box {
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+}
+.search-box input.form-control {
+    width: 400px;
+}
+
+.issue-menu {
+    width: 250px;
+    text-align: center;
+}
+.issue-menu ul {
+    list-style: none;
+    padding-left: 0;
+}
+.issue-menu li > a {
+    display: block;
+    line-height: 2rem;
+}
+.issue-menu > ul > li > a {
+    position: relative;
+    line-height: 2.5rem;
+    background: #e4e4e4;
+    border-bottom: 1px solid #fff;
+}
+.issue-menu > ul > li > a::after {
+    display: block;
+    font-family: "FontAwesome";
+    content: "\f0d9";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 2rem;
+    line-height: 2.5rem;
+    color: #999;
+}
+.issue-menu > ul > li > a.open::after {
+    content: "\f0d7";
+}
+
+.issue-menu > ul > li > ul {
+    display: none;
+}
+.issue-menu > ul > li > a.open + ul {
+    display: block;
+}
+
+.issue-menu > ul ul >li.active a {
+    color: #009688;
+}
+
+
+.issue-content {
+    min-height: 400px;
+}
+
+.issue-content-head {
+    line-height: 2.5rem;
+    background: #e4e4e4;
+    border-left: 2px solid #fff;
+    padding: 0 1rem;
+}
+.issue-content-body {
+    padding: 1rem;
+}
+.issue-content-body .content-menu {
+    list-style: none;
+    padding-left: 0;
+
+}
+.issue-content-body .content-menu > li > a {
+    display: inline-block;
+    padding: 0 1rem;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+.issue-content-body .content-menu ul {
+    list-style: none;
+    padding: 0 2rem;
+    display: -ms-flexbox;
+    display: flex;
+}
+.issue-content-body .content-menu ul {
+    margin-bottom: 2rem;
+}
+.issue-content-body .content-menu ul > li > a {
+    padding: 0 1rem;
+    color: #007bff;
+}
+.issue-content-body .menu-list li {
+    padding: .25rem 1rem;
+}
+.issue-content-body .menu-list a {
+    font-size: .8rem;
+}
+.issue-content-body .menu-list a:hover {
+    text-decoration: underline;
+}
+
+.issue-content-body .icc-title > h1 {
+    font-size: 1.2rem;
+    text-align: center;
+}
+.issue-content-body .icc-content {
+    font-size: .8rem;
+    text-indent: 2rem;
+    line-height: 1.8rem;
+}
+
+
+
+
+
+.issue-breadcrumbs {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 0;
+    font-size: .8rem;
+}
+.issue-breadcrumbs > li {
+    display: inline-block;
+    padding: 0 .5rem;
+    position: relative;
+}
+.issue-breadcrumbs > li > a {
+    color: #007bff;
+}
+
+.issue-breadcrumbs > li::after {
+    display: block;
+    font-family: "FontAwesome";
+    content: "\f054";
+    position: absolute;
+    top: 1px;
+    right: -.25rem;
+    width: .5rem;
+    line-height: 2.5rem;
+    color: #999;
+    font-size: .8rem;
+}
+.issue-breadcrumbs > li:last-child::after {
+    display: none;
+}
+
+
+.link-pager .pagination > li > span,
+.link-pager .pagination > li >a {
+    display: inline-block;
+    min-width: 2rem;
+    height: 2rem;
+    line-height: 2rem;
+    text-align: center;
+    white-space: nowrap;
+    font-size: .8rem;
+    margin: 0 2px;
+}
+.link-pager .pagination > li.prev,
+.link-pager .pagination > li.next {
+    padding-left: .5rem;
+    padding-right: .5rem;
+}
+
+
+.link-pager li.disabled > span {
+    color: #999;
+    cursor: not-allowed;
+}
+.link-pager .pagination > li.active >a {
+    background: #009688;
+    color: rgba(255,255,255, .8);
+}

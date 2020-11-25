@@ -26,7 +26,7 @@ use yii\widgets\Menu;
                 'items' => [
                     [
                         'label' => '我的订单',
-                        'url' => ['/customer/center/dashboard'],
+                        'url' => '#',
                     ],
                     [
                         'label' => '我的评价',
@@ -39,7 +39,7 @@ use yii\widgets\Menu;
                 'items' => [
                     [
                         'label' => '我的收藏',
-                        'url' => ['dashboard'],
+                        'url' => ['/wishlist/product/index'],
                     ],
                     [
                         'label' => '我的积分',

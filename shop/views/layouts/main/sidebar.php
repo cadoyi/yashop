@@ -47,7 +47,7 @@ $childLinkTemplate = '<a class="has-child" href="{url}">{label}<i class="fa fa-c
                     'items' => [
                          [
                              'label' => Yii::t('app', 'Product'),
-                             'url' => ['/catalog/product/index'],
+                             'url' => ['/product/index'],
                          ],
 
 

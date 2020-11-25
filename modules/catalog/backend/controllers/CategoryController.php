@@ -82,7 +82,7 @@ class CategoryController extends Controller
         if($id === '#') {
             $categories = Category::find()
                 ->andWhere(['parent_id' => 0])
-                ->orderBy(['sort_order' => SORT_ASC ])
+                ->orderBy(['sort_order' => SORT_ASC, 'id' => SORT_ASC])
                 ->all();
         } else {
             $category = $this->findModel($id, Category::class, false);

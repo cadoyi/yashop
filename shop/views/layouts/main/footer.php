@@ -8,5 +8,5 @@ use yii\helpers\Url;
  */
 ?>
 <footer class="layout-footer">
-    <?= Html::encode(Yii::$app->name) ?>
+    <?= Html::encode(Yii::$app->currentStore->name) ?>
 </footer>

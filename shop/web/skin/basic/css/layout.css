@@ -6,6 +6,7 @@ body {
     height: 100%;
     overflow: auto;
     position: relative;
+    min-width: 991px;
 }
 
 /*******************************************/
@@ -21,6 +22,16 @@ body {
     z-index: 100;
     box-shadow: 0 0 11px 2px #d6d6d6;
 }
+.layout-header  nav > .breadcrumbs {
+    margin: 0;
+    background: transparent;
+    font-size: .8rem;
+    line-height: 1.5rem;
+    padding: .25rem 1rem;
+}
+
+
+
 .layout-header .navbar {
     padding: 0;
     padding-right: 3rem;
@@ -163,24 +174,19 @@ body {
 /*******************************************/
 .layout-body {
     position: absolute;
-    top: 60px;
+    top: 42px;
     left: 200px;
     right: 0;
     z-index: 0;
-    padding: 0 1rem;
+    padding: 0;
     padding-bottom: 66px;
     min-height: calc(100vh - 120px);
 }
-.layout-body > nav {
-   margin-left: -1rem;
-   margin-right: -1rem;
+.layout-body > .layout-body-container {
+    padding: 1rem;
+    height: 100%;
 }
-.layout-body > nav > .breadcrumbs {
-    margin: 0;
-    background: transparent;
-    font-size: .8rem;
-    line-height: 1.5rem;
-}
+
 
 /*******************************************/
 /*   layout footer                         */

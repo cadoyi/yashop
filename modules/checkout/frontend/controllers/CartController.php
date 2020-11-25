@@ -6,6 +6,7 @@ use Yii;
 use yii\base\UserException;
 use frontend\controllers\Controller;
 use catalog\models\Product;
+use catalog\models\ProductSku;
 use customer\models\Customer;
 use checkout\models\filters\CartItemFilter;
 use checkout\models\CartItem;
@@ -60,44 +61,18 @@ class CartController extends Controller
     public function actionAdd($product_id)
     {
         $product = $this->findModel($product_id, Product::class);
-
-        try {        
-            if(!$product->isOnSale()) {
-                throw new \Exception('产品无法售卖');
-            }
-            if($product->is_selectable) {
-                $product_sku_id = $this->request->post('product_sku');
-                $sku = $product->getSku($product_sku_id);
-                if(!$sku) {
-                    throw new \Excetpion('Invalid product sku');
-                }
-            } else {
-                $sku = null;
-            }
-            $qty = $this->request->post('qty', 1);
-            $data = [];
-            $cart = $this->getCustomer()->getCart();
-            $cart->addItem($product, $sku, $qty);
-            $data['success'] = true;
-        } catch(UserException $e) {
-            $data['success'] = false;
-            $data['message'] = $e->getMessage();
-        } catch(\Exception $e) {
-            $data['success'] = false;
-            $data['message'] = $e->getMessage();
-        } catch(\Throwable $e) {
-            $data['success'] = false;
-            $data['message'] = 'Server error';
+        $productSku = $this->findModel($this->request->post('product_sku'), ProductSku::class);
+        $qty = $this->request->post('qty', 1);
+        $cart = $this->customer->cart;
+        try {
+            $collection = $cart->getItemCollection();
+            $item = $collection->addProduct($product, $productSku, $qty);
+        } catch(\Exception |\Throwable $e) {
+            return $this->error($e);
         }
-        if($this->request->isAjax) {
-            return $this->asJson($data);
-        }
-        if($data['success'] === false) {
-            $this->_error($data['message']);
-            return $this->redirect(['/catalog/product/view', 'id' => $product_id]);
-        }
-        return $this->redirect(['index']);
-        
+        return $this->success([
+           'item_id' => $item->id,
+        ]);
     }
 
 

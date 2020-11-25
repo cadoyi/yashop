@@ -9,11 +9,11 @@ use cando\db\ActiveRecord;
 use catalog\models\Product;
 
 /**
- * wishlist item
+ * wishlist product
  *
  * @author  zhangyang <zhangyangcado@qq.com>
  */
-class WishlistItem extends ActiveRecord
+class WishlistProduct extends ActiveRecord
 {
 
 
@@ -22,7 +22,7 @@ class WishlistItem extends ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%wishlist_item}}';
+        return '{{%wishlist_product}}';
     }
 
 

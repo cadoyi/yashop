@@ -123,15 +123,16 @@ $childLinkTemplate = '<a class="has-child" href="{url}">{label}<i class="fa fa-c
                             'url'   => ['/front/menu/index'],
                         ],
                         [
-                            'label' => Yii::t('app', 'Menu'),
-                            'url'   => ['/system/menu/index'],
+                            'label' => '问题管理',
+                            'url'   => ['/issue/category/index'],
                         ],
+                        [
+                            'label' => '导航菜单',
+                            'url'   => ['/front/nav/index'],
+                        ],                       
                     ],
                 ],
-                [
-                    'label' => Yii::t('app', 'Issue'),
-                    'url'   => ['/issue/category/index'],
-                ],
+
                 [
                     'label' => Yii::t('app', 'System config'),
                     'url' => ['/core/config/edit'],

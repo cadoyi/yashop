@@ -14,7 +14,7 @@ use yii\bootstrap4\LinkPager;
 
 $this->title = $category->title;
 ?>
-<?= $this->render('../_products/list', [
+<?= $this->render('@frontend/views/_common/product-list', [
     'filterModel' => $filterModel,
     'dataProvider' => $dataProvider,
 ]) ?>

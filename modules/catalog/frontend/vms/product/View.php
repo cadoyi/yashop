@@ -114,5 +114,41 @@ class View extends ViewModel
     }
 
 
+    
+    public function getProductOptionsData()
+    {
+        $options = $this->product->options;
+        $skus = $this->product->skus;
+
+        $data = [];
+        foreach($options as $option) {
+            $data[] = [
+                'label' => $option->name,
+                'options' => $this->buildOptionData($option, $skus),
+            ];
+        }
+        return $data;
+    }
+
+
+    public function buildOptionData($option, $skus)
+    {
+        $data = [];
+        foreach($skus as $sku) {
+            $attrs = $sku->attrs;
+            $name = $option->name;
+            $value = $attrs[$name];
+            if(!isset($data[$value])) {
+                $data[$value] = [
+                    'label' => $value,
+                    'skus'  => [],
+                ];
+            } 
+            $data[$value]['skus'][] = $sku->toArray();
+        }
+        return array_values($data);
+    }
+
+
 
 }
