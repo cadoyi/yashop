@@ -9,7 +9,7 @@ $params = array_merge(
 return [
     'id' => 'app-api',
     'basePath' => dirname(__DIR__),
-    'controllerNamespace' => 'api\modules\v1\controllers',
+    'controllerNamespace' => 'v1\controllers',
     'defaultRoute' => 'v1/index',
     'bootstrap' => ['log'],
     'modules' => require __DIR__ . '/main/modules.php',

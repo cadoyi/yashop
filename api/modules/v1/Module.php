@@ -1,6 +1,6 @@
 <?php
 
-namespace api\modules\v1;
+namespace v1;
 
 use Yii;
 

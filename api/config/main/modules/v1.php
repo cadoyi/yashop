@@ -1,5 +1,6 @@
 <?php
+Yii::setAlias('v1', '@api/modules/v1');
 
 return [
-    'class' => 'api\modules\v1\Module',
+    'class' => 'v1\Module',
 ];
